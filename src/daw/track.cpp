@@ -1017,6 +1017,7 @@ track::TrackComponent::TrackComponent(int trackIndex) : juce::Component() {
 
         p->updateImpliedSolos();
         sendFocusToTimeline();
+        getParentComponent()->repaint();
     };
 
     panSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox,
@@ -1377,6 +1378,7 @@ void track::TrackComponent::paint(juce::Graphics &g) {
 
     juce::Colour fillColor =
         getCorrespondingTrack()->isTrack ? trackBg : groupBg;
+
     // fill main chunks (and outline if applicable)
     if (isFirstNodeInGroup) {
         juce::Rectangle<float> curvedBounds =

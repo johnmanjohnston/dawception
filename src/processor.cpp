@@ -679,11 +679,25 @@ void AudioPluginAudioProcessor::updateImpliedSolos() {
         tmpRoute.emplace_back(i);
 
         if (!tracks[i].isTrack) {
-            findImpliedSolos(tmpRoute, &tracks[i], tracks[i].explicitSolo);
+            std::vector<track::audioNode *> flattenedGroup;
+            track::utility::traverseAndFlattenNodes(&flattenedGroup, &tracks[i],
+                                                    this);
+            bool foundCompetition = false;
+
+            for (size_t j = 0; j < flattenedGroup.size(); ++j) {
+                if (flattenedGroup[j]->explicitSolo) {
+                    foundCompetition = true;
+                    break;
+                }
+            }
+
+            findImpliedSolos(tmpRoute, &tracks[i],
+                             tracks[i].explicitSolo && !foundCompetition);
         }
     }
 }
 
+// this whole system is held together by gulab jamun oil
 void AudioPluginAudioProcessor::findImpliedSolos(std::vector<int> route,
                                                  track::audioNode *parent,
                                                  bool ancestorIsSolo) {
@@ -716,9 +730,32 @@ void AudioPluginAudioProcessor::findImpliedSolos(std::vector<int> route,
             }
         }
 
+        // search for competition
+        std::vector<track::audioNode *> flattenedGroup;
+        track::utility::traverseAndFlattenNodes(&flattenedGroup, childNode,
+                                                this);
+        bool foundCompetition = false;
+
+        for (size_t j = 0; j < flattenedGroup.size(); ++j) {
+            if (flattenedGroup[j]->explicitSolo) {
+                foundCompetition = true;
+                break;
+            }
+        }
+
         if (!childNode->isTrack)
             findImpliedSolos(route, &parent->childNodes[i],
-                             (childNode->explicitSolo || ancestorIsSolo));
+                             !foundCompetition &&
+                                 (childNode->explicitSolo || ancestorIsSolo));
+
+        if (childNode->explicitSolo && !childNode->isTrack &&
+            !foundCompetition) {
+            std::vector<track::audioNode *> nodes;
+            track::utility::traverseAndFlattenNodes(&nodes, childNode, this);
+            for (size_t j = 0; j < nodes.size(); ++j) {
+                nodes[j]->impliedSolo = true;
+            }
+        }
 
         route.pop_back();
     }
