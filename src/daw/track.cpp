@@ -998,7 +998,6 @@ track::TrackComponent::TrackComponent(int trackIndex) : juce::Component() {
 
         if (getCorrespondingTrack()->explicitSolo) {
             p->soloMode = true;
-            p->updateImpliedSolos();
         } else {
             Tracklist *tracklist =
                 (Tracklist *)findParentComponentOfClass<Tracklist>();
@@ -1016,6 +1015,7 @@ track::TrackComponent::TrackComponent(int trackIndex) : juce::Component() {
             }
         }
 
+        p->updateImpliedSolos();
         sendFocusToTimeline();
     };
 

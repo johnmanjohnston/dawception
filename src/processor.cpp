@@ -669,29 +669,40 @@ void AudioPluginAudioProcessor::updateImpliedSolos() {
         nodes[i]->impliedSolo = false;
     }
 
+    if (!soloMode)
+        return;
+
     // find nodes that should be implied solo
     DBG("updateImpliedSolos() called");
     for (size_t i = 0; i < tracks.size(); ++i) {
         std::vector<int> tmpRoute;
         tmpRoute.emplace_back(i);
 
-        if (!tracks[i].isTrack)
-            findImpliedSolos(tmpRoute, &tracks[i]);
+        if (!tracks[i].isTrack) {
+            findImpliedSolos(tmpRoute, &tracks[i], tracks[i].explicitSolo);
+        }
     }
 }
 
 void AudioPluginAudioProcessor::findImpliedSolos(std::vector<int> route,
-                                                 track::audioNode *parent) {
-    DBG("findImpliedSolos() called for "
-        << track::utility::prettyVector(route));
+                                                 track::audioNode *parent,
+                                                 bool ancestorIsSolo) {
+    // DBG("findImpliedSolos() called for "
+    //     << track::utility::prettyVector(route));
 
     for (size_t i = 0; i < parent->childNodes.size(); ++i) {
         route.emplace_back(i);
 
         track::audioNode *childNode = &parent->childNodes[i];
 
+        if (ancestorIsSolo) {
+            DBG("ancestor is solo, forcing implied solo for "
+                << childNode->trackName);
+            childNode->impliedSolo = true;
+        }
+
         if (childNode->explicitSolo) {
-            DBG("route is " << track::utility::prettyVector(route));
+            // DBG("route is " << track::utility::prettyVector(route));
 
             std::vector<int> confirmedRoute = route;
             for (int j = 0; j < (int)route.size(); j++) {
@@ -699,10 +710,15 @@ void AudioPluginAudioProcessor::findImpliedSolos(std::vector<int> route,
                     ->impliedSolo = true;
                 confirmedRoute.pop_back();
             }
+
+            if (!childNode->isTrack) {
+                DBG("explicit solo on a GROUP!");
+            }
         }
 
         if (!childNode->isTrack)
-            findImpliedSolos(route, &parent->childNodes[i]);
+            findImpliedSolos(route, &parent->childNodes[i],
+                             (childNode->explicitSolo || ancestorIsSolo));
 
         route.pop_back();
     }
