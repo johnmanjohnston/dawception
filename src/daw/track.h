@@ -185,7 +185,9 @@ class subplugin {
 
 class audioNode {
   public:
-    bool s = false;
+    bool explicitSolo = false;
+    bool impliedSolo = false;
+
     bool m = false;
     float gain = 1.f;
     float pan = 0.f;

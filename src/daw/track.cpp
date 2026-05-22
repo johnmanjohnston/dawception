@@ -991,19 +991,21 @@ track::TrackComponent::TrackComponent(int trackIndex) : juce::Component() {
     };
 
     soloBtn.onClick = [this] {
-        getCorrespondingTrack()->s = !(getCorrespondingTrack()->s);
+        getCorrespondingTrack()->explicitSolo =
+            !(getCorrespondingTrack()->explicitSolo);
 
         AudioPluginAudioProcessor *p = (AudioPluginAudioProcessor *)processor;
 
-        if (getCorrespondingTrack()->s) {
+        if (getCorrespondingTrack()->explicitSolo) {
             p->soloMode = true;
+            p->updateImpliedSolos();
         } else {
             Tracklist *tracklist =
                 (Tracklist *)findParentComponentOfClass<Tracklist>();
 
             bool foundSolo = false;
             for (auto &nodeComponents : tracklist->trackComponents) {
-                if (nodeComponents->getCorrespondingTrack()->s) {
+                if (nodeComponents->getCorrespondingTrack()->explicitSolo) {
                     foundSolo = true;
                     break;
                 }
@@ -1442,7 +1444,7 @@ void track::TrackComponent::paint(juce::Graphics &g) {
     // okayyy future john here. this is FINEEEE. (probably)
     // if i run into issues with this not being scalable then suck it future
     // john you big ol' sack of dirt
-    if (getCorrespondingTrack()->m || getCorrespondingTrack()->s) {
+    if (getCorrespondingTrack()->m || getCorrespondingTrack()->explicitSolo) {
         int btnSize =
             UI_TRACK_HEIGHT > UI_TRACK_HEIGHT_COLLAPSE_BREAKPOINT ? 24 : 18;
 
@@ -1453,7 +1455,7 @@ void track::TrackComponent::paint(juce::Graphics &g) {
         if (getCorrespondingTrack()->m)
             g.setColour(juce::Colour(0xFF'FACD51)); // yellow
 
-        if (getCorrespondingTrack()->s) {
+        if (getCorrespondingTrack()->explicitSolo) {
             btnBounds.setX(btnBounds.getX() + btnSize + 5);
             g.setColour(juce::Colour(0xFF'41C0FF)); // blue
         }
@@ -1536,7 +1538,7 @@ void track::TrackComponent::resized() {
 
 // ASJAJSAJSJAS
 track::TrackViewport::TrackViewport() : juce::Viewport() {}
-track::TrackViewport::~TrackViewport(){};
+track::TrackViewport::~TrackViewport() {};
 
 void track::TrackViewport::scrollBarMoved(juce::ScrollBar *bar,
                                           double newRangeStart) {
@@ -1983,7 +1985,7 @@ track::ActionUngroup::ActionUngroup(std::vector<int> nodeRoute,
     audioNode *node = utility::getNodeFromRoute(route, p);
     utility::copyNode(&this->nodeCopy, node, p);
 }
-track::ActionUngroup::~ActionUngroup(){};
+track::ActionUngroup::~ActionUngroup() {};
 
 bool track::ActionUngroup::perform() {
     audioNode *node = utility::getNodeFromRoute(route, p);
@@ -2114,7 +2116,7 @@ track::Tracklist::Tracklist() : juce::Component() {
     unsoloAllBtn.setButtonText("UNSOLO ALL");
     unsoloAllBtn.onClick = [this] {
         for (auto &tc : trackComponents) {
-            tc->getCorrespondingTrack()->s = false;
+            tc->getCorrespondingTrack()->explicitSolo = false;
         }
 
         AudioPluginAudioProcessor *p = (AudioPluginAudioProcessor *)processor;
@@ -2558,7 +2560,8 @@ void track::audioNode::preparePlugins() {
 void track::audioNode::process(int numSamples, int currentSample) {
     AudioPluginAudioProcessor *p = (AudioPluginAudioProcessor *)processor;
 
-    if (this->m || (p->soloMode && !this->s)) {
+    if (this->m ||
+        (p->soloMode && !(this->explicitSolo || this->impliedSolo))) {
         buffer.clear();
         return;
     }

@@ -2,6 +2,7 @@
 #include "daw/automation_relay.h"
 #include "daw/defs.h"
 #include "daw/track.h"
+#include "daw/utility.h"
 #include "editor.h"
 
 AudioPluginAudioProcessor::AudioPluginAudioProcessor()
@@ -216,7 +217,7 @@ bool AudioPluginAudioProcessor::isBusesLayoutSupported(
         layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
         return false;
 
-        // This checks if the input layout matches the output layout
+    // This checks if the input layout matches the output layout
 #if !JucePlugin_IsSynth
     if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
         return false;
@@ -312,7 +313,7 @@ AudioPluginAudioProcessor::serializeNode(track::audioNode *node) {
     nodeElement->setAttribute("name", node->trackName);
     nodeElement->setAttribute("gain", node->gain);
     nodeElement->setAttribute("pan", node->pan);
-    nodeElement->setAttribute("solo", node->s);
+    nodeElement->setAttribute("solo", node->explicitSolo);
     nodeElement->setAttribute("mute", node->m);
 
     for (size_t i = 0; i < node->plugins.size(); ++i) {
@@ -379,7 +380,7 @@ void AudioPluginAudioProcessor::deserializeNode(juce::XmlElement *nodeElement,
     node->trackName = nodeElement->getStringAttribute("name");
     node->gain = (float)nodeElement->getDoubleAttribute("gain", 1.0);
     node->pan = (float)nodeElement->getDoubleAttribute("pan", 0.0);
-    node->s = nodeElement->getBoolAttribute("solo");
+    node->explicitSolo = nodeElement->getBoolAttribute("solo");
     node->m = nodeElement->getBoolAttribute("mute");
     node->processor = this;
 
@@ -657,6 +658,55 @@ void AudioPluginAudioProcessor::reset() {
     // if (plugin != nullptr) plugin.reset();
 }
 
+void AudioPluginAudioProcessor::updateImpliedSolos() {
+    // if node is marked solo, all nodes leading up to it are marked solo
+
+    // reset implied nodes status
+    std::vector<track::audioNode *> nodes =
+        track::utility::getFlattenedNodes(this);
+
+    for (size_t i = 0; i < nodes.size(); ++i) {
+        nodes[i]->impliedSolo = false;
+    }
+
+    // find nodes that should be implied solo
+    DBG("updateImpliedSolos() called");
+    for (size_t i = 0; i < tracks.size(); ++i) {
+        std::vector<int> tmpRoute;
+        tmpRoute.emplace_back(i);
+
+        if (!tracks[i].isTrack)
+            findImpliedSolos(tmpRoute, &tracks[i]);
+    }
+}
+
+void AudioPluginAudioProcessor::findImpliedSolos(std::vector<int> route,
+                                                 track::audioNode *parent) {
+    DBG("findImpliedSolos() called for "
+        << track::utility::prettyVector(route));
+
+    for (size_t i = 0; i < parent->childNodes.size(); ++i) {
+        route.emplace_back(i);
+
+        track::audioNode *childNode = &parent->childNodes[i];
+
+        if (childNode->explicitSolo) {
+            DBG("route is " << track::utility::prettyVector(route));
+
+            std::vector<int> confirmedRoute = route;
+            for (int j = 0; j < (int)route.size(); j++) {
+                track::utility::getNodeFromRoute(confirmedRoute, this)
+                    ->impliedSolo = true;
+                confirmedRoute.pop_back();
+            }
+        }
+
+        if (!childNode->isTrack)
+            findImpliedSolos(route, &parent->childNodes[i]);
+
+        route.pop_back();
+    }
+}
 // This creates new instances of the plugin.
 // This function definition must be in the global namespace.
 juce::AudioProcessor *JUCE_CALLTYPE createPluginFilter() {

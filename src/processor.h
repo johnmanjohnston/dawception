@@ -44,6 +44,8 @@ class AudioPluginAudioProcessor : public juce::AudioProcessor,
 
     std::vector<track::audioNode> tracks;
     bool soloMode = false;
+    void updateImpliedSolos();
+    void findImpliedSolos(std::vector<int> route, track::audioNode *parent);
 
     // juce::AudioProcessorValueTreeState apvts;
     juce::AudioParameterFloat *masterGain;

@@ -63,7 +63,7 @@ void track::utility::copyNode(audioNode *dest, audioNode *src,
     dest->trackName = src->trackName;
     dest->gain = src->gain;
     dest->processor = processor;
-    dest->s = src->s;
+    dest->explicitSolo = src->explicitSolo;
     dest->m = src->m;
     dest->pan = src->pan;
     dest->stain = src->stain;
@@ -104,7 +104,7 @@ void track::utility::getTrivialNodeData(TrivialNodeData *dest, audioNode *src) {
     dest->trackName = src->trackName;
     dest->gain = src->gain;
     dest->m = src->m;
-    dest->s = src->s;
+    dest->s = src->explicitSolo;
     dest->pan = src->pan;
 }
 
@@ -113,7 +113,7 @@ void track::utility::writeTrivialNodeDataToNode(audioNode *dest,
     dest->trackName = src.trackName;
     dest->gain = src.gain;
     dest->m = src.m;
-    dest->s = src.s;
+    dest->explicitSolo = src.s;
     dest->pan = src.pan;
 }
 
