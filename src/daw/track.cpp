@@ -1458,16 +1458,22 @@ void track::TrackComponent::paint(juce::Graphics &g) {
             UI_TRACK_WIDTH - 130, (UI_TRACK_HEIGHT / 2) - (btnSize / 2),
             btnSize, btnSize);
 
-        if (getCorrespondingTrack()->m)
+        if (getCorrespondingTrack()->m) {
             g.setColour(juce::Colour(0xFF'FACD51)); // yellow
+
+            juce::Rectangle<int> muteButtonBounds = btnBounds;
+            muteButtonBounds.expand(1, 1);
+            g.drawRect(muteButtonBounds);
+        }
 
         if (getCorrespondingTrack()->explicitSolo) {
             btnBounds.setX(btnBounds.getX() + btnSize + 5);
-            g.setColour(juce::Colour(0xFF'41C0FF)); // blue
-        }
+            g.setColour(juce::Colour(0xFF'41C0FF).brighter(0.4f)); // blue
 
-        btnBounds.expand(1, 1);
-        g.drawRect(btnBounds);
+            juce::Rectangle<int> soloButtonBounds = btnBounds;
+            soloButtonBounds.expand(1, 1);
+            g.drawRect(soloButtonBounds);
+        }
     }
 }
 
