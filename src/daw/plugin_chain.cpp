@@ -68,7 +68,7 @@ track::ActionRemovePlugin::ActionRemovePlugin(track::pluginClipboardData data,
     this->p = processor;
     this->pluginIndex = index;
 };
-track::ActionRemovePlugin::~ActionRemovePlugin(){};
+track::ActionRemovePlugin::~ActionRemovePlugin() {};
 
 bool track::ActionRemovePlugin::perform() {
     AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
@@ -150,7 +150,7 @@ track::ActionReorderPlugin::ActionReorderPlugin(std::vector<int> nodeRoute,
     this->destIndex = destinationIndex;
     this->p = processor;
 }
-track::ActionReorderPlugin::~ActionReorderPlugin(){};
+track::ActionReorderPlugin::~ActionReorderPlugin() {};
 
 bool track::ActionReorderPlugin::perform() {
     AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
@@ -1225,7 +1225,9 @@ void track::PluginEditorWindow::paint(juce::Graphics &g) {
         g, juce::Rectangle<int>(getWidth(), UI_SUBWINDOW_TITLEBAR_HEIGHT));
 
     int titlebarLeftMargin = UI_SUBWINDOW_TITLEBAR_MARGIN + 5;
-    int pluginNameWidth = g.getCurrentFont().getStringWidth(pluginName) * 1.3f;
+    int pluginNameWidth =
+        juce::GlyphArrangement::getStringWidth(g.getCurrentFont(), pluginName) *
+        1.3f;
 
     // other info
     g.setColour(juce::Colour(0xFF'D3D3D3));
@@ -1247,9 +1249,10 @@ void track::PluginEditorWindow::paint(juce::Graphics &g) {
 }
 
 void track::PluginEditorWindow::resized() {
+    int pluginNameWidth = juce::GlyphArrangement::getStringWidth(
+                              pluginNameLabel.getFont(), pluginName) *
+                          1.3f;
 
-    int pluginNameWidth =
-        pluginNameLabel.getFont().getStringWidth(pluginName) * 1.3f;
     pluginNameLabel.setBounds(4.f, 0.f, pluginNameWidth,
                               UI_SUBWINDOW_TITLEBAR_HEIGHT);
 
