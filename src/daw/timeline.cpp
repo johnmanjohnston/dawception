@@ -266,7 +266,7 @@ void track::ActionShiftClips::updateGUI() {
     processor->dispatchGUIInstruction(UI_INSTRUCTION_RESIZE_CLIP_COMPONENTS);
 }
 
-track::TimelineComponent::~TimelineComponent(){};
+track::TimelineComponent::~TimelineComponent() {};
 
 track::TimelineViewport::TimelineViewport() : juce::Viewport() {}
 track::TimelineViewport::~TimelineViewport() {}
@@ -403,7 +403,15 @@ void track::TimelineComponent::mouseDown(const juce::MouseEvent &event) {
 
         contextMenu.addItem(MENU_PASTE_CLIP, "Paste clip",
                             clipboard::typecode == TYPECODE_CLIP);
-        contextMenu.addItem(MENU_INSERT_CLIP, "Insert audio file");
+        contextMenu.addItem(
+            MENU_INSERT_CLIP, "Insert audio file",
+            viewport->tracklist
+                ->trackComponents[(size_t)((event.y + (UI_TRACK_HEIGHT / 2)) /
+                                           UI_TRACK_HEIGHT) -
+                                  1]
+                ->getCorrespondingTrack()
+                ->isTrack);
+
         contextMenu.addItem(MENU_SPLIT_ALL_CLIPS_HERE, "Split all clips here");
         contextMenu.addSubMenu("Grid", gridMenu);
 
@@ -779,15 +787,8 @@ void track::TimelineComponent::validateFile(juce::String path,
             juce::MessageBoxIconType::WarningIcon, "Invalid file",
             "Couldn't read data from \"" + filename +
                 juce::String(
-                    "\"\n\nTroubleshooting:\n- Verify "
-                    "that you dragged the "
-                    "right file\n- Verify that the file really is an "
-                    "audio file\n- "
-                    "Check if the file is corrupted (try playing it back "
-                    "in "
-                    "a different "
-                    "audio player program)\n- Verify that another program "
-                    "isn't using the file"));
+                    "\"\n\nThis happens if the file is corrupt, or another "
+                    "program (like your host DAW) is still using the file"));
 
         return;
     }
@@ -847,7 +848,11 @@ void track::TimelineComponent::addNewClipToTimeline(juce::String path,
         viewport->tracklist->trackComponents[(size_t)nodeDisplayIndex]->route;
 
     if (!node->isTrack) {
-        DBG("Rejecting file drop onto group");
+        juce::NativeMessageBox::showMessageBoxAsync(
+            juce::MessageBoxIconType::WarningIcon,
+            "Cannot add audio file to group",
+            "Cannot add audio files to groups, add them to tracks instead");
+
     } else {
 
         ActionAddClip *action =
