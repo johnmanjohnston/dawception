@@ -1379,6 +1379,10 @@ void track::TrackComponent::paint(juce::Graphics &g) {
     juce::Colour fillColor =
         getCorrespondingTrack()->isTrack ? trackBg : groupBg;
 
+    // if (getCorrespondingTrack()->impliedSolo ||
+    //     getCorrespondingTrack()->explicitSolo)
+    //     fillColor = juce::Colours::blue;
+
     // fill main chunks (and outline if applicable)
     if (isFirstNodeInGroup) {
         juce::Rectangle<float> curvedBounds =
@@ -2119,6 +2123,7 @@ track::Tracklist::Tracklist() : juce::Component() {
     unsoloAllBtn.onClick = [this] {
         for (auto &tc : trackComponents) {
             tc->getCorrespondingTrack()->explicitSolo = false;
+            tc->getCorrespondingTrack()->impliedSolo = false;
         }
 
         AudioPluginAudioProcessor *p = (AudioPluginAudioProcessor *)processor;
