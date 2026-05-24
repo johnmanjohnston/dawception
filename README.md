@@ -1,18 +1,18 @@
-# track
+# DAWception
 A mini DAW in a plugin. You can add tracks, drag audio clips, and host other plugins.
 
 An audio plugin developed as a workaround to track count limits in "lower tier versions" of DAWs (like Ableton Live Lite's 8 track limit).
 
 <figure>
     <img width="1920" height="1024" alt="image" src="https://github.com/user-attachments/assets/5f31f22c-6bf8-4a7d-a0dc-e1ca157066d7" />
-    <p align="center">track running within Ableton Live Lite</p>
+    <p align="center">DAWception running within Ableton Live Lite</p>
 </figure>
 
 ## Features
 - **unlimited stereo audio tracks**, which can be organized using groups
 - **drag and drop audio clips** (with basic clip manipulation features like splitting and trimming)
 - **hosting plugins** for individual tracks or groups, with **latency compensation**
-- **automation passthrough** from host DAW to plugins hosted inside *track*
+- **automation passthrough** from host DAW to plugins hosted inside DAWception
 - **dry/wet control added to every hosted plugin** (even if the hosted plugin doesn't provide it by default)
 
 ## Usage
@@ -20,7 +20,7 @@ TODO
 
 
 ## Installation
-All releases are provided as VST3
+All releases are provided as VST3 plugins.
 ### Latest Release (v0.0.1)
 Linux: TODO
 
@@ -35,8 +35,8 @@ For older builds, from the Releases section, download the appropriate build for 
 ### Downloading Source and Dependencies
 ```bash
 # clone this repo and cd into it
-git clone https://github.com/johnmanjohnston/track/
-cd track
+git clone https://github.com/johnmanjohnston/dawception/
+cd dawception
 
 # clone JUCE
 git clone https://github.com/juce-framework/JUCE/
@@ -51,12 +51,12 @@ You should then see the required files to build for your platform (Makefile for 
 
 <details>
     <summary>
-        <b>Linux-specific patch for plugin editors to function properly inside <i>track</i></b>
+        <b>Linux-specific patch for plugin editors to function properly inside DAWception</b>
     </summary>
 
 <br>
 
-On Linux, plugin editors hosted inside of *track* cannot be dragged around; this JUCE patch fixes that.
+On Linux, plugin editors hosted inside of DAWception cannot be dragged around; this JUCE patch fixes that.
 
 Inside `JUCE/modules/juce_audio_processors/format_types/juce_VST3PluginFormat.cpp`, add the following code anywhere inside the `VST3PluginWindow` struct:
 
@@ -80,18 +80,18 @@ make
 ```
 
 #### Windows (Visual Studio)
-- open `track.sln`
+- open `dawception.sln`
 - Build > Build Solution (or do `Ctrl+Shift+B`)
 
 ### Running
 If you built a **debug** build:
-    `track_artefacts/Debug/VST3/track.vst3`
+    `dawception_artefacts/Debug/VST3/DAWception.vst3`
     
 If you built a **release** build:
-    `track_artefacts/Release/VST3/track.vst3`
+    `dawception_artefacts/Release/VST3/DAWception.vst3`
 
 Move the file to your DAW's VST3 plugin folder.
-Then, scan and add *track* to any track in your DAW.
+Then, scan and add DAWception to any track in your DAW.
 
 ## License
-*track* is licensed under the AGPLv3, see [LICENSE](https://github.com/johnmanjohnston/track/blob/main/LICENSE) for details
+DAWception is licensed under the AGPLv3, see [LICENSE](https://github.com/johnmanjohnston/dawception/blob/main/LICENSE) for details.
