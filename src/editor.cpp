@@ -171,11 +171,12 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
                     juce::String(JUCE_BUILDNUMBER);
 
                 juce::String buildInfoString =
-                    "track " + buildType + " " + juce::String(VERSION_STRING) +
-                    "\n" + "JUCE v" + juceVersionString;
+                    "DAWception/track " + buildType + " " +
+                    juce::String(VERSION_STRING) + "\n" + "JUCE " +
+                    juceVersionString;
 
                 juce::NativeMessageBox::showMessageBoxAsync(
-                    juce::MessageBoxIconType::InfoIcon, "track build info",
+                    juce::MessageBoxIconType::InfoIcon, "build info",
                     buildInfoString);
             }
 
@@ -371,7 +372,7 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
         g, juce::Rectangle<int>(0.f, 0.f, getWidth(), track::UI_TOPBAR_HEIGHT),
         juce::Colours::white.withAlpha(0.5f), 0.f);
 
-    // draw "track" logo
+    // draw "DAWception" logo
     g.setColour(juce::Colour(0xFF'5D5D5D));
     auto epicFont = lnf.getInterRegular();
 
@@ -379,7 +380,7 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
 
     g.setFont(epicFont.withHeight(26.f).italicised().boldened());
 
-    g.drawFittedText("track", juce::Rectangle<int>(34, 1, 100, 50),
+    g.drawFittedText("DAWception", juce::Rectangle<int>(34, 1, 150, 50),
                      juce::Justification::left, 1);
 
 #if JUCE_LINUX

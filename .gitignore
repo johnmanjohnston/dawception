@@ -23,3 +23,6 @@ x64/
 libtrackBinaryData.a
 juce_binarydata_trackBinaryData/
 .ccls-cache/
+dawception_artefacts/
+juce_binarydata_dawceptionBinaryData
+libdawceptionBinaryData.a

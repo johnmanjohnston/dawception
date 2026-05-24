@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(track VERSION 0.0.1)
+project(dawception VERSION 0.0.1)
 
 set (CMAKE_CXX_STANDARD 20)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,7 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(JUCE)
 
-juce_add_plugin(track
+juce_add_plugin(dawception
     COMPANY_NAME johnmanjohnston
     IS_SYNTH FALSE
     NEEDS_MIDI_INPUT FALSE
@@ -17,18 +17,18 @@ juce_add_plugin(track
     PLUGIN_MANUFACTURER_CODE JMJN
     PLUGIN_CODE TRCK
     FORMATS Standalone VST3
-    PRODUCT_NAME "track"
+    PRODUCT_NAME "DAWception"
 )
 
-juce_add_binary_data(trackBinaryData SOURCES
+juce_add_binary_data(dawceptionBinaryData SOURCES
     assets/RobotoMono-Thin.ttf
     assets/Inter_18pt-BoldItalic.ttf
     assets/Inter_18pt-Regular.ttf
     assets/Inter_18pt-SemiBold.ttf
 )
 
-juce_generate_juce_header(track)
-target_sources(track PRIVATE
+juce_generate_juce_header(dawception)
+target_sources(dawception PRIVATE
     src/processor.cpp
     src/editor.cpp
     src/daw/track.cpp
@@ -43,7 +43,7 @@ target_sources(track PRIVATE
     src/daw/utility.cpp
     src/lookandfeel.cpp)
 
-target_compile_definitions(track PRIVATE
+target_compile_definitions(dawception PRIVATE
     PIP_JUCE_EXAMPLES_DIRECTORY_STRING="${JUCE_SOURCE_DIR}/examples"
     JUCE_ALLOW_STATIC_NULL_VARIABLES=0
     JUCE_CONTENT_SHARING=0
@@ -67,8 +67,8 @@ target_compile_definitions(track PRIVATE
     VERSION_STRING="${CMAKE_PROJECT_VERSION}"
     BUILD_TYPE_STRING="${CMAKE_BUILD_TYPE}")
 
-target_link_libraries(track PRIVATE
-    trackBinaryData
+target_link_libraries(dawception PRIVATE
+    dawceptionBinaryData
     juce::juce_analytics
     juce::juce_animation
     juce::juce_audio_utils
