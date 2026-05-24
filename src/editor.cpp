@@ -145,7 +145,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
             }
 
             else if (result == MENU_ABOUT) {
-                juce::URL url("https://github.com/johnmanjohnston/track");
+                juce::URL url("https://github.com/johnmanjohnston/dawception/");
                 url.launchInDefaultBrowser();
             }
 
