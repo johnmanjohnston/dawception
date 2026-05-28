@@ -2184,6 +2184,16 @@ void track::Tracklist::recursivelyDeleteNodePlugins(audioNode *node) {
 
 // vokd track::Tracklist::deleteTrack(int trackIndex) {
 void track::Tracklist::deleteTrack(std::vector<int> route) {
+    TimelineComponent *tc = (TimelineComponent *)this->timelineComponent;
+
+    // prevents segfault, otherwise audio thumbnail thread gets mad because i
+    // /think/ we directly screw up the clip pointer while it's still being used
+    // by thumbnail renderer?
+    if (tc->renderingWaveforms()) {
+        tc->clipComponents.clear();
+        trackComponents.clear();
+    }
+
     AudioPluginAudioProcessor *p = (AudioPluginAudioProcessor *)processor;
     ActionDeleteNode *action = new ActionDeleteNode(route, processor);
 
