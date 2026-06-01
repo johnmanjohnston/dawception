@@ -1266,8 +1266,12 @@ void track::PluginEditorWindow::createEditor() {
     jassert(route.size() > 0);
     jassert(pluginIndex > -1);
     jassert(processor != nullptr);
+    jassert(getPlugin()->get()->plugin->hasEditor());
 
-    this->ape = getPlugin()->get()->plugin->createEditorIfNeeded();
+    this->ape = getPlugin()->get()->plugin->createEditorAndMakeActive();
+
+    jassert(ape != nullptr);
+
     ape->setBounds(0, UI_SUBWINDOW_TITLEBAR_HEIGHT, 100, 100);
 
     addAndMakeVisible(*ape);
@@ -1294,7 +1298,7 @@ void track::PluginEditorWindow::timerCallback() {
                 UI_SUBWINDOW_TITLEBAR_HEIGHT + ape->getHeight());
 }
 
-void track::PluginEditorWindow::mouseDown(const juce::MouseEvent & /*event*/) {
+void track::PluginEditorWindow::mouseDown(const juce::MouseEvent &event) {
     dragStartBounds = getBounds();
 
 #if JUCE_LINUX
@@ -1303,6 +1307,11 @@ void track::PluginEditorWindow::mouseDown(const juce::MouseEvent & /*event*/) {
 
     this->toFront(true);
     this->ape->toFront(true);
+
+    // because resize handle could go offscreen if editor is too large
+    if (event.getNumberOfClicks() >= 2) {
+        this->ape->setSize(400, 200);
+    }
 }
 
 void track::PluginEditorWindow::mouseDrag(const juce::MouseEvent &event) {
