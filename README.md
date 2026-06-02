@@ -16,8 +16,29 @@ An audio plugin developed as a workaround to track count limits in "lower tier v
 - **dry/wet control added to every hosted plugin** (even if the hosted plugin doesn't provide it by default)
 
 ## Usage
-TODO
+After installing the plugin, scan and add the plugin to any track in your DAW.
+Open the plugin editor.
 
+<details>
+    <summary>Creating tracks and groups</summary>
+    Click "ADD TRACK" to create a track. Click "ADD GROUP" to create a group. <br>
+    You can also right click on blank space in the tracklist area to create a track or group. <br>
+    You can also right click on a group to add a child track or group. <br>
+</details>
+
+<details>
+    <summary>Adding audio clips</summary>
+    Audio clips can only be added to tracks. If you try to add an audio clip to a group, it will be rejected. <br>
+    The easiest way to add audio clips is by dragging the audio clip from your file explorer into the timeline. <br>
+    You can also add audio clips by right clicking on the timeline, and selecting "Insert audio file". <br>
+</details>
+
+<details>
+    <summary>Scanning plugins</summary>
+    Click "CONFIG" on the top right. <br>
+    Selecting "Scan plugins" scans your VST3 folder and tries to identify all installed plugins.
+    Selecting "Lazy scan" performs a much faster scan, but might be less accurate.
+</details>
 
 ## Installation
 All releases are provided as VST3 plugins.
