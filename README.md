@@ -29,6 +29,7 @@ Open the plugin editor.
 <details>
     <summary>Adding audio clips</summary>
     Audio clips can only be added to tracks. If you try to add an audio clip to a group, it will be rejected. <br>
+    Some DAWs (like Ableton Live) might be using the audio file you're trying to add, so it won't let you import it into DAWception. If this happens, locate the audio file in your file explorer, consolidate/flatten the audio clip, then import the audio file from the already open file explorer window. <br> <br>
     The easiest way to add audio clips is by dragging the audio clip from your file explorer into the timeline. <br>
     You can also add audio clips by right clicking on the timeline, and selecting "Insert audio file". <br>
 </details>
@@ -36,8 +37,44 @@ Open the plugin editor.
 <details>
     <summary>Scanning plugins</summary>
     Click "CONFIG" on the top right. <br>
-    Selecting "Scan plugins" scans your VST3 folder and tries to identify all installed plugins.
-    Selecting "Lazy scan" performs a much faster scan, but might be less accurate.
+    Selecting "Scan plugins" scans your VST3 folder and tries to identify all installed plugins. <br>
+    Selecting "Lazy scan" performs a much faster scan, but might be less accurate because it skips plugin validation.
+</details>
+
+<details>
+    <summary>Adding plugins to tracks/groups</summary>
+    Click the "FX" button next to the track/group you want to add a plugin to. <br>
+    Right click anywhere in the empty space in the plugin chain menu, and hover over "Add plugin" and select the plugin you want to add.
+</details>
+
+<details>
+    <summary>Automating hosted plugins/groups</summary>
+    The way automation works in DAWception, is that DAWception has 128 automatable parameters, each parameter stores a value from 0% to 100%. You can relay the value from that parameter, to any plugin's parameter. A value of 0% corresponds to the target plugin parameter's minimum value, and 100% corresponds to target plugin parameters maximum value. <br> <br>
+    Click the "FX" button on the track/group with the plugin you want to automate. Find the plugin you want to automate in the plugin chain menu. <br>
+    Click "AUTOMATE" to open the relay parameters menu. <br>
+    Right click anywhere in the blank space to add a relayed parameter. "IN" is the parameter DAWception should read from, "OUT" is the parameter of the hosted plugin, that DAWception should write to.
+    Use your DAW's automation feature to automate the appropriate "IN" parameter. <br> <br>
+    <details>
+        <summary>Your DAW (<i>cough</i> Ableton <i>cough</i>) doesn't show all 128 automatable parameters?</summary>
+        Ableton Live refuses to show all of DAWception's 128 automatable parameters by default. To fix this: <br> <br>
+        <figure>
+            <p>In Ableton, click "Configure"</p>
+            <img width="251" height="204" alt="image" src="https://github.com/user-attachments/assets/329084c1-165d-4f40-9943-8357d0a05453" />
+        </figure> <br>
+        <figure>
+            <p>In DAWception, click "CONFIG" then "Open relay params inspector"</p>
+            <img width="292" height="409" alt="image" src="https://github.com/user-attachments/assets/f22dea52-917f-4e75-8f3a-fc68462d49b3" />
+        </figure> <br>
+        <figure>
+            <p>Move the slider for whatever input parameter you want to automate</p>
+            <img width="317" height="66" alt="image" src="https://github.com/user-attachments/assets/49de3706-a8f1-457b-a8a8-1887da4d5c97" />
+        </figure> <br>
+        <figure>
+            <p>It will then show up inside Ableton</p>
+            <img width="252" height="199" alt="image" src="https://github.com/user-attachments/assets/3d4a1f48-20ff-4ba6-b5d1-28ce83af3c8f" />
+        </figure>
+    </details>
+
 </details>
 
 ## Installation
