@@ -15,10 +15,18 @@ An audio plugin developed as a workaround to track count limits in "lower tier v
 - **automation passthrough** from host DAW to plugins hosted inside DAWception
 - **dry/wet control added to every hosted plugin** (even if the hosted plugin doesn't provide it by default)
 
-## Usage
-After installing the plugin, scan and add the plugin to any track in your DAW.
-Open the plugin editor.
+### Limitations
+This project is a **workaround** to track count limits in your DAW. DAWception is not a full replacement for all the features you get by buying a better edition of your DAW.
+DAWception does not have:
+- MIDI support (yet)
+- sidechaining
+- pitch shifting
+- quantization
+- any other fancy features that upgraded editions of your DAW might have
 
+If you can afford to upgrade your DAW, that is most certainly a better option than using DAWception. If you can't, DAWception exists as a workaround.
+
+## Usage
 <details>
     <summary>Creating tracks and groups</summary>
     Click "ADD TRACK" to create a track. Click "ADD GROUP" to create a group. <br>
@@ -29,9 +37,17 @@ Open the plugin editor.
 <details>
     <summary>Adding audio clips</summary>
     Audio clips can only be added to tracks. If you try to add an audio clip to a group, it will be rejected. <br>
-    Some DAWs (like Ableton Live) might be using the audio file you're trying to add, so it won't let you import it into DAWception. If this happens, locate the audio file in your file explorer, consolidate/flatten the audio clip, then import the audio file from the already open file explorer window. <br> <br>
-    The easiest way to add audio clips is by dragging the audio clip from your file explorer into the timeline. <br>
+    Some DAWs (like Ableton Live) might be using the audio file you're trying to add, so it won't let you import it into DAWception. If this happens, locate the audio file in your file explorer, consolidate/flatten the audio clip in your DAW, then import the audio file from the already open file explorer window. <br> <br>
+    The easiest way to add audio clips is by dragging the audio file from your file explorer into the timeline. <br>
     You can also add audio clips by right clicking on the timeline, and selecting "Insert audio file". <br>
+</details>
+
+<details>
+    <summary>Clip manipulation</summary>
+    You can drag clips to move them, so they start at a different point in time. <br>
+    You can drag clips between audio tracks. <br>
+    Clips automatically snap to grid. To stop snapping to grid, hold <kbd>Alt</kbd> while dragging.
+    To trim clips, hover your mouse towards the side you want to trim from, and you'll see the trim handles appear. Hold <kbd>Ctrl</kbd> to trim. To stop snapping while trimming, hold <kbd>Ctrl</kbd> + <kbd>Alt</kbd>
 </details>
 
 <details>
@@ -42,14 +58,15 @@ Open the plugin editor.
 </details>
 
 <details>
-    <summary>Adding plugins to tracks/groups</summary>
+    <summary>Adding/hosting plugins inside tracks/groups</summary>
     Click the "FX" button next to the track/group you want to add a plugin to. <br>
-    Right click anywhere in the empty space in the plugin chain menu, and hover over "Add plugin" and select the plugin you want to add.
+    Right click anywhere in the empty space in the plugin chain menu, and hover over "Add plugin" and select the plugin you want to add. <br>
+    You can reorder plugins by dragging them left or right.
 </details>
 
 <details>
     <summary>Automating hosted plugins/groups</summary>
-    The way automation works in DAWception, is that DAWception has 128 automatable parameters, each parameter stores a value from 0% to 100%. You can relay the value from that parameter, to any plugin's parameter. A value of 0% corresponds to the target plugin parameter's minimum value, and 100% corresponds to target plugin parameters maximum value. <br> <br>
+    The way automation works in DAWception, is that DAWception has 128 automatable parameters, each parameter stores a value from 0% to 100%. You can relay the value from that parameter, to any plugin's parameter. A value of 0 corresponds to the target plugin parameter's minimum value, and 100 corresponds to target plugin parameter's maximum value. <br> <br>
     Click the "FX" button on the track/group with the plugin you want to automate. Find the plugin you want to automate in the plugin chain menu. <br>
     Click "AUTOMATE" to open the relay parameters menu. <br>
     Right click anywhere in the blank space to add a relayed parameter. "IN" is the parameter DAWception should read from, "OUT" is the parameter of the hosted plugin, that DAWception should write to.
@@ -62,7 +79,7 @@ Open the plugin editor.
             <img width="251" height="204" alt="image" src="https://github.com/user-attachments/assets/329084c1-165d-4f40-9943-8357d0a05453" />
         </figure> <br>
         <figure>
-            <p>In DAWception, click "CONFIG" then "Open relay params inspector"</p>
+            <p>In DAWception, on the top right, click "CONFIG" then "Open relay params inspector"</p>
             <img width="292" height="409" alt="image" src="https://github.com/user-attachments/assets/f22dea52-917f-4e75-8f3a-fc68462d49b3" />
         </figure> <br>
         <figure>
@@ -139,7 +156,7 @@ make
 
 #### Windows (Visual Studio)
 - open `dawception.sln`
-- Build > Build Solution (or do `Ctrl+Shift+B`)
+- Build > Build Solution (or do <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>)
 
 ### Running
 If you built a **debug** build:
