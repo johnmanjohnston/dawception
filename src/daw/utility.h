@@ -9,6 +9,7 @@ juce::String prettyVector(std::vector<int> x);
 bool isDescendant(audioNode *parent, audioNode *possibleChild,
                   bool directDescandant);
 
+void writeTrivialClipDataToClip(clip *dest, clip *src);
 int getIndexOfClip(audioNode *node, clip *c);
 int getIndexOfClipByValue(audioNode *node, clip c);
 inline audioNode *getNodeFromRoute(const std::vector<int> &route, void *p) {

@@ -5,6 +5,14 @@
 #include "plugin_chain.h"
 #include "track.h"
 
+void track::utility::writeTrivialClipDataToClip(clip *dest, clip *src) {
+    dest->startPositionSample = src->startPositionSample;
+    dest->active = src->active;
+    dest->gain = src->gain;
+    dest->trimLeft = src->trimLeft;
+    dest->trimRight = src->trimRight;
+}
+
 int track::utility::getIndexOfClip(audioNode *node, clip *c) {
     int retval = -1;
 

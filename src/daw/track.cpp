@@ -643,6 +643,13 @@ track::ActionClipModified::ActionClipModified(void *processor,
     this->clipIndex = indexOfClip;
     this->newClip = c;
     this->oldClip = c;
+
+    // free audio buffer data
+    this->oldClip.buffer.setSize(0, 0);
+    this->oldClip.buffer.clear();
+
+    this->newClip.buffer.setSize(0, 0);
+    this->newClip.buffer.clear();
 };
 track::ActionClipModified::~ActionClipModified() {}
 
@@ -654,7 +661,7 @@ bool track::ActionClipModified::perform() {
     AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
 
     clip *c = getClip();
-    *c = newClip;
+    track::utility::writeTrivialClipDataToClip(c, &this->newClip);
 
     markClipComponentStale();
     updateGUI();
@@ -667,7 +674,7 @@ bool track::ActionClipModified::undo() {
     AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
 
     clip *c = getClip();
-    *c = oldClip;
+    track::utility::writeTrivialClipDataToClip(c, &this->oldClip);
 
     markClipComponentStale();
     updateGUI();
