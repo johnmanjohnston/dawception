@@ -401,16 +401,29 @@ void track::TimelineComponent::mouseDown(const juce::MouseEvent &event) {
 #define MENU_SPLIT_ALL_CLIPS_HERE 2
 #define MENU_INSERT_CLIP 3
 
+        int y = event.getMouseDownY();
+        int nodeDisplayIndex =
+            ((y + (UI_TRACK_HEIGHT / 2)) / UI_TRACK_HEIGHT) - 1;
+
+        bool clickedUnderValidNode =
+            nodeDisplayIndex < (int)viewport->tracklist->trackComponents.size();
+
+        bool clickedUnderValidTrack = false;
+        if (clickedUnderValidNode) {
+            clickedUnderValidTrack =
+                viewport->tracklist->trackComponents[(size_t)nodeDisplayIndex]
+                    ->getCorrespondingTrack()
+                    ->isTrack;
+        }
+
+        DBG("nodeDisplayIndex is "
+            << nodeDisplayIndex << "; clickedUnderValidTrack = "
+            << (clickedUnderValidTrack ? "true" : "false"));
+
         contextMenu.addItem(MENU_PASTE_CLIP, "Paste clip",
                             clipboard::typecode == TYPECODE_CLIP);
-        contextMenu.addItem(
-            MENU_INSERT_CLIP, "Insert audio file",
-            viewport->tracklist
-                ->trackComponents[(size_t)((event.y + (UI_TRACK_HEIGHT / 2)) /
-                                           UI_TRACK_HEIGHT) -
-                                  1]
-                ->getCorrespondingTrack()
-                ->isTrack);
+        contextMenu.addItem(MENU_INSERT_CLIP, "Insert audio file",
+                            clickedUnderValidTrack);
 
         contextMenu.addItem(MENU_SPLIT_ALL_CLIPS_HERE, "Split all clips here");
         contextMenu.addSubMenu("Grid", gridMenu);
@@ -420,106 +433,107 @@ void track::TimelineComponent::mouseDown(const juce::MouseEvent &event) {
         contextMenu.addSubMenu("Shift all clips ahead ", shiftUpMenu);
         contextMenu.addSubMenu("Shift all clips back ", shiftDownMenu);
 
-        contextMenu.showMenuAsync(juce::PopupMenu::Options(), [this, event](
-                                                                  int result) {
-            if (result == MENU_PASTE_CLIP) {
-                if (clipboard::typecode != TYPECODE_CLIP)
-                    return;
+        contextMenu.showMenuAsync(
+            juce::PopupMenu::Options(),
+            [this, event, nodeDisplayIndex](int result) {
+                if (result == MENU_PASTE_CLIP) {
+                    if (clipboard::typecode != TYPECODE_CLIP)
+                        return;
 
-                // create clip for processor
-                clip *orginalClip = (clip *)clipboard::retrieveData();
-                clip newClip = *orginalClip;
+                    // create clip for processor
+                    clip *orginalClip = (clip *)clipboard::retrieveData();
+                    clip newClip = *orginalClip;
 
-                newClip.startPositionSample =
-                    (event.getMouseDownX() * SAMPLE_RATE) / UI_ZOOM_MULTIPLIER;
+                    newClip.startPositionSample =
+                        (event.getMouseDownX() * SAMPLE_RATE) /
+                        UI_ZOOM_MULTIPLIER;
 
-                int y = event.getMouseDownY();
-                int nodeDisplayIndex =
-                    ((y + (UI_TRACK_HEIGHT / 2)) / UI_TRACK_HEIGHT) - 1;
-                nodeDisplayIndex = juce::jlimit(
-                    0, (int)viewport->tracklist->trackComponents.size() - 1,
-                    nodeDisplayIndex);
+                    int finalNodeDisplayIndex = juce::jlimit(
+                        0, (int)viewport->tracklist->trackComponents.size() - 1,
+                        nodeDisplayIndex);
 
-                std::vector<int> r =
-                    viewport->tracklist
-                        ->trackComponents[(size_t)nodeDisplayIndex]
-                        ->route;
+                    std::vector<int> r =
+                        viewport->tracklist
+                            ->trackComponents[(size_t)finalNodeDisplayIndex]
+                            ->route;
 
-                ActionAddClip *action =
-                    new ActionAddClip(newClip, r, processorRef);
+                    ActionAddClip *action =
+                        new ActionAddClip(newClip, r, processorRef);
 
-                processorRef->undoManager.beginNewTransaction(
-                    "action add clip");
-                processorRef->undoManager.perform(action);
-            }
-
-            else if (result == MENU_SPLIT_ALL_CLIPS_HERE) {
-                int splitSample =
-                    ((float)event.x / UI_ZOOM_MULTIPLIER) * SAMPLE_RATE;
-
-                std::vector<SplitMultipleClipsData> datas;
-
-                for (auto &cc : clipComponents) {
-                    track::clip *c = cc->correspondingClip;
-
-                    int start = c->startPositionSample;
-                    int end = c->startPositionSample +
-                              c->buffer.getNumSamples() - c->trimLeft -
-                              c->trimRight;
-
-                    if (splitSample > start && splitSample < end) {
-                        auto &d = datas.emplace_back();
-
-                        std::vector<int> route =
-                            viewport->tracklist
-                                ->trackComponents[(size_t)cc->nodeDisplayIndex]
-                                ->route;
-
-                        d.route = route;
-                        d.clipIndex = utility::getIndexOfClip(
-                            utility::getNodeFromRoute(route, processorRef), c);
-                        d.nodeDisplayIndex = cc->nodeDisplayIndex;
-                    }
-                }
-
-                if (datas.size() > 0) {
                     processorRef->undoManager.beginNewTransaction(
-                        "action split clips here");
+                        "action add clip");
+                    processorRef->undoManager.perform(action);
+                }
 
-                    for (size_t i = 0; i < datas.size(); ++i) {
-                        auto &d = datas[i];
-                        bool updateUI = i == datas.size() - 1 || i == 0;
+                else if (result == MENU_SPLIT_ALL_CLIPS_HERE) {
+                    int splitSample =
+                        ((float)event.x / UI_ZOOM_MULTIPLIER) * SAMPLE_RATE;
 
-                        audioNode *n =
-                            utility::getNodeFromRoute(d.route, processorRef);
-                        clip *c = &n->clips[(size_t)d.clipIndex];
+                    std::vector<SplitMultipleClipsData> datas;
 
-                        int localSplitSample =
-                            splitSample - c->startPositionSample;
+                    for (auto &cc : clipComponents) {
+                        track::clip *c = cc->correspondingClip;
 
-                        ActionSplitClip *action =
-                            new ActionSplitClip(*c, d.route, localSplitSample,
-                                                this->processorRef, updateUI);
-                        processorRef->undoManager.perform(action);
+                        int start = c->startPositionSample;
+                        int end = c->startPositionSample +
+                                  c->buffer.getNumSamples() - c->trimLeft -
+                                  c->trimRight;
+
+                        if (splitSample > start && splitSample < end) {
+                            auto &d = datas.emplace_back();
+
+                            std::vector<int> route =
+                                viewport->tracklist
+                                    ->trackComponents[(size_t)
+                                                          cc->nodeDisplayIndex]
+                                    ->route;
+
+                            d.route = route;
+                            d.clipIndex = utility::getIndexOfClip(
+                                utility::getNodeFromRoute(route, processorRef),
+                                c);
+                            d.nodeDisplayIndex = cc->nodeDisplayIndex;
+                        }
+                    }
+
+                    if (datas.size() > 0) {
+                        processorRef->undoManager.beginNewTransaction(
+                            "action split clips here");
+
+                        for (size_t i = 0; i < datas.size(); ++i) {
+                            auto &d = datas[i];
+                            bool updateUI = i == datas.size() - 1 || i == 0;
+
+                            audioNode *n = utility::getNodeFromRoute(
+                                d.route, processorRef);
+                            clip *c = &n->clips[(size_t)d.clipIndex];
+
+                            int localSplitSample =
+                                splitSample - c->startPositionSample;
+
+                            ActionSplitClip *action = new ActionSplitClip(
+                                *c, d.route, localSplitSample,
+                                this->processorRef, updateUI);
+                            processorRef->undoManager.perform(action);
+                        }
                     }
                 }
-            }
 
-            else if (result == MENU_INSERT_CLIP) {
-                DBG("MENU_INSERT_CLIP selected");
+                else if (result == MENU_INSERT_CLIP) {
+                    DBG("MENU_INSERT_CLIP selected");
 
-                juce::FileChooser *fileChooser =
-                    new juce::FileChooser("Select audio file",
-                                          juce::File::getSpecialLocation(
-                                              juce::File::userHomeDirectory),
-                                          "*");
+                    juce::FileChooser *fileChooser = new juce::FileChooser(
+                        "Select audio file",
+                        juce::File::getSpecialLocation(
+                            juce::File::userHomeDirectory),
+                        "*");
 
-                int flags = juce::FileBrowserComponent::openMode |
-                            juce::FileBrowserComponent::canSelectFiles;
+                    int flags = juce::FileBrowserComponent::openMode |
+                                juce::FileBrowserComponent::canSelectFiles;
 
-                fileChooser->launchAsync(
-                    flags, [this, event,
-                            fileChooser](const juce::FileChooser &chooser) {
+                    fileChooser->launchAsync(flags, [this, event, fileChooser](
+                                                        const juce::FileChooser
+                                                            &chooser) {
                         juce::File f = chooser.getResult();
 
                         int startSample =
@@ -540,8 +554,8 @@ void track::TimelineComponent::mouseDown(const juce::MouseEvent &event) {
 
                         delete fileChooser;
                     });
-            }
-        });
+                }
+            });
     }
 }
 
