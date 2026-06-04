@@ -712,6 +712,8 @@ track::ActionMoveClipToNode::~ActionMoveClipToNode() {}
 bool track::ActionMoveClipToNode::perform() {
     AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
     processor->dispatchGUIInstruction(UI_INSTRUCTION_CLEAR_ALL_CLIP_COMPONENTS);
+    processor->dispatchGUIInstruction(UI_INSTRUCTION_CLOSE_CPWS_WITH_ROUTE,
+                                      nullptr, srcRoute);
 
     audioNode *srcNode = utility::getNodeFromRoute(srcRoute, p);
     audioNode *destNode = utility::getNodeFromRoute(destRoute, p);
@@ -739,6 +741,8 @@ bool track::ActionMoveClipToNode::perform() {
 bool track::ActionMoveClipToNode::undo() {
     AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
     processor->dispatchGUIInstruction(UI_INSTRUCTION_CLEAR_ALL_CLIP_COMPONENTS);
+    processor->dispatchGUIInstruction(UI_INSTRUCTION_CLOSE_CPWS_WITH_ROUTE,
+                                      nullptr, srcRoute);
 
     audioNode *srcNode = utility::getNodeFromRoute(srcRoute, p);
     audioNode *destNode = utility::getNodeFromRoute(destRoute, p);

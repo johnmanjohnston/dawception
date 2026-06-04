@@ -463,6 +463,8 @@ void AudioPluginAudioProcessorEditor::changeListenerCallback(
     track::uiinstruction x = processorRef.GUIInstruction;
 
     if (x.command == UI_INSTRUCTION_UPDATE_CORE) {
+        DBG("UI_INSTRUCTION_UPDATE_CORE");
+
         timelineComponent->clipComponents.clear();
         tracklist.trackComponents.clear();
 
@@ -636,6 +638,14 @@ void AudioPluginAudioProcessorEditor::changeListenerCallback(
     }
 
     // clang-format off
+    else if (x.command == UI_INSTRUCTION_CLOSE_CPWS_WITH_ROUTE) {
+        for (int i = clipPropertiesWindows.size() - 1; i >= 0; --i) {
+            if (track::utility::rWithSize(clipPropertiesWindows[(size_t)i]->route, x.r.size()) == x.r) {
+                clipPropertiesWindows.erase(clipPropertiesWindows.begin() + i);
+            }
+        }
+    }
+
     else if (x.command ==
              UI_INSTRUCTION_CLEAR_SUBWINDOWS_WITH_CONTAINED_ROUTE) {
 
@@ -660,6 +670,13 @@ void AudioPluginAudioProcessorEditor::changeListenerCallback(
         for (int i = relayManagerCompnoents.size() - 1; i >= 0; --i) {
             if (track::utility::rWithSize(relayManagerCompnoents[(size_t)i]->route, x.r.size()) == x.r) {
                 relayManagerCompnoents.erase(relayManagerCompnoents.begin() + i);
+            }
+        }
+
+        // cpws
+        for (int i = clipPropertiesWindows.size() - 1; i >= 0; --i) {
+            if (track::utility::rWithSize(clipPropertiesWindows[(size_t)i]->route, x.r.size()) == x.r) {
+                clipPropertiesWindows.erase(clipPropertiesWindows.begin() + i);
             }
         }
     }
