@@ -543,6 +543,10 @@ void AudioPluginAudioProcessorEditor::changeListenerCallback(
         tracklist.repaint();
     }
 
+    else if (x.command == UI_INSTRUCTION_CLEAR_ALL_CLIP_COMPONENTS) {
+        timelineComponent->clipComponents.clear();
+    }
+
     else if (x.command == UI_INSTRUCTION_UPDATE_EXISTING_NODE_COMPONENTS) {
         tracklist.updateExistingTrackComponents();
     }
