@@ -26,7 +26,8 @@ DAWception does not have:
 
 If you can afford to upgrade your DAW, that is most certainly a better option than using DAWception. If you can't, DAWception exists as a workaround.
 
-## Usage
+# Usage
+## Tracks and groups
 <details>
     <summary>Creating tracks and groups</summary>
 
@@ -34,9 +35,18 @@ If you can afford to upgrade your DAW, that is most certainly a better option th
 | --- | --- |
 | Use "ADD GROUP" and "ADD TRACK" buttons at top of tracklist | <img width="464" height="46" alt="image" src="https://github.com/user-attachments/assets/3d0456e4-6af6-4922-a3f8-c7b017744e0b" /> |
 | Right click in the tracklist area to show context menu | <img width="232" height="90" alt="image" src="https://github.com/user-attachments/assets/dde110f0-4e93-4e1f-b0f6-cbd19a535ad3" /> |
-| Right click on a group to add child tracks/groups | <img width="328" height="349" alt="image" src="https://github.com/user-attachments/assets/27d2f28b-4993-4665-a3d5-ad2563c5362e" /> |
+| Right click on a group for context menu to add tracks/groups | <img height="300" alt="image" src="https://github.com/user-attachments/assets/27d2f28b-4993-4665-a3d5-ad2563c5362e" /> |
 </details>
 
+<details>
+    <summary>Moving tracks/groups into groups</summary>
+    
+| Description | Demo |
+| --- | --- |
+| To copy/paste nodes, right click on node to copy, select "Copy", then right click on node to paste inside, and paste | <img height="300" alt="copy-paste-nodes" src="https://github.com/user-attachments/assets/d05bdc7a-a4de-43a7-9381-5df5eed6bb80" /> |
+</details>
+
+## Audio clips
 <details>
     <summary>Adding audio clips</summary>
     Audio clips can only be added to tracks. If you try to add an audio clip to a group, it will be rejected. <br>
@@ -53,6 +63,7 @@ If you can afford to upgrade your DAW, that is most certainly a better option th
     To trim clips, hover your mouse towards the side you want to trim from, and you'll see the trim handles appear. Hold <kbd>Ctrl</kbd> to trim. To stop snapping while trimming, hold <kbd>Ctrl</kbd> + <kbd>Alt</kbd>
 </details>
 
+## Hosting plugins
 <details>
     <summary>Scanning plugins</summary>
     Click "CONFIG" on the top right. <br>
@@ -67,6 +78,7 @@ If you can afford to upgrade your DAW, that is most certainly a better option th
     You can reorder plugins by dragging them left or right.
 </details>
 
+## Automating plugins
 <details>
     <summary>Automating hosted plugins/groups</summary>
     The way automation works in DAWception, is that DAWception has 128 automatable parameters, each parameter stores a value from 0% to 100%. You can relay the value from that parameter, to any plugin's parameter. A value of 0 corresponds to the target plugin parameter's minimum value, and 100 corresponds to target plugin parameter's maximum value. <br> <br>
@@ -97,7 +109,7 @@ If you can afford to upgrade your DAW, that is most certainly a better option th
 
 </details>
 
-## Installation
+# Installation
 All releases are provided as VST3 plugins.
 ### Latest Release (v0.0.1)
 Linux: TODO
@@ -109,7 +121,7 @@ macOS: TODO
 ### Older Versions
 For older builds, from the Releases section, download the appropriate build for your platform.
 
-## Building
+# Building
 ### Downloading Source and Dependencies
 ```bash
 # clone this repo and cd into it
@@ -171,5 +183,5 @@ If you built a **release** build:
 Move the file to your DAW's VST3 plugin folder.
 Then, scan and add DAWception to any track in your DAW.
 
-## License
+# License
 DAWception is licensed under the AGPLv3, see [LICENSE](https://github.com/johnmanjohnston/dawception/blob/main/LICENSE) for details.
