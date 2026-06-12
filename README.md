@@ -29,9 +29,12 @@ If you can afford to upgrade your DAW, that is most certainly a better option th
 ## Usage
 <details>
     <summary>Creating tracks and groups</summary>
-    Click "ADD TRACK" to create a track. Click "ADD GROUP" to create a group. <br>
-    You can also right click on blank space in the tracklist area to create a track or group. <br>
-    You can also right click on a group to add a child track or group. <br>
+
+| Description | Screenshot |
+| --- | --- |
+| Use "ADD GROUP" and "ADD TRACK" buttons at top of tracklist | <img width="464" height="46" alt="image" src="https://github.com/user-attachments/assets/3d0456e4-6af6-4922-a3f8-c7b017744e0b" /> |
+| Right click in the tracklist area to show context menu | <img width="232" height="90" alt="image" src="https://github.com/user-attachments/assets/dde110f0-4e93-4e1f-b0f6-cbd19a535ad3" /> |
+| Right click on a group to add child tracks/groups | <img width="328" height="349" alt="image" src="https://github.com/user-attachments/assets/27d2f28b-4993-4665-a3d5-ad2563c5362e" /> |
 </details>
 
 <details>
