@@ -50,10 +50,13 @@ If you can afford to upgrade your DAW, that is most certainly a better option th
 ## Audio clips
 <details>
     <summary>Adding audio clips</summary>
-    Audio clips can only be added to tracks. If you try to add an audio clip to a group, it will be rejected. <br>
-    Some DAWs (like Ableton Live) might be using the audio file you're trying to add, so it won't let you import it into DAWception. If this happens, locate the audio file in your file explorer, consolidate/flatten the audio clip in your DAW, then import the audio file from the already open file explorer window. <br> <br>
-    The easiest way to add audio clips is by dragging the audio file from your file explorer into the timeline. <br>
-    You can also add audio clips by right clicking on the timeline, and selecting "Insert audio file". <br>
+    
+| Description | Screenshot/demo |
+| --- | --- |
+| Drag audio file from your file explorer to timeline | <img width="286" height="76" alt="drag-file" src="https://github.com/user-attachments/assets/e8abbb83-5f15-45b4-8564-591ec4ab8ab8" /> |
+| Right click to show context menu, select "Insert audio file" and select file from your file explorer | <img width="197" height="176" alt="image" src="https://github.com/user-attachments/assets/d6c4ad8d-a3e2-4254-8bde-82f675b2e114" /> |
+<p>
+    Some DAWs (like Ableton Live) might be using the audio file you're trying to add, so it won't let you import it into DAWception. If this happens, <b>locate the audio file in your file explorer, consolidate/flatten the audio clip in your DAW, then import the audio file from the already open file explorer window</b>.</p>
 </details>
 
 <details>
