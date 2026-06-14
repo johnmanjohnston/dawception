@@ -64,24 +64,26 @@ If you can afford to upgrade your DAW, that is most certainly a better option th
     
 | Description | Screenshot/demo |
 | --- | --- |
-| Move clips by dragging them. Trim clips by hovering on the side so that the "trim handles" are visible. Then hold <kbd>Ctrl</kbd> while dragging the trim handles | <img width="304" height="98" alt="moving-and-trimming" src="https://github.com/user-attachments/assets/a6626d25-7dbf-4193-b1f5-efd091e8f79f" /> |
+| **Move clips by dragging them**, trim clips by hovering on the side so that the "trim handles" are visible, then **hold <kbd>Ctrl</kbd> while dragging the trim handles** | <img width="304" height="98" alt="moving-and-trimming" src="https://github.com/user-attachments/assets/a6626d25-7dbf-4193-b1f5-efd091e8f79f" /> |
 | Change clips' gain by opening its clip properties window (by double clicking said clip, or by context menu upon right clicking over clip) | <img width="490" height="270" alt="clip-properties-window" src="https://github.com/user-attachments/assets/b6689d81-6037-4d43-827c-b8f15b37823c" /> |
 </details>
-    <b>By default, moving/trimming clips snaps them to grid. To stop snapping to grid, holt <kbd>Alt</kbd> while dragging/trimming clips.</b>
+    <b>By default, moving/trimming clips snaps them to grid. To stop snapping to grid, hold <kbd>Alt</kbd> while dragging/trimming clips.</b>
 
 ## Hosting plugins
 <details>
     <summary>Scanning plugins</summary>
-    Click "CONFIG" on the top right. <br>
-    Selecting "Scan plugins" scans your VST3 folder and tries to identify all installed plugins. <br>
-    Selecting "Lazy scan" performs a much faster scan, but might be less accurate because it skips plugin validation.
+
+| Description | Screenshot |
+| --- | --- |
+| **Click "CONFIG" on the top right**, selecting "Scan plugins" prompts you for your VST3 directory and scans plugins, selecting "Lazy scan for plugins" does a similar scan, and is *much* faster but is less through | <img width="265" height="361" alt="image" src="https://github.com/user-attachments/assets/2b6f3757-9073-44d0-84e7-1163c0ad6454" /> |
 </details>
 
 <details>
     <summary>Adding/hosting plugins inside tracks/groups</summary>
-    Click the "FX" button next to the track/group you want to add a plugin to. <br>
-    Right click anywhere in the empty space in the plugin chain menu, and hover over "Add plugin" and select the plugin you want to add. <br>
-    You can reorder plugins by dragging them left or right.
+    
+| Description | Demo |
+| --- | --- |
+| **Click "FX"** on the track/group you want to add plugins too, **right click in the empty space to open a context menu** and select the plugin you want to add | <img width="500"  alt="adding-plugins" src="https://github.com/user-attachments/assets/f394d852-7580-48ed-948d-a2ef56ec3c12" /> |
 </details>
 
 ## Automating plugins
