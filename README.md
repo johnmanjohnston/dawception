@@ -61,11 +61,13 @@ If you can afford to upgrade your DAW, that is most certainly a better option th
 
 <details>
     <summary>Clip manipulation</summary>
-    You can drag clips to move them, so they start at a different point in time. <br>
-    You can drag clips between audio tracks. <br>
-    Clips automatically snap to grid. To stop snapping to grid, hold <kbd>Alt</kbd> while dragging.
-    To trim clips, hover your mouse towards the side you want to trim from, and you'll see the trim handles appear. Hold <kbd>Ctrl</kbd> to trim. To stop snapping while trimming, hold <kbd>Ctrl</kbd> + <kbd>Alt</kbd>
+    
+| Description | Screenshot/demo |
+| --- | --- |
+| Move clips by dragging them. Trim clips by hovering on the side so that the "trim handles" are visible. Then hold <kbd>Ctrl</kbd> while dragging the trim handles | <img width="304" height="98" alt="moving-and-trimming" src="https://github.com/user-attachments/assets/a6626d25-7dbf-4193-b1f5-efd091e8f79f" /> |
+| Change clips' gain by opening its clip properties window (by double clicking said clip, or by context menu upon right clicking over clip) | <img width="490" height="270" alt="clip-properties-window" src="https://github.com/user-attachments/assets/b6689d81-6037-4d43-827c-b8f15b37823c" /> |
 </details>
+    <b>By default, moving/trimming clips snaps them to grid. To stop snapping to grid, holt <kbd>Alt</kbd> while dragging/trimming clips.</b>
 
 ## Hosting plugins
 <details>
