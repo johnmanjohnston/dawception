@@ -43,7 +43,8 @@ If you can afford to upgrade your DAW, that is most certainly a better option th
     
 | Description | Demo |
 | --- | --- |
-| To copy/paste nodes, right click on node to copy, select "Copy", then right click on node to paste inside, and paste | <img height="300" alt="copy-paste-nodes" src="https://github.com/user-attachments/assets/d05bdc7a-a4de-43a7-9381-5df5eed6bb80" /> |
+| Drag a track/group and drop inside group  | <img height="400" alt="nesting-nodes-by-dragging" src="https://github.com/user-attachments/assets/28fcc60f-dbe4-42dd-b9e2-ffef3f3ab97e" /> |
+| To copy/paste tracks/groups, right click on it to copy, select "Copy", then right click on the group to paste inside, and paste | <img height="400" alt="copy-paste-nodes" src="https://github.com/user-attachments/assets/d05bdc7a-a4de-43a7-9381-5df5eed6bb80" /> |
 </details>
 
 ## Audio clips
