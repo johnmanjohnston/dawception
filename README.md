@@ -79,42 +79,44 @@ If you can afford to upgrade your DAW, that is most certainly a better option th
 </details>
 
 <details>
-    <summary>Adding/hosting plugins inside tracks/groups</summary>
+    <summary>Adding and reordering plugins</summary>
     
 | Description | Demo |
 | --- | --- |
-| **Click "FX"** on the track/group you want to add plugins too, **right click in the empty space to open a context menu** and select the plugin you want to add | <img width="500"  alt="adding-plugins" src="https://github.com/user-attachments/assets/f394d852-7580-48ed-948d-a2ef56ec3c12" /> |
+| To add plugins, **click "FX"** on the track/group you want to add plugins too, **right click in the empty space to open a context menu** and select the plugin you want to add | <img width="500"  alt="adding-plugins" src="https://github.com/user-attachments/assets/f394d852-7580-48ed-948d-a2ef56ec3c12" /> |
+| To reorder plugins, drag the plugin to where you want the plugin to be positioned; the plugin will finally be positioned on the **right** of the position indicator line thing | <img width="556" height="164" alt="reordering-plugins" src="https://github.com/user-attachments/assets/09c421d3-b250-4636-8217-0de31dc3f46a" /> |
+<p>The slider is the <b>dry/wet mix</b> of the plugin. The <b><i>X</i></b> on the top right of the plugin removes the plugin. </p>
 </details>
 
 ## Automating plugins
 <details>
     <summary>Automating hosted plugins/groups</summary>
-    The way automation works in DAWception, is that DAWception has 128 automatable parameters, each parameter stores a value from 0% to 100%. You can relay the value from that parameter, to any plugin's parameter. A value of 0 corresponds to the target plugin parameter's minimum value, and 100 corresponds to target plugin parameter's maximum value. <br> <br>
-    Click the "FX" button on the track/group with the plugin you want to automate. Find the plugin you want to automate in the plugin chain menu. <br>
-    Click "AUTOMATE" to open the relay parameters menu. <br>
-    Right click anywhere in the blank space to add a relayed parameter. "IN" is the parameter DAWception should read from, "OUT" is the parameter of the hosted plugin, that DAWception should write to.
-    Use your DAW's automation feature to automate the appropriate "IN" parameter. <br> <br>
-    <details>
-        <summary>Your DAW (<i>cough</i> Ableton <i>cough</i>) doesn't show all 128 automatable parameters?</summary>
-        Ableton Live refuses to show all of DAWception's 128 automatable parameters by default. To fix this: <br> <br>
-        <figure>
-            <p>In Ableton, click "Configure"</p>
-            <img width="251" height="204" alt="image" src="https://github.com/user-attachments/assets/329084c1-165d-4f40-9943-8357d0a05453" />
-        </figure> <br>
-        <figure>
-            <p>In DAWception, on the top right, click "CONFIG" then "Open relay params inspector"</p>
-            <img width="292" height="409" alt="image" src="https://github.com/user-attachments/assets/f22dea52-917f-4e75-8f3a-fc68462d49b3" />
-        </figure> <br>
-        <figure>
-            <p>Move the slider for whatever input parameter you want to automate</p>
-            <img width="317" height="66" alt="image" src="https://github.com/user-attachments/assets/49de3706-a8f1-457b-a8a8-1887da4d5c97" />
-        </figure> <br>
-        <figure>
-            <p>It will then show up inside Ableton</p>
-            <img width="252" height="199" alt="image" src="https://github.com/user-attachments/assets/3d4a1f48-20ff-4ba6-b5d1-28ce83af3c8f" />
-        </figure>
-    </details>
+    The way automation works in DAWception, is that <b>DAWception has 128 automatable parameters, each parameter stores a value from 0% to 100%. You relay the value from that parameter, to any plugin's parameter</b>. A value of 0 corresponds to the target plugin parameter's minimum value, and 100 corresponds to target plugin parameter's maximum value. <br> <br> You can also map the same input parameter across multiple output parameters, for different plugins.<br> <br>
 
+| Description | Demo |
+| --- | --- |
+| To automate a plugin, find the plugin and **click "AUTOMATE"**, **right click for context menu to create a relayed parameter**. <br> <br> "IN" is the parameter DAWception should read from, "OUT" is the parameter of the hosted plugin that DAWception should write to. Use your DAW's automation feature to automate DAWception's appropriate "IN" parameter (your DAW should be playing&mdash;not paused&mdash;to reflect the changes in the subhosted plugin's editor) | <img width="500" alt="result" src="https://github.com/user-attachments/assets/8b1630a0-342d-43b8-a268-1b2ed74d251a" /> |
+</details>
+
+<details>
+    <summary>Your DAW (<i>cough</i> Ableton <i>cough</i>) doesn't show all 128 automatable parameters?</summary>
+    Your DAW might refuse to show so many automatable parameters by default, the fix is dependent on the DAW you use. If you're using Ableton, to fix this: <br> <br>
+    <figure>
+        <p>In Ableton, click "Configure"</p>
+        <img width="251" height="204" alt="image" src="https://github.com/user-attachments/assets/329084c1-165d-4f40-9943-8357d0a05453" />
+    </figure> <br>
+    <figure>
+        <p>In DAWception, on the top right, click "CONFIG" then "Open relay params inspector"</p>
+        <img width="292" height="409" alt="image" src="https://github.com/user-attachments/assets/f22dea52-917f-4e75-8f3a-fc68462d49b3" />
+    </figure> <br>
+    <figure>
+        <p>Move the slider for whatever input parameter you want to automate</p>
+        <img width="317" height="66" alt="image" src="https://github.com/user-attachments/assets/49de3706-a8f1-457b-a8a8-1887da4d5c97" />
+    </figure> <br>
+    <figure>
+        <p>It will then show up inside Ableton</p>
+        <img width="252" height="199" alt="image" src="https://github.com/user-attachments/assets/3d4a1f48-20ff-4ba6-b5d1-28ce83af3c8f" />
+    </figure>
 </details>
 
 # Installation
