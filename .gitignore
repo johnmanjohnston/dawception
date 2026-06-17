@@ -26,3 +26,4 @@ juce_binarydata_trackBinaryData/
 dawception_artefacts/
 juce_binarydata_dawceptionBinaryData
 libdawceptionBinaryData.a
+*.DS_Store

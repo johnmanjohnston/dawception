@@ -199,7 +199,12 @@ void track::ui::CustomLookAndFeel::drawButtonText(
     Graphics &g, TextButton &button, bool /*shouldDrawButtonAsHighlighted*/,
     bool /*shouldDrawButtonAsDown*/) {
 
+#if JUCE_MAC
+    Font font(getTextButtonFont(button, button.getHeight() / 1.1f));
+#else
     Font font(getTextButtonFont(button, button.getHeight()));
+#endif
+
     g.setFont(font);
     g.setColour(button
                     .findColour(button.getToggleState()
