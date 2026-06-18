@@ -6,6 +6,10 @@ namespace track::utility {
 juce::String prettyVector(std::vector<int> x);
 
 // nodes/clips
+std::vector<int> getStainedRoute(int staincode, void *p);
+std::vector<int> traverseStain(int staincode, audioNode *parentNode,
+                               std::vector<int> r, int depth = 0);
+
 bool isDescendant(audioNode *parent, audioNode *possibleChild,
                   bool directDescandant);
 

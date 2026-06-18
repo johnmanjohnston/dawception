@@ -5,6 +5,55 @@
 #include "plugin_chain.h"
 #include "track.h"
 
+std::vector<int> track::utility::getStainedRoute(int staincode, void *p) {
+    std::vector<int> retval;
+    AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
+
+    for (size_t i = 0; i < processor->tracks.size(); ++i) {
+        std::vector<int> tmp;
+        tmp.push_back(i);
+
+        audioNode *n = &processor->tracks[i];
+
+        if (n->stain == staincode) {
+            return tmp;
+        }
+
+        auto x = traverseStain(staincode, n, tmp, 0);
+
+        if (x.size() > 1)
+            return x;
+    }
+
+    return retval;
+}
+
+std::vector<int> track::utility::traverseStain(int staincode,
+                                               audioNode *parentNode,
+                                               std::vector<int> r, int depth) {
+    std::vector<int> retval = r;
+
+    for (size_t i = 0; i < parentNode->childNodes.size(); ++i) {
+        r.push_back(i);
+
+        audioNode *n = &parentNode->childNodes[i];
+        if (n->stain == staincode) {
+            return r;
+        }
+
+        if (!n->isTrack) {
+            auto x = traverseStain(staincode, n, r, depth + 1);
+
+            if (x.size() > r.size())
+                return x;
+        }
+
+        r.pop_back();
+    }
+
+    return retval;
+}
+
 void track::utility::writeTrivialClipDataToClip(clip *dest, clip *src) {
     dest->startPositionSample = src->startPositionSample;
     dest->active = src->active;

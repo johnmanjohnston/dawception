@@ -294,6 +294,8 @@ class ActionCreateNode : public juce::UndoableAction {
     ActionCreateNode(std::vector<int> pRoute, bool isATrack, void *processor);
     ~ActionCreateNode();
 
+    std::vector<int> createdAtRoute;
+
     bool perform() override;
     bool undo() override;
     void updateGUI(); // y
@@ -410,9 +412,6 @@ class ActionMoveNodeToGroup : public juce::UndoableAction {
     void updateGUI(); // y
 
     void updateOnlyTracklist();
-    std::vector<int> getStainedRoute(int staincode);
-    std::vector<int> traverseStain(int staincode, audioNode *parentNode,
-                                   std::vector<int> r, int depth);
 };
 
 class Tracklist : public juce::Component {

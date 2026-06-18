@@ -82,4 +82,5 @@ struct uiinstruction {
 
 #define STAIN_MOVENODETOGROUP_NODE 0x1
 #define STAIN_MOVENODETOGROUP_GROUP 0x2
+#define STAIN_NEWLY_CREATED_NODE 0x3
 } // namespace track

@@ -1598,6 +1598,12 @@ bool track::ActionCreateNode::perform() {
         x = &parent->childNodes.emplace_back();
     }
 
+    // i don't want to bother with the edge cases so just use stains
+    x->stain = STAIN_NEWLY_CREATED_NODE;
+    this->createdAtRoute =
+        track::utility::getStainedRoute(STAIN_NEWLY_CREATED_NODE, p);
+    x->stain = -1;
+
     x->isTrack = isTrack;
     x->processor = p;
 
@@ -1612,6 +1618,11 @@ bool track::ActionCreateNode::perform() {
 
 bool track::ActionCreateNode::undo() {
     AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
+
+    // close subwindows relevant to this node
+    processor->dispatchGUIInstruction(
+        UI_INSTRUCTION_CLEAR_SUBWINDOWS_WITH_CONTAINED_ROUTE, nullptr,
+        this->createdAtRoute);
 
     audioNode *parent = track::utility::getNodeFromRoute(parentRoute, p);
 
@@ -1848,7 +1859,8 @@ bool track::ActionMoveNodeToGroup::perform() {
     utility::deleteNode(nodeToMoveRoute, p);
 
     // state mutated; re-get group by using its stain and add "temp" to that
-    groupRouteAfterMoving = getStainedRoute(STAIN_MOVENODETOGROUP_GROUP);
+    groupRouteAfterMoving =
+        track::utility::getStainedRoute(STAIN_MOVENODETOGROUP_GROUP, p);
 
     DBG("group route after moving is "
         << utility::prettyVector(groupRouteAfterMoving));
@@ -1858,7 +1870,8 @@ bool track::ActionMoveNodeToGroup::perform() {
     utility::copyNode(&newNode, temp, p);
 
     // now we can get route after moving by STAIN_MOVENODETOGROUP_NODE yay!
-    routeAfterMoving = getStainedRoute(STAIN_MOVENODETOGROUP_NODE);
+    routeAfterMoving =
+        track::utility::getStainedRoute(STAIN_MOVENODETOGROUP_NODE, p);
 
     delete temp;
 
@@ -1886,7 +1899,7 @@ bool track::ActionMoveNodeToGroup::undo() {
     utility::deleteNode(routeAfterMoving, p);
 
     group = utility::getNodeFromRoute(
-        getStainedRoute(STAIN_MOVENODETOGROUP_GROUP), p);
+        track::utility::getStainedRoute(STAIN_MOVENODETOGROUP_GROUP, p), p);
 
     // add a node back to original position
     audioNode *newNode = nullptr;
@@ -1920,54 +1933,6 @@ void track::ActionMoveNodeToGroup::updateGUI() {
 void track::ActionMoveNodeToGroup::updateOnlyTracklist() {
     AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
     processor->dispatchGUIInstruction(UI_INSTRUCTION_RECREATE_RELAY_NODES);
-}
-
-std::vector<int> track::ActionMoveNodeToGroup::getStainedRoute(int staincode) {
-    std::vector<int> retval;
-    AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
-
-    for (size_t i = 0; i < processor->tracks.size(); ++i) {
-        std::vector<int> tmp;
-        tmp.push_back(i);
-
-        audioNode *n = &processor->tracks[i];
-
-        if (n->stain == staincode) {
-            return tmp;
-        }
-
-        auto x = traverseStain(staincode, n, tmp, 0);
-
-        if (x.size() > 1)
-            return x;
-    }
-
-    return retval;
-}
-
-std::vector<int> track::ActionMoveNodeToGroup::traverseStain(
-    int staincode, audioNode *parentNode, std::vector<int> r, int depth = 0) {
-    std::vector<int> retval = r;
-
-    for (size_t i = 0; i < parentNode->childNodes.size(); ++i) {
-        r.push_back(i);
-
-        audioNode *n = &parentNode->childNodes[i];
-        if (n->stain == staincode) {
-            return r;
-        }
-
-        if (!n->isTrack) {
-            auto x = traverseStain(staincode, n, r, depth + 1);
-
-            if (x.size() > r.size())
-                return x;
-        }
-
-        r.pop_back();
-    }
-
-    return retval;
 }
 
 track::ActionReorderNode::ActionReorderNode(std::vector<int> route1,
