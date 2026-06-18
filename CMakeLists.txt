@@ -9,6 +9,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(JUCE)
 
+if (APPLE)
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+endif()
+
 juce_add_plugin(dawception
     COMPANY_NAME johnmanjohnston
     IS_SYNTH FALSE
