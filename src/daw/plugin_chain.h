@@ -26,6 +26,8 @@ class ActionAddPlugin : public juce::UndoableAction {
     juce::String pluginIdentifier = "unset identifier";
     void *p = nullptr;
 
+    juce::String pluginData = "";
+
     ActionAddPlugin(std::vector<int> route, juce::String identifier,
                     void *processor);
     ~ActionAddPlugin();

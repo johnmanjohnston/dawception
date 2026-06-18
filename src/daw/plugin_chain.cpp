@@ -22,6 +22,14 @@ bool track::ActionAddPlugin::perform() {
     audioNode *node = utility::getNodeFromRoute(nodeRoute, p);
     validPlugin = node->addPlugin(pluginIdentifier);
 
+    if (this->pluginData != "") {
+        DBG("writing from known data");
+        juce::MemoryBlock mb;
+        mb.fromBase64Encoding(this->pluginData);
+        node->plugins.back()->plugin->setStateInformation(mb.getData(),
+                                                          mb.getSize());
+    }
+
     updateGUI();
 
     AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
@@ -44,6 +52,11 @@ bool track::ActionAddPlugin::undo() {
     processor->dispatchGUIInstruction(
         UI_INSTRUCTION_CLOSE_ALL_RMC_WITH_ROUTE_AND_INDEX,
         (void *)(uintptr_t)(node->plugins.size() - 1), nodeRoute);
+
+    // save data
+    juce::MemoryBlock mb;
+    node->plugins.back()->plugin->getStateInformation(mb);
+    this->pluginData = mb.toBase64Encoding();
 
     node->removePlugin(node->plugins.size() - 1);
 
