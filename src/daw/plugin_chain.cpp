@@ -711,7 +711,7 @@ void track::PluginNodeComponent::paint(juce::Graphics &g) {
     g.setColour(
         juce::Colour(0xFF'A7A7A7).withAlpha(this->isBypassed ? .3f : 1.f));
 
-#if JUCE_WINDOWS
+#if JUCE_WINDOWS || JUCE_MAC
     auto pluginDataFont =
         track::ui::CustomLookAndFeel::getInterSemiBold().withExtraKerningFactor(
             -0.02f);
@@ -722,7 +722,13 @@ void track::PluginNodeComponent::paint(juce::Graphics &g) {
 #endif
 
     // draw name
-    g.setFont(pluginDataFont.withHeight(22.f));
+    int pluginDataFontSize = 22;
+#if JUCE_MAC
+    pluginDataFontSize = 18;
+    pluginDataFont = pluginDataFont.boldened(); // bolding the font makes it less bold lmao
+#endif
+
+    g.setFont(pluginDataFont.withHeight(pluginDataFontSize));
     g.drawText(this->pluginName, 10, 8, getWidth(), 20,
                juce::Justification::left);
 

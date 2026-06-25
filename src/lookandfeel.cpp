@@ -34,7 +34,7 @@ const juce::Font track::ui::CustomLookAndFeel::getInterSemiBold() {
         BinaryData::Inter_18ptSemiBold_ttf,
         BinaryData::Inter_18ptSemiBold_ttfSize);
 
-    return Font(typeface);
+        return Font(typeface);
 }
 
 void track::ui::CustomLookAndFeel::drawRotarySlider(
@@ -200,7 +200,8 @@ void track::ui::CustomLookAndFeel::drawButtonText(
     bool /*shouldDrawButtonAsDown*/) {
 
 #if JUCE_MAC
-    Font font(getTextButtonFont(button, button.getHeight() / 1.1f));
+    float mul = button.getButtonText().length() == 1 ? 1.f : 0.8f;
+    Font font(getTextButtonFont(button, button.getHeight() * mul));
 #else
     Font font(getTextButtonFont(button, button.getHeight()));
 #endif
@@ -502,6 +503,8 @@ Font track::ui::CustomLookAndFeel::getTextButtonFont(TextButton &button,
 #if JUCE_WINDOWS
         retval = retval.withExtraKerningFactor(-0.02f);
         retval = retval.withHeight(retval.getHeight() * 1.23f);
+#elif JUCE_MAC
+        retval = retval.withExtraKerningFactor(-0.02f).boldened();
 #else
         retval = retval.withExtraKerningFactor(-0.03f).italicised().boldened();
 #endif
