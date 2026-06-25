@@ -1192,9 +1192,17 @@ void track::PluginChainComponent::reorderPlugin(int srcIndex, int destIndex) {
 track::PluginEditorWindow::PluginEditorWindow() : juce::Component() {
     glow.setGlowProperties(4.f, juce::Colours::white.withAlpha(0.7f));
     pluginNameLabel.setComponentEffect(&glow);
+
+    float pluginNameLabelFontSize = 18.f;
+
+#if JUCE_MAC
+    pluginNameLabelFontSize = 16.f;
+#endif
+
     pluginNameLabel.setFont(
-        getInterBold().boldened().withHeight(18.f).withExtraKerningFactor(
+        getInterBold().boldened().withHeight(pluginNameLabelFontSize).withExtraKerningFactor(
             -.02f));
+
     pluginNameLabel.setMinimumHorizontalScale(1.f);
     pluginNameLabel.setInterceptsMouseClicks(false, false);
 
@@ -1245,7 +1253,13 @@ void track::PluginEditorWindow::paint(juce::Graphics &g) {
 
     // other info
     g.setColour(juce::Colour(0xFF'D3D3D3));
-    g.setFont(getInterBoldItalic().withHeight(17.f));
+
+    float otherDataFontSize = 17.f;
+#if JUCE_MAC
+    otherDataFontSize = 15.f;
+#endif
+    g.setFont(getInterBoldItalic().withHeight(otherDataFontSize));
+
     int pluginNameWidth = this->getPluginNameTextWidth();
 
     // get data
