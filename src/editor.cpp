@@ -384,10 +384,10 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
     g.drawFittedText("DAWception", juce::Rectangle<int>(34, 1, 150, 50),
                      juce::Justification::left, 1);
 
-#if JUCE_LINUX
-    g.setFont(epicFont.withHeight(14.f));
-#else
+#if JUCE_WINDOWS
     g.setFont(epicFont.withHeight(15.f).withExtraKerningFactor(-0.02));
+#else
+    g.setFont(epicFont.withHeight(14.f));
 #endif
 
     // [x86_64-linux VST3 44.1kHz 512spls 1ms]
@@ -397,25 +397,13 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
     juce::String versionInfo = "v";
     versionInfo += VERSION_STRING;
     versionInfo += " ";
+
     audioInfoText += versionInfo;
-
-#ifdef __x86_64__
-    audioInfoText += "x86_64-";
-#endif
-
-#if _WIN32
-    audioInfoText += "x86_64-";
-#endif
-
-#if JUCE_LINUX
-    audioInfoText += "linux ";
-#elif JUCE_WINDOWS
-    audioInfoText += "win ";
-#elif JUCE_MAC
-    audioInfoText += "mac ";
-#elif JUCE_BSD
-    audioInfoText += "bsd ";
-#endif
+    audioInfoText += TARGET_SYSTEM_ARCH;
+    audioInfoText += "-";
+    audioInfoText += TARGET_SYSTEM_NAME;
+    audioInfoText = audioInfoText.toLowerCase();
+    audioInfoText += " ";
 
     audioInfoText +=
         AudioProcessor::getWrapperTypeDescription(processorRef.wrapperType);
