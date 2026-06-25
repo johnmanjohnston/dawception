@@ -248,13 +248,12 @@ class PluginEditorWindow : public juce::Component, juce::Timer {
 
     // info to show on titlebar
     juce::String pluginName;
-    juce::String pluginManufacturer;
+    // juce::String pluginManufacturer;
     juce::String trackName;
 
     void updateTrackInformation();
 
     juce::AudioProcessorEditor *ape = nullptr;
-    // std::unique_ptr<juce::AudioProcessorEditor> ape;
 
     AudioPluginAudioProcessor *processor = nullptr;
     audioNode *getCorrespondingTrack();
@@ -276,5 +275,7 @@ class PluginEditorWindow : public juce::Component, juce::Timer {
 
         return typeface;
     }
+
+    int getPluginNameTextWidth();
 };
 } // namespace track

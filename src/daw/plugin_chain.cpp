@@ -1237,34 +1237,40 @@ void track::PluginEditorWindow::paint(juce::Graphics &g) {
     utility::titlebarGloss(
         g, juce::Rectangle<int>(getWidth(), UI_SUBWINDOW_TITLEBAR_HEIGHT));
 
-    int titlebarLeftMargin = UI_SUBWINDOW_TITLEBAR_MARGIN + 5;
-    int pluginNameWidth =
-        juce::GlyphArrangement::getStringWidth(g.getCurrentFont(), pluginName) *
-        1.3f;
-
     // other info
     g.setColour(juce::Colour(0xFF'D3D3D3));
     g.setFont(getInterBoldItalic().withHeight(17.f));
+    int pluginNameWidth = this->getPluginNameTextWidth();
 
+    // get data
     int latency = getPlugin()->get()->plugin->getLatencySamples();
     float latencyMs =
         (latency / getPlugin()->get()->plugin->getSampleRate()) * 1000.f;
-    juce::String otherInfoText =
-        pluginManufacturer + "      " + juce::String(route[route.size() - 1]) +
-        "/" + trackName + "     " + juce::String(latency) + " samples (" +
-        juce::String(latencyMs, 2, false) + "ms)";
-    g.drawText(otherInfoText, pluginNameWidth + titlebarLeftMargin, 0,
-               getWidth() / 1.2f, UI_SUBWINDOW_TITLEBAR_HEIGHT,
-               juce::Justification::left, false);
+
+    // accumulate results
+    juce::String otherInfoText = juce::String(latency) + " samples (" +
+                                 juce::String(latencyMs, 2, false) + "ms)" +
+                                 "    " + juce::String(pluginIndex + 1) + "/" +
+                                 trackName;
+
+    juce::GlyphArrangement ga;
+    ga.addCurtailedLineOfText(g.getCurrentFont(), otherInfoText + "    ",
+                              pluginNameWidth + 8, 0,
+                              getWidth() - (pluginNameWidth + 32), true);
+    int fw = ga.getBoundingBox(0, ga.getNumGlyphs(), true).getWidth();
+
+    if (fw >= 32) {
+        g.drawText(otherInfoText, pluginNameWidth + 8, 0, fw,
+                   UI_SUBWINDOW_TITLEBAR_HEIGHT, juce::Justification::left,
+                   true);
+    }
 
     g.setColour(juce::Colour(0xFF'999999));
     g.drawHorizontalLine(UI_SUBWINDOW_TITLEBAR_HEIGHT - 1, 0, getWidth());
 }
 
 void track::PluginEditorWindow::resized() {
-    int pluginNameWidth = juce::GlyphArrangement::getStringWidth(
-                              pluginNameLabel.getFont(), pluginName) *
-                          1.3f;
+    int pluginNameWidth = this->getPluginNameTextWidth();
 
     pluginNameLabel.setBounds(4.f, 0.f, pluginNameWidth,
                               UI_SUBWINDOW_TITLEBAR_HEIGHT);
@@ -1291,12 +1297,9 @@ void track::PluginEditorWindow::createEditor() {
 
     // assign data to show on titlebar
     pluginName = getPlugin()->get()->plugin->getPluginDescription().name;
-    pluginManufacturer =
-        getPlugin()->get()->plugin->getPluginDescription().manufacturerName;
+    /*pluginManufacturer =
+        getPlugin()->get()->plugin->getPluginDescription().manufacturerName;*/
     trackName = getCorrespondingTrack()->trackName;
-
-    DBG(pluginName);
-    DBG(pluginManufacturer);
 
     pluginNameLabel.setText(pluginName,
                             juce::NotificationType::dontSendNotification);
@@ -1359,6 +1362,19 @@ void track::PluginEditorWindow::updateTrackInformation() {
     this->trackName = getCorrespondingTrack()->trackName;
 
     repaint();
+}
+
+int track::PluginEditorWindow::getPluginNameTextWidth() {
+    int retval = -1;
+    juce::GlyphArrangement ga;
+    ga.addCurtailedLineOfText(pluginNameLabel.getFont(), pluginName + "    ", 0,
+                              64,
+                              getWidth() - 4 - UI_SUBWINDOW_TITLEBAR_HEIGHT -
+                                  4, // subtract by titlebar height because
+                                     // that's the width of close button
+                              true);
+    retval = ga.getBoundingBox(0, ga.getNumGlyphs(), true).getWidth();
+    return retval; // omg why can't it just return the actual width
 }
 
 // get current track and plugin util functions
