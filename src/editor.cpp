@@ -256,7 +256,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
                 fileChooser->launchAsync(
                     flags, [this](const juce::FileChooser &c) {
                         juce::File dataFile = c.getResult();
-                        if (!dataFile.exists()) return;
+                        if (!dataFile.exists())
+                            return;
 
                         pluginChainComponents.clear();
                         relayManagerCompnoents.clear();
@@ -268,10 +269,9 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
                         processorRef.undoManager.clearUndoHistory();
 
                         DBG("launched...");
-                        
+
                         juce::String xmlText = dataFile.loadFileAsString();
                         DBG(xmlText);
-
 
                         std::unique_ptr<juce::XmlElement> xml(
                             juce::XmlDocument::parse(xmlText));

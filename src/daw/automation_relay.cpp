@@ -49,7 +49,7 @@ void track::RelayManagerComponent::paint(juce::Graphics &g) {
                          g.getCurrentFont(), this->pluginName) +
                      10 + 10 + 4;
     g.setColour(juce::Colours::grey);
-    g.drawText(juce::String(pluginIndex) + "/" + this->trackName,
+    g.drawText(juce::String(pluginIndex + 1) + "/" + this->trackName,
                getTitleBarBounds().withLeft(leftMargin),
                juce::Justification::left);
 }
@@ -332,10 +332,10 @@ track::RelayParamInspector::RelayParamInspector() : track::Subwindow() {
     rpiViewport.setScrollBarsShown(true, false, true, false);
     rpiViewport.setViewedComponent(&rpiComponent);
 };
-track::RelayParamInspector::~RelayParamInspector(){};
+track::RelayParamInspector::~RelayParamInspector() {};
 
 track::RelayParamInspectorComponent::RelayParamInspectorComponent()
-    : SubwindowChildFocusGrabber(){};
+    : SubwindowChildFocusGrabber() {};
 track::RelayParamInspectorComponent::~RelayParamInspectorComponent() {}
 
 void track::RelayParamInspectorComponent::initSliders() {

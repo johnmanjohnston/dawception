@@ -725,7 +725,8 @@ void track::PluginNodeComponent::paint(juce::Graphics &g) {
     int pluginDataFontSize = 22;
 #if JUCE_MAC
     pluginDataFontSize = 18;
-    pluginDataFont = pluginDataFont.boldened(); // bolding the font makes it less bold lmao
+    pluginDataFont =
+        pluginDataFont.boldened(); // bolding the font makes it less bold lmao
 #endif
 
     g.setFont(pluginDataFont.withHeight(pluginDataFontSize));
@@ -1199,9 +1200,10 @@ track::PluginEditorWindow::PluginEditorWindow() : juce::Component() {
     pluginNameLabelFontSize = 16.f;
 #endif
 
-    pluginNameLabel.setFont(
-        getInterBold().boldened().withHeight(pluginNameLabelFontSize).withExtraKerningFactor(
-            -.02f));
+    pluginNameLabel.setFont(getInterBold()
+                                .boldened()
+                                .withHeight(pluginNameLabelFontSize)
+                                .withExtraKerningFactor(-.02f));
 
     pluginNameLabel.setMinimumHorizontalScale(1.f);
     pluginNameLabel.setInterceptsMouseClicks(false, false);
