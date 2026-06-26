@@ -91,6 +91,14 @@ bool track::ActionRemovePlugin::perform() {
         UI_INSTRUCTION_CLOSE_OPENED_RELAY_PARAM_WINDOWS, nullptr, nodeRoute);
 
     audioNode *node = utility::getNodeFromRoute(nodeRoute, p);
+
+    // write current plugin data now
+    juce::MemoryBlock pluginData;
+    track::subplugin *cursubplugin =
+        node->plugins[(size_t)this->pluginIndex].get();
+    cursubplugin->plugin->getStateInformation(pluginData);
+    subpluginData.data = pluginData.toBase64Encoding();
+
     node->removePlugin(pluginIndex);
 
     updateGUI();
@@ -1147,10 +1155,9 @@ void track::PluginChainComponent::removePlugin(int pluginIndex) {
     data.dryWetMix = plugin->get()->dryWetMix;
     data.relayParams = plugin->get()->relayParams;
 
-    // set plugin data
-    juce::MemoryBlock pluginData;
-    plugin->get()->plugin->getStateInformation(pluginData);
-    data.data = pluginData.toBase64Encoding();
+    // don't set plugin data, set plugin data only on the action's perform()
+    // in case of undoing the redoing, basically user wants to (probably)
+    // rewrite that history
 
     // now remove with action
     ActionRemovePlugin *action =
