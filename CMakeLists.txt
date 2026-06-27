@@ -69,9 +69,7 @@ target_compile_definitions(dawception PRIVATE
 
     PUBLIC
     VERSION_STRING="${CMAKE_PROJECT_VERSION}"
-    BUILD_TYPE_STRING="${CMAKE_BUILD_TYPE}"
-    TARGET_SYSTEM_ARCH="${CMAKE_SYSTEM_PROCESSOR}"
-    TARGET_SYSTEM_NAME="${CMAKE_SYSTEM_NAME}")
+    BUILD_TYPE_STRING="${CMAKE_BUILD_TYPE}")
 
 target_link_libraries(dawception PRIVATE
     dawceptionBinaryData

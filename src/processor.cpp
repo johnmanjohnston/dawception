@@ -19,7 +19,6 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
     addParameter(masterGain = new juce::AudioParameterFloat("master", "Master",
                                                             0.f, 6.f, 1.f));
 
-    // FINALLY SHITTY CURRICULUM CS PAPER IS OVER FUCK CIE
     DBG("track v" << VERSION_STRING);
 
     updateLatencyAfterDelay();

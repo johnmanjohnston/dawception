@@ -170,10 +170,18 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
                     juce::String(JUCE_MINOR_VERSION) + "." +
                     juce::String(JUCE_BUILDNUMBER);
 
+                juce::String os = juce::SystemStats::getOperatingSystemName();
+                juce::String arch = "unknown";
+
+#if defined(__x86_64__) || defined(_M_X64)
+                arch = "x86_64";
+#elif defined(__aarch64__) || defined(_M_ARM64)
+                arch = "aarch64";
+#endif
                 juce::String buildInfoString =
                     "DAWception/track " + buildType + " " +
                     juce::String(VERSION_STRING) + "\n" + "JUCE " +
-                    juceVersionString;
+                    juceVersionString + "\n" + os + " " + arch;
 
                 juce::NativeMessageBox::showMessageBoxAsync(
                     juce::MessageBoxIconType::InfoIcon, "build info",
@@ -390,24 +398,14 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
     g.setFont(epicFont.withHeight(14.f));
 #endif
 
-    // [x86_64-linux VST3 44.1kHz 512spls 1ms]
+    // [v1.0.2 44.1kHz 512spls 2.7ms]
 
     juce::String audioInfoText = "[";
 
     juce::String versionInfo = "v";
     versionInfo += VERSION_STRING;
     versionInfo += " ";
-
     audioInfoText += versionInfo;
-    audioInfoText += TARGET_SYSTEM_ARCH;
-    audioInfoText += "-";
-    audioInfoText += TARGET_SYSTEM_NAME;
-    audioInfoText = audioInfoText.toLowerCase();
-    audioInfoText += " ";
-
-    audioInfoText +=
-        AudioProcessor::getWrapperTypeDescription(processorRef.wrapperType);
-    audioInfoText += " ";
 
     audioInfoText += juce::String(track::SAMPLE_RATE / 1000);
     audioInfoText += "kHz ";
@@ -417,9 +415,9 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
     if (latencyPoller.knownLatencySamples == -1)
         audioInfoText += "-";
     else {
-        int latencyMs = std::round(
-            (latencyPoller.knownLatencySamples / track::SAMPLE_RATE) * 1000.f);
-        audioInfoText += latencyMs;
+        float latencyMs =
+            (latencyPoller.knownLatencySamples / track::SAMPLE_RATE) * 1000.f;
+        audioInfoText += juce::String(latencyMs, 1);
         audioInfoText += "ms";
     }
 
