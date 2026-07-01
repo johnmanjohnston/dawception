@@ -30,7 +30,7 @@ DAWception does not have:
 If you can afford to upgrade your DAW, that is most certainly a better option than using DAWception. If you can't, DAWception exists as a workaround.
 
 # Usage
-## Tracks and groups
+Here's a short, to the point usage guide explaining all main features (there aren't many, this isn't a full fledged DAW), nicely sorted into expandable sections:
 <details>
     <summary>Creating tracks and groups</summary>
 
