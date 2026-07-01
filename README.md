@@ -3,6 +3,9 @@ A mini DAW in a plugin. You can add tracks, drag audio clips, and host other plu
 
 An audio plugin developed as a workaround to track count limits in "lower tier versions" of DAWs (like Ableton Live Lite's 8 track limit).
 
+> [!WARNING]
+> DAWception is not released yet, but hopefully will be, very soon!
+
 <figure>
     <img width="1920" height="1024" alt="image" src="https://github.com/user-attachments/assets/5f31f22c-6bf8-4a7d-a0dc-e1ca157066d7" />
     <p align="center">DAWception running within Ableton Live Lite</p>
