@@ -31,6 +31,9 @@ If you can afford to upgrade your DAW, that is most certainly a better option th
 
 # Usage
 Here's a short, to the point usage guide explaining all main features (there aren't many, this isn't a full fledged DAW), nicely sorted into expandable sections:
+
+## Tracks and groups
+
 <details>
     <summary>Creating tracks and groups</summary>
 
@@ -187,13 +190,10 @@ make
 - Build > Build Solution (or do <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>)
 
 ### Running
-If you built a **debug** build:
-    `dawception_artefacts/Debug/VST3/DAWception.vst3`
-    
-If you built a **release** build:
-    `dawception_artefacts/Release/VST3/DAWception.vst3`
+- If you built a **debug** build, move `dawception_artefacts/Debug/VST3/DAWception.vst3`
+- If you built a **release** build, move `dawception_artefacts/Release/VST3/DAWception.vst3`
 
-Move the file to your DAW's VST3 plugin folder.
+to your DAW's VST3 plugin folder.
 Then, scan and add DAWception to any track in your DAW.
 
 # License
