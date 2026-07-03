@@ -6,6 +6,7 @@ Makefile
 cmake_install.cmake
 compile_commands.json
 juce_vst3_helper
+vst3_helpers/
 .cache
 .vs/
 Debug/
