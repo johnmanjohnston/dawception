@@ -153,7 +153,7 @@ git clone https://github.com/juce-framework/JUCE/
 cmake .
 ```
 
-You should then see the required files to build for your platform (Makefile for Linux, Visual Studio solution for Windows).
+You should then see the required files to build for your platform (Makefile for Linux/macOS, Visual Studio solution for Windows).
 
 <details>
     <summary>
@@ -179,7 +179,7 @@ Inside `JUCE/modules/juce_audio_processors/format_types/juce_VST3PluginFormat.cp
 </details>
 
 ### Compiling
-#### Linux
+#### Linux/macOS (Makefile)
 ```bash
 # run make
 make
