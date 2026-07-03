@@ -39,7 +39,7 @@ Here's a short, to the point usage guide explaining all main features (there are
 
 | Description | Screenshot |
 | --- | --- |
-| Use "ADD GROUP" and "ADD TRACK" buttons at top of tracklist | <img width="464" height="46" alt="image" src="https://github.com/user-attachments/assets/3d0456e4-6af6-4922-a3f8-c7b017744e0b" /> |
+| Use "ADD GROUP" and "ADD TRACK" buttons at top of tracklist | <img width="552" height="35" alt="image" src="https://github.com/user-attachments/assets/717ab2a3-cc66-46a5-9369-35e360a3ca23" /> |
 | Right click in the tracklist area to show context menu | <img width="232" height="90" alt="image" src="https://github.com/user-attachments/assets/dde110f0-4e93-4e1f-b0f6-cbd19a535ad3" /> |
 | Right click on a group for context menu to add tracks/groups | <img height="300" alt="image" src="https://github.com/user-attachments/assets/27d2f28b-4993-4665-a3d5-ad2563c5362e" /> |
 </details>
