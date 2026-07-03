@@ -14,6 +14,10 @@ track::ui::CustomLookAndFeel::getInterRegularScaledForPlatforms(float scale) {
     return getInterRegular()
         .withHeight(19.f * scale)
         .withExtraKerningFactor(-.01f);
+#elif JUCE_MAC
+    return getInterRegular()
+        .withHeight(17.f * scale)
+        .withExtraKerningFactor(-.03f);
 #else
     return getInterRegular()
         .withHeight(18.f * scale)
