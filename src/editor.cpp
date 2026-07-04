@@ -69,6 +69,9 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     timelineComponent->setSize(
         4000, juce::jmax(tcHeight, timelineViewport.getHeight()) - 4);
 
+    if (track::AUTO_GRID)
+        track::utility::setAutoGrid();
+
     // addAndMakeVisible(pluginChainComponent);
     // pluginChainComponent.setBounds(1, 1, 1, 1);
     //

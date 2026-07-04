@@ -382,15 +382,6 @@ void track::TimelineComponent::mouseDown(const juce::MouseEvent &event) {
         for (int i = 0; i <= 5; ++i) {
             int x = std::pow(2, i);
 
-            // snap grid
-            gridMenu.addItem("1/" + juce::String(x), true,
-                             SNAP_DIVISION == x && !track::AUTO_GRID,
-                             [this, x] {
-                                 track::AUTO_GRID = false;
-                                 SNAP_DIVISION = x;
-                                 repaint();
-                             });
-
             // shift up
             shiftUpMenu.addItem(juce::String(x) + " bars",
                                 [this, x] { shiftClipByBars(x); });
@@ -398,6 +389,20 @@ void track::TimelineComponent::mouseDown(const juce::MouseEvent &event) {
             // shift down
             shiftDownMenu.addItem(juce::String(x) + " bars",
                                   [this, x] { shiftClipByBars(-x); });
+
+            // snap grid
+            // skip half notes beacuse they are annoying to deal with
+            if (x ==
+                2) // skip half notes because they are annoying to deal with
+                continue;
+            gridMenu.addItem("1/" + juce::String(x), true,
+                             SNAP_DIVISION == (x / 4) && !track::AUTO_GRID,
+                             [this, x] {
+                                 track::AUTO_GRID = false;
+                                 SNAP_DIVISION = x / 4;
+                                 DBG("set snap division to " << SNAP_DIVISION);
+                                 repaint();
+                             });
         }
 
 #define MENU_PASTE_CLIP 1
@@ -584,7 +589,7 @@ void track::TimelineComponent::paint(juce::Graphics &g) {
     for (int i = 0; i < bars; ++i) {
         float barX = i * pxPerBar;
 
-        g.setColour(juce::Colours::red);
+        g.setColour(juce::Colour(0xFF'3C3C3C));
         g.drawVerticalLine(barX, 2, getHeight());
 
         for (int j = 1;
@@ -595,7 +600,7 @@ void track::TimelineComponent::paint(juce::Graphics &g) {
 
             float x = barX + offset;
 
-            g.setColour(juce::Colours::blue);
+            g.setColour(juce::Colour(0xFF'343434));
             g.drawVerticalLine(x, 0, getHeight());
         }
     }

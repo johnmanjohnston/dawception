@@ -59,6 +59,9 @@ void track::TransportStatusComponent::paint(juce::Graphics &g) {
         int totalDivisions = ((elapsedTime / effectiveBeatDuration) * 2);
         int divisionPerBar = timeSignature.numerator * 2;
         division = (totalDivisions % divisionPerBar) + 1;
+    } else {
+        track::TIME_SIGNATURE_NUMERATOR = 4;
+        track::TIME_SIGNATURE_DENOMINATOR = 4;
     }
 
     float cornerSize = 4.f;

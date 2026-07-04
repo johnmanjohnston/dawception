@@ -580,6 +580,7 @@ void track::utility::setAutoGrid() {
         snap++;
 
         SNAP_DIVISION = snap;
+        DBG("SNAP_DIVISION = " << SNAP_DIVISION);
     }
 }
 
