@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
-        printf("usage: ./packaging [version] [ windows | mac | linux ]\n");
+        printf("usage: ./packaging [version] [ windows | macos | linux ]\n");
         return 1;
     }
 
@@ -39,14 +39,15 @@ int main(int argc, char *argv[]) {
 
         fprintf(fptr, "\nOn macOS, this would usually be located "
                       "at:\n\t/Library/Audio/Plug-Ins/VST3/");
-        fprintf(fptr,
-                "\n\nAdditionally, on macOS, because DAWception is not "
-                "signed, macOS stops the plugin from running."
-                "\nTo fix this, open the Terminal app and run "
-                "the following command (adjust VST3 path accordingly):\n\t"
+        fprintf(
+            fptr,
+            "\n\nAdditionally, by default, macOS stops DAWception from running,"
+            " because it is not signed because I am broke."
+            "\nTo fix this, open the Terminal app and run "
+            "the following command (adjust VST3 path if needed):\n\t"
 
-                "xattr -d -r com.apple.quarantine "
-                "/Library/Audio/Plug-Ins/VST3/DAWception.vst3");
+            "xattr -dr com.apple.quarantine "
+            "/Library/Audio/Plug-Ins/VST3/DAWception.vst3");
     } else {
         printf("unknown platform\n");
         fclose(fptr);
