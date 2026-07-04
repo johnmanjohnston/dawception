@@ -930,6 +930,8 @@ track::TrackComponent::TrackComponent(int trackIndex) : juce::Component() {
 
     trackNameLabel.onEditorShow = [this] {
         nameValueAtStartChange = getCorrespondingTrack()->trackName;
+
+        getParentComponent()->repaint();
     };
 
     trackNameLabel.onEditorHide = [this] {
@@ -950,7 +952,7 @@ track::TrackComponent::TrackComponent(int trackIndex) : juce::Component() {
         p->undoManager.beginNewTransaction("action modify trivial node data");
         p->undoManager.perform(action);
 
-        repaint();
+        getParentComponent()->repaint();
 
         sendFocusToTimeline();
     };
@@ -1034,8 +1036,11 @@ track::TrackComponent::TrackComponent(int trackIndex) : juce::Component() {
 
         p->updateImpliedSolos();
         sendFocusToTimeline();
-        getParentComponent()->repaint();
     };
+
+    // onStateChange overrides for mute and solo btn
+    soloBtn.onStateChange = [this] { this->getParentComponent()->repaint(); };
+    muteBtn.onStateChange = [this] { this->getParentComponent()->repaint(); };
 
     panSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox,
                               true, 0, 0);
@@ -1480,7 +1485,7 @@ void track::TrackComponent::paint(juce::Graphics &g) {
 
             juce::Rectangle<int> muteButtonBounds = btnBounds;
             muteButtonBounds.expand(1, 1);
-            g.drawRect(muteButtonBounds);
+            g.drawRect(muteButtonBounds, 2);
         }
 
         if (getCorrespondingTrack()->explicitSolo) {
@@ -1489,7 +1494,7 @@ void track::TrackComponent::paint(juce::Graphics &g) {
 
             juce::Rectangle<int> soloButtonBounds = btnBounds;
             soloButtonBounds.expand(1, 1);
-            g.drawRect(soloButtonBounds);
+            g.drawRect(soloButtonBounds, 2);
         }
     }
 }
