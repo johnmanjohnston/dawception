@@ -15,7 +15,7 @@ track::BarNumbersComponent::~BarNumbersComponent() {}
 void track::BarNumbersComponent::paint(juce::Graphics &g) {
     g.fillAll(juce::Colour(0xDD'2E2E2E));
 
-    DBG("bar number components paint() called");
+    // DBG("bar number components paint() called");
 
     // bar markers
     /*float secondsPerBeat = 60.f / BPM;
@@ -566,12 +566,6 @@ void track::TimelineComponent::paint(juce::Graphics &g) {
     g.fillAll(juce::Colour(0xFF2E2E2E));
 
     // bar markers
-    /*    float secondsPerBeat = 60.f / BPM;
-        float pxPerSecond = UI_ZOOM_MULTIPLIER;
-        float pxPerBeat = secondsPerBeat * pxPerSecond;
-
-        int beats = this->getWidth() / pxPerBeat;*/
-
     int scrollValue = viewport->getVerticalScrollBar().getCurrentRangeStart();
 
     float pxPerBar = track::utility::getPxPerBar(
@@ -593,31 +587,18 @@ void track::TimelineComponent::paint(juce::Graphics &g) {
         g.setColour(juce::Colours::red);
         g.drawVerticalLine(barX, 2, getHeight());
 
-        for (int j = 1; j < track::TIME_SIGNATURE_NUMERATOR; ++j) {
-            float x = barX + (j * (pxPerBar / track::TIME_SIGNATURE_NUMERATOR));
+        for (int j = 1;
+             j < track::TIME_SIGNATURE_NUMERATOR * track::SNAP_DIVISION; ++j) {
+            float offset = (j * (pxPerBar / track::TIME_SIGNATURE_NUMERATOR));
+
+            offset /= track::SNAP_DIVISION;
+
+            float x = barX + offset;
+
             g.setColour(juce::Colours::blue);
             g.drawVerticalLine(x, 0, getHeight());
         }
     }
-
-    // for (int i = 0; i < bars; i += incrementAmount) {
-    //     for (int k = 0; k < incrementAmount && i + k < bars; ++k) {
-    //         // float x = (i + k) * pxPerBar;
-    //
-    //         // draw vertical lines for bar numbers
-    //         // g.setColour(juce::Colour(0xFF'444444).withAlpha(.5f));
-    //         // g.fillRect((int)x, 0, 1, getHeight());
-    //         //
-    //         // // draw lines for grid snapping
-    //         // g.setColour(juce::Colour(0xFF'444444).withAlpha(.3f));
-    //         // for (int j = 0; j < SNAP_DIVISION; ++j) {
-    //         //     int divX = x + ((pxPerBar / SNAP_DIVISION) * j);
-    //         //     g.fillRect(divX, 0, 1, getHeight());
-    //         // }
-    //         //
-    //         // g.fillRect((int)x, 0, 1, getHeight());
-    //     }
-    // }
 
     // horizontal divide line thingy
     g.setColour(juce::Colour(0xFF'1E1E1E).withAlpha(0.4f));

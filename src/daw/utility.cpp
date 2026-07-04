@@ -568,7 +568,7 @@ std::vector<int> track::utility::rWithSize(std::vector<int> r, size_t s) {
 void track::utility::setAutoGrid() {
     if (track::AUTO_GRID) {
         // set grid depending on UI zoom muls
-        int snap = UI_ZOOM_MULTIPLIER / 10;
+        int snap = UI_ZOOM_MULTIPLIER / 28;
 
         // round to nearest power of 2
         snap--;
