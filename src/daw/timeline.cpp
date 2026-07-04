@@ -15,17 +15,18 @@ track::BarNumbersComponent::~BarNumbersComponent() {}
 void track::BarNumbersComponent::paint(juce::Graphics &g) {
     g.fillAll(juce::Colour(0xDD'2E2E2E));
 
+    DBG("bar number components paint() called");
+
     // bar markers
-    float secondsPerBeat = 60.f / BPM;
+    /*float secondsPerBeat = 60.f / BPM;
     float pxPerSecond = UI_ZOOM_MULTIPLIER;
     float pxPerBeat = secondsPerBeat * pxPerSecond;
 
-    int beats = this->getWidth() / pxPerBeat;
+    int beats = this->getWidth() / pxPerBeat;*/
 
-    // TODO: make this work for other time signatures
-    // assuming 4/4 time signature
-    float pxPerBar = pxPerBeat * 4;
-    int bars = beats * 4;
+    float pxPerBar = track::utility::getPxPerBar(
+        track::TIME_SIGNATURE_DENOMINATOR, track::TIME_SIGNATURE_NUMERATOR);
+    int bars = std::ceil(getWidth() / pxPerBar);
 
     // space out markers
     float minSpace = 30.f;
@@ -42,7 +43,9 @@ void track::BarNumbersComponent::paint(juce::Graphics &g) {
 
             if (k == 0) {
                 // draw numbers
-                bounds.setX((int)x + 4);
+
+                bounds.setX(x + 3);
+
                 g.setColour(juce::Colour(0xFF'929292).withAlpha(.8f));
                 g.drawText(juce::String(i + 1), bounds,
                            juce::Justification::left, false);
@@ -246,7 +249,7 @@ bool track::ActionShiftClips::undo() {
 }
 
 void track::ActionShiftClips::shift(int bars) {
-    int beatsPerBar = 4;
+    int beatsPerBar = track::TIME_SIGNATURE_NUMERATOR;
     double secondsPerBar = (60.0 / track::BPM) * beatsPerBar;
     int samplesPerBar = secondsPerBar * track::SAMPLE_RATE;
 
@@ -563,17 +566,17 @@ void track::TimelineComponent::paint(juce::Graphics &g) {
     g.fillAll(juce::Colour(0xFF2E2E2E));
 
     // bar markers
-    float secondsPerBeat = 60.f / BPM;
-    float pxPerSecond = UI_ZOOM_MULTIPLIER;
-    float pxPerBeat = secondsPerBeat * pxPerSecond;
+    /*    float secondsPerBeat = 60.f / BPM;
+        float pxPerSecond = UI_ZOOM_MULTIPLIER;
+        float pxPerBeat = secondsPerBeat * pxPerSecond;
 
-    int beats = this->getWidth() / pxPerBeat;
+        int beats = this->getWidth() / pxPerBeat;*/
+
     int scrollValue = viewport->getVerticalScrollBar().getCurrentRangeStart();
 
-    // TODO: make this work for other time signatures
-    // assuming 4/4 time signature
-    float pxPerBar = pxPerBeat * 4;
-    int bars = beats * 4;
+    float pxPerBar = track::utility::getPxPerBar(
+        track::TIME_SIGNATURE_DENOMINATOR, track::TIME_SIGNATURE_NUMERATOR);
+    int bars = std::ceil(getWidth() / pxPerBar);
 
     // space out markers
     float minSpace = 30.f;
@@ -584,22 +587,37 @@ void track::TimelineComponent::paint(juce::Graphics &g) {
     juce::Rectangle<int> bounds = getLocalBounds();
     bounds.setY(bounds.getY() - (bounds.getHeight() / 2.f) + 10 + scrollValue);
 
-    for (int i = 0; i < bars; i += incrementAmount) {
-        for (int k = 0; k < incrementAmount && i + k < bars; ++k) {
-            float x = (i + k) * pxPerBar;
+    for (int i = 0; i < bars; ++i) {
+        float barX = i * pxPerBar;
 
-            // draw vertical lines for bar numbers
-            g.setColour(juce::Colour(0xFF'444444).withAlpha(.5f));
-            g.fillRect((int)x, 0, 1, getHeight());
+        g.setColour(juce::Colours::red);
+        g.drawVerticalLine(barX, 2, getHeight());
 
-            // draw lines for grid snapping
-            g.setColour(juce::Colour(0xFF'444444).withAlpha(.3f));
-            for (int j = 0; j < SNAP_DIVISION; ++j) {
-                int divX = x + ((pxPerBar / SNAP_DIVISION) * j);
-                g.fillRect(divX, 0, 1, getHeight());
-            }
+        for (int j = 1; j < track::TIME_SIGNATURE_NUMERATOR; ++j) {
+            float x = barX + (j * (pxPerBar / track::TIME_SIGNATURE_NUMERATOR));
+            g.setColour(juce::Colours::blue);
+            g.drawVerticalLine(x, 0, getHeight());
         }
     }
+
+    // for (int i = 0; i < bars; i += incrementAmount) {
+    //     for (int k = 0; k < incrementAmount && i + k < bars; ++k) {
+    //         // float x = (i + k) * pxPerBar;
+    //
+    //         // draw vertical lines for bar numbers
+    //         // g.setColour(juce::Colour(0xFF'444444).withAlpha(.5f));
+    //         // g.fillRect((int)x, 0, 1, getHeight());
+    //         //
+    //         // // draw lines for grid snapping
+    //         // g.setColour(juce::Colour(0xFF'444444).withAlpha(.3f));
+    //         // for (int j = 0; j < SNAP_DIVISION; ++j) {
+    //         //     int divX = x + ((pxPerBar / SNAP_DIVISION) * j);
+    //         //     g.fillRect(divX, 0, 1, getHeight());
+    //         // }
+    //         //
+    //         // g.fillRect((int)x, 0, 1, getHeight());
+    //     }
+    // }
 
     // horizontal divide line thingy
     g.setColour(juce::Colour(0xFF'1E1E1E).withAlpha(0.4f));

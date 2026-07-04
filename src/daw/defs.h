@@ -30,7 +30,10 @@ constexpr int UI_VISUAL_FEEDBACK_FLASH_DURATION_MS = 60;
 
 extern int BPM; // set in playhead
 extern int SNAP_DIVISION;
+extern int PX_PER_GRID;
 extern bool AUTO_GRID;
+extern int TIME_SIGNATURE_NUMERATOR;
+extern int TIME_SIGNATURE_DENOMINATOR;
 
 constexpr int TRIM_REGION_WIDTH = 16;
 

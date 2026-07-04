@@ -4,7 +4,7 @@
 track::TransportStatusComponent::TransportStatusComponent()
     : juce::Component() {}
 
-track::TransportStatusComponent::~TransportStatusComponent(){};
+track::TransportStatusComponent::~TransportStatusComponent() {};
 
 void track::TransportStatusComponent::paint(juce::Graphics &g) {
     // this whole function is absolute cinema
@@ -35,6 +35,11 @@ void track::TransportStatusComponent::paint(juce::Graphics &g) {
         timeSignature =
             *processorRef->getPlayHead()->getPosition()->getTimeSignature();
         ppq = *processorRef->getPlayHead()->getPosition()->getPpqPosition();
+
+        if (track::TIME_SIGNATURE_NUMERATOR != timeSignature.numerator)
+            track::TIME_SIGNATURE_NUMERATOR = timeSignature.numerator;
+        if (track::TIME_SIGNATURE_DENOMINATOR != timeSignature.denominator)
+            track::TIME_SIGNATURE_DENOMINATOR = timeSignature.denominator;
 
         // bar, beat, division calculations
         // https://music.stackexchange.com/questions/109729/how-to-figure-out-the-length-time-in-ms-of-a-bar-from-bpm-and-time-signature
@@ -96,18 +101,20 @@ void track::TransportStatusComponent::paint(juce::Graphics &g) {
     juce::String timeSignatureInfoToDisplay;
     timeSignatureInfoToDisplay.append(juce::String(timeSignature.numerator), 3);
     timeSignatureInfoToDisplay.append("/", 1);
-    timeSignatureInfoToDisplay.append(juce::String(timeSignature.numerator), 3);
+    timeSignatureInfoToDisplay.append(juce::String(timeSignature.denominator),
+                                      3);
 
     g.setColour(juce::Colour(0xFF'CDD8E4).withAlpha(0.7f));
 
 #if JUCE_MAC
-    g.setFont(track::ui::CustomLookAndFeel::getInterRegularScaledForPlatforms(1.5f));
+    g.setFont(
+        track::ui::CustomLookAndFeel::getInterRegularScaledForPlatforms(1.5f));
 #else
     g.setFont(
         getRobotoMonoThin().withHeight(26.f).boldened().withExtraKerningFactor(
             -.06f));
 #endif
- 
+
     g.drawText(timeInfoToDisplay, timeInfoTextRectangle,
                juce::Justification::left, false);
 

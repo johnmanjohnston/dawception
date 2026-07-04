@@ -543,6 +543,16 @@ int track::utility::snapSample(int sample, int division, int offset) {
     return snapped;
 }
 
+int track::utility::getPxPerBeat(int tsDenominator) {
+    float secondsPerQuarterNote = 60.f / track::BPM;
+    float secondsPerBeat = secondsPerQuarterNote * (4.f / tsDenominator);
+    return secondsPerBeat * track::UI_ZOOM_MULTIPLIER;
+}
+
+int track::utility::getPxPerBar(int tsDenominator, int tsNumerator) {
+    return utility::getPxPerBeat(tsDenominator) * tsNumerator;
+}
+
 std::vector<int> track::utility::rWithPopBack(std::vector<int> r) {
     std::vector<int> retval = r;
     retval.pop_back();

@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
             "\n\n[License + Source]\nDAWception is licensed under the AGPLv3. "
             "See LICENSE, or "
             "https://github.com/johnmanjohnston/dawception/blob/main/LICENSE"
-            " for more details.");
+            " for details.");
     fprintf(fptr, "\nDAWception is free and open-source, available at "
                   "https://github.com/johnmanjohnston/dawception/");
 

@@ -67,6 +67,8 @@ void clearSubwindows(void *e);
 
 bool clipsEqual(track::clip x, track::clip y);
 int snapSample(int sample, int division, int offset = 0);
+int getPxPerBeat(int tsDenominator);
+int getPxPerBar(int tsDenominator, int tsNumerator);
 
 std::vector<int> rWithPopBack(std::vector<int> r);
 std::vector<int> rWithSize(std::vector<int> r, size_t s);
