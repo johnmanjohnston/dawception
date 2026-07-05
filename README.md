@@ -148,6 +148,21 @@ cd dawception
 git clone https://github.com/juce-framework/JUCE/
 ```
 
+<details>
+    <summary><b>JUCE dependencies for Linux</b></summary>
+<br>
+    
+You can install dependencies with the `apt` package manager by running:
+```bash
+sudo apt install libasound2-dev libjack-jackd2-dev \
+    libfreetype-dev libfontconfig1-dev \
+    libx11-dev libxcomposite-dev libxcursor-dev libxext-dev libxinerama-dev libxrandr-dev libxrender-dev \
+    libglu1-mesa-dev mesa-common-dev
+```
+You should then be able to compile JUCE without any errors.
+<br> <br>
+</details>
+
 ```bash
 # generate build files with CMake
 cmake .
