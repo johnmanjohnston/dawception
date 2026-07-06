@@ -24,8 +24,7 @@ void track::BarNumbersComponent::paint(juce::Graphics &g) {
 
     int beats = this->getWidth() / pxPerBeat;*/
 
-    float pxPerBar = track::utility::getPxPerBar(
-        track::TIME_SIGNATURE_DENOMINATOR, track::TIME_SIGNATURE_NUMERATOR);
+    float pxPerBar = track::utility::getPxPerBar();
     int bars = std::ceil(getWidth() / pxPerBar);
 
     // space out markers
@@ -394,17 +393,30 @@ void track::TimelineComponent::mouseDown(const juce::MouseEvent &event) {
             // skip half notes beacuse they are annoying to deal with
             if (x == 2)
                 continue;
-            gridMenu.addItem("1/" + juce::String(x), true,
-                             juce::approximatelyEqual(
-                                 SNAP_DIVISIONS_PER_QUARTER_NOTE, x / 4.f) &&
-                                 !track::AUTO_GRID,
-                             [this, x] {
-                                 track::AUTO_GRID = false;
-                                 SNAP_DIVISIONS_PER_QUARTER_NOTE = x / 4.f;
-                                 DBG("set snap division to "
-                                     << SNAP_DIVISIONS_PER_QUARTER_NOTE);
-                                 repaint();
-                             });
+            gridMenu.addItem(
+                "1/" + juce::String(x), true,
+                (juce::approximatelyEqual(SNAP_DIVISIONS_PER_QUARTER_NOTE,
+                                          x / 4.f) ||
+                 (track::TIME_SIGNATURE_NUMERATOR % 3 == 0 &&
+                  juce::approximatelyEqual(SNAP_DIVISIONS_PER_QUARTER_NOTE,
+                                           0.f) &&
+                  x == 1)) &&
+                    !track::AUTO_GRID,
+                [this, x] {
+                    track::AUTO_GRID = false;
+                    SNAP_DIVISIONS_PER_QUARTER_NOTE = x / 4.f;
+
+                    if (track::TIME_SIGNATURE_NUMERATOR % 3 == 0 &&
+                        juce::approximatelyEqual(
+                            SNAP_DIVISIONS_PER_QUARTER_NOTE, 0.25f)) {
+                        DBG("annoying time signature override in place");
+                        SNAP_DIVISIONS_PER_QUARTER_NOTE = 0.f;
+                    }
+
+                    DBG("set snap division to "
+                        << SNAP_DIVISIONS_PER_QUARTER_NOTE);
+                    repaint();
+                });
         }
 
 #define MENU_PASTE_CLIP 1
@@ -575,8 +587,7 @@ void track::TimelineComponent::paint(juce::Graphics &g) {
     // bar markers
     int scrollValue = viewport->getVerticalScrollBar().getCurrentRangeStart();
 
-    float pxPerBar = track::utility::getPxPerBar(
-        track::TIME_SIGNATURE_DENOMINATOR, track::TIME_SIGNATURE_NUMERATOR);
+    float pxPerBar = track::utility::getPxPerBar();
     int bars = std::ceil(getWidth() / pxPerBar);
 
     // space out markers

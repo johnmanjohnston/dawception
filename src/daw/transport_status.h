@@ -10,6 +10,8 @@ class TransportStatusComponent : public juce::Component {
 
     void paint(juce::Graphics &g) override;
 
+    void repaintTimeline();
+
     AudioPluginAudioProcessor *processorRef = nullptr;
 
     // visual studio is an absolute truckload of shit

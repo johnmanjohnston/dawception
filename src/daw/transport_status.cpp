@@ -1,4 +1,5 @@
 #include "transport_status.h"
+#include "../editor.h"
 #include "../lookandfeel.h"
 
 track::TransportStatusComponent::TransportStatusComponent()
@@ -10,7 +11,7 @@ void track::TransportStatusComponent::paint(juce::Graphics &g) {
     // this whole function is absolute cinema
 
     // get time info
-    // TODO: timing calculations don't work properly for some time signatures
+    // T/DO: timing calculations don't work properly for some time signatures
     // like 6/8; that's now a problem for future me
     // future john here. fuck you
     double ppq = -1.0;
@@ -21,26 +22,25 @@ void track::TransportStatusComponent::paint(juce::Graphics &g) {
     int division = -1;
     juce::AudioPlayHead::TimeSignature timeSignature;
 
-    double sampleRate = processorRef->getSampleRate();
-    double curSample = -1;
-
     // check if host DAW supplies tempo to make sure that the host DAW actually
     // exists, because getPlayHead() doesn't return nullptr sometimes for some
     // reason, leading to segfault
     if (processorRef->getPlayHead() != nullptr &&
         processorRef->getPlayHead()->getPosition()->getBpm().hasValue()) {
         // yoink data from host DAW
-        curSample =
-            *processorRef->getPlayHead()->getPosition()->getTimeInSamples();
         tempo = *processorRef->getPlayHead()->getPosition()->getBpm();
         timeSignature =
             *processorRef->getPlayHead()->getPosition()->getTimeSignature();
         ppq = *processorRef->getPlayHead()->getPosition()->getPpqPosition();
 
-        if (track::TIME_SIGNATURE_NUMERATOR != timeSignature.numerator)
+        if (track::TIME_SIGNATURE_NUMERATOR != timeSignature.numerator) {
             track::TIME_SIGNATURE_NUMERATOR = timeSignature.numerator;
-        if (track::TIME_SIGNATURE_DENOMINATOR != timeSignature.denominator)
+            repaintTimeline();
+        }
+        if (track::TIME_SIGNATURE_DENOMINATOR != timeSignature.denominator) {
             track::TIME_SIGNATURE_DENOMINATOR = timeSignature.denominator;
+            repaintTimeline();
+        }
 
         // bar, beat, division calculations
         // https://music.stackexchange.com/questions/109729/how-to-figure-out-the-length-time-in-ms-of-a-bar-from-bpm-and-time-signature
@@ -53,24 +53,11 @@ void track::TransportStatusComponent::paint(juce::Graphics &g) {
         beat = (int)((std::fmod(ppq, barLength) / beatLength) + 1);
 
         // calculate 8th note divisions from sample counts
-        float beatDuration = 60.f / tempo;
-
-        float mul = 4.f / timeSignature.denominator;
-        float effectiveBeatDuration = beatDuration * mul;
-
-        float elapsedTime = curSample / sampleRate;
-
-        // int totalDivisions = ((elapsedTime / effectiveBeatDuration) * 2);
-        // int divisionPerBar = timeSignature.numerator * 2;
-        // division = ((totalDivisions % divisionPerBar) %
-        // timeSignature.numerator) + 1;
-
-        double sixteenthLength = 0.25;
         int passedSixteenths = ppq * 4;
         int sixteenthsPerBeat = 16 / timeSignature.denominator;
         division = (passedSixteenths % sixteenthsPerBeat) + 1;
     } else {
-        track::TIME_SIGNATURE_NUMERATOR = 3;
+        track::TIME_SIGNATURE_NUMERATOR = 4;
         track::TIME_SIGNATURE_DENOMINATOR = 4;
     }
 
@@ -136,4 +123,11 @@ void track::TransportStatusComponent::paint(juce::Graphics &g) {
 
     g.drawText(timeSignatureInfoToDisplay, timeInfoTextRectangle,
                juce::Justification::right, false);
+}
+
+void track::TransportStatusComponent::repaintTimeline() {
+    AudioPluginAudioProcessorEditor *editor =
+        (AudioPluginAudioProcessorEditor *)
+            juce::Component::getParentComponent();
+    editor->timelineComponent->repaint();
 }

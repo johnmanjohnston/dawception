@@ -542,12 +542,8 @@ int track::utility::snapSample(int sample, float division, int offset) {
 
     int snapped = -1;
 
-    double secondsPerBar = (240.0 * (double)track::TIME_SIGNATURE_NUMERATOR /
-                            (double)track::TIME_SIGNATURE_DENOMINATOR) /
-                           (double)track::BPM;
-    int samplesPerBar = secondsPerBar * track::SAMPLE_RATE;
-    int snapDivisions =
-        juce::jmax(track::TIME_SIGNATURE_NUMERATOR * division, 1.f);
+    int samplesPerBar = getSamplesPerBar();
+    int snapDivisions = getGridDivisionsPerBar();
     int samplesPerSnap = samplesPerBar / snapDivisions;
 
     snapped = samplesPerSnap * std::round(sample / samplesPerSnap);
@@ -556,14 +552,27 @@ int track::utility::snapSample(int sample, float division, int offset) {
     return snapped;
 }
 
-int track::utility::getPxPerBeat(int tsDenominator) {
-    float secondsPerQuarterNote = 60.f / track::BPM;
-    float secondsPerBeat = secondsPerQuarterNote * (4.f / tsDenominator);
-    return secondsPerBeat * track::UI_ZOOM_MULTIPLIER;
+double track::utility::getSecondsPerBar() {
+    return (240.0 * (double)track::TIME_SIGNATURE_NUMERATOR /
+            (double)track::TIME_SIGNATURE_DENOMINATOR) /
+           (double)track::BPM;
 }
 
-int track::utility::getPxPerBar(int tsDenominator, int tsNumerator) {
-    return utility::getPxPerBeat(tsDenominator) * tsNumerator;
+int track::utility::getSamplesPerBar() {
+    return getSecondsPerBar() * track::SAMPLE_RATE;
+}
+
+int track::utility::getGridDivisionsPerBar() {
+    return (int)juce::jmax(track::TIME_SIGNATURE_NUMERATOR *
+                               track::SNAP_DIVISIONS_PER_QUARTER_NOTE,
+                           1.f);
+}
+
+int track::utility::getPxPerBar() {
+    // return utility::getPxPerBeat(tsDenominator) * tsNumerator;
+    // x = (sample * zoom) / sr
+
+    return getSamplesPerBar() / track::SAMPLE_RATE * track::UI_ZOOM_MULTIPLIER;
 }
 
 std::vector<int> track::utility::rWithPopBack(std::vector<int> r) {
