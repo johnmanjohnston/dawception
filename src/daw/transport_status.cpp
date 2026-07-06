@@ -45,10 +45,11 @@ void track::TransportStatusComponent::paint(juce::Graphics &g) {
         // bar, beat, division calculations
         // https://music.stackexchange.com/questions/109729/how-to-figure-out-the-length-time-in-ms-of-a-bar-from-bpm-and-time-signature
         // 4 * N / D = length of bar in quarter notes (@Bavi_H's answer)
-        double barLength = 4.0 * timeSignature.numerator / timeSignature.denominator;
+        double barLength =
+            4.0 * timeSignature.numerator / timeSignature.denominator;
         bar = (int)(ppq / barLength) + 1;
         // beat = (ppq % timeSignature.numerator) + 1;
-        double beatLength = 4.0 / (double)timeSignature.denominator; 
+        double beatLength = 4.0 / (double)timeSignature.denominator;
         beat = (int)((std::fmod(ppq, barLength) / beatLength) + 1);
 
         // calculate 8th note divisions from sample counts
@@ -61,14 +62,15 @@ void track::TransportStatusComponent::paint(juce::Graphics &g) {
 
         // int totalDivisions = ((elapsedTime / effectiveBeatDuration) * 2);
         // int divisionPerBar = timeSignature.numerator * 2;
-        // division = ((totalDivisions % divisionPerBar) % timeSignature.numerator) + 1;
-    
-        double sixteenthLength = 0.25; 
+        // division = ((totalDivisions % divisionPerBar) %
+        // timeSignature.numerator) + 1;
+
+        double sixteenthLength = 0.25;
         int passedSixteenths = ppq * 4;
         int sixteenthsPerBeat = 16 / timeSignature.denominator;
         division = (passedSixteenths % sixteenthsPerBeat) + 1;
     } else {
-        track::TIME_SIGNATURE_NUMERATOR = 4;
+        track::TIME_SIGNATURE_NUMERATOR = 3;
         track::TIME_SIGNATURE_DENOMINATOR = 4;
     }
 

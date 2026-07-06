@@ -29,7 +29,7 @@ constexpr int UI_SUBWINDOW_SHADOW_SPREAD = 4;
 constexpr int UI_VISUAL_FEEDBACK_FLASH_DURATION_MS = 60;
 
 extern int BPM; // set in playhead
-extern int SNAP_DIVISION;
+extern float SNAP_DIVISIONS_PER_QUARTER_NOTE;
 extern int PX_PER_GRID;
 extern bool AUTO_GRID;
 extern int TIME_SIGNATURE_NUMERATOR;

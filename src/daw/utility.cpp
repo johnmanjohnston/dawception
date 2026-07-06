@@ -529,16 +529,29 @@ bool track::utility::clipsEqual(track::clip x, track::clip y) {
     return retval;
 }
 
-int track::utility::snapSample(int sample, int division, int offset) {
-    if (division == 0)
-        division = 1;
+int track::utility::snapSample(int sample, float division, int offset) {
+    jassert(division != 0.f);
 
+    /*
     double secondsPerBeat = 60.f / BPM;
     int samplesPerBar = (secondsPerBeat * SAMPLE_RATE) * 4; // for 4/4
     int samplesPerSnap = samplesPerBar / division;
 
     int snapped = (((sample + samplesPerSnap / 2) / samplesPerSnap) + offset) *
-                  samplesPerSnap;
+                  samplesPerSnap;*/
+
+    int snapped = -1;
+
+    double secondsPerBar = (240.0 * (double)track::TIME_SIGNATURE_NUMERATOR /
+                            (double)track::TIME_SIGNATURE_DENOMINATOR) /
+                           (double)track::BPM;
+    int samplesPerBar = secondsPerBar * track::SAMPLE_RATE;
+    int snapDivisions =
+        juce::jmax(track::TIME_SIGNATURE_NUMERATOR * division, 1.f);
+    int samplesPerSnap = samplesPerBar / snapDivisions;
+
+    snapped = samplesPerSnap * std::round(sample / samplesPerSnap);
+    snapped += offset;
 
     return snapped;
 }
@@ -568,7 +581,7 @@ std::vector<int> track::utility::rWithSize(std::vector<int> r, size_t s) {
 void track::utility::setAutoGrid() {
     if (track::AUTO_GRID) {
         // set grid depending on UI zoom muls
-        int snap = UI_ZOOM_MULTIPLIER / 28;
+        int snap = UI_ZOOM_MULTIPLIER / 12;
 
         // round to nearest power of 2
         snap--;
@@ -579,8 +592,19 @@ void track::utility::setAutoGrid() {
         snap |= snap >> 16;
         snap++;
 
-        SNAP_DIVISION = snap;
-        DBG("SNAP_DIVISION = " << SNAP_DIVISION);
+        // convert from bars to be relative to quarter note
+        SNAP_DIVISIONS_PER_QUARTER_NOTE = snap;
+        SNAP_DIVISIONS_PER_QUARTER_NOTE /= 4.f;
+
+        // buuut if it isn't 4/4, then i don't want to deal with that shit. set
+        // grid to quarter note
+        if ((track::TIME_SIGNATURE_NUMERATOR != 4 ||
+             track::TIME_SIGNATURE_DENOMINATOR != 4) &&
+            SNAP_DIVISIONS_PER_QUARTER_NOTE < 1.f)
+            SNAP_DIVISIONS_PER_QUARTER_NOTE = 1.f;
+
+        DBG("SNAP_DIVISION = " << SNAP_DIVISIONS_PER_QUARTER_NOTE
+                               << "; original snap = " << snap * 4);
     }
 }
 

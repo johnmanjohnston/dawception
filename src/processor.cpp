@@ -499,7 +499,8 @@ void AudioPluginAudioProcessor::getStateInformation(
     projectSettings->setAttribute("samplesperblock", track::SAMPLES_PER_BLOCK);
     projectSettings->setAttribute("mastergain", *this->masterGain);
     projectSettings->setAttribute("autogrid", track::AUTO_GRID);
-    projectSettings->setAttribute("snapdivision", track::SNAP_DIVISION);
+    projectSettings->setAttribute("snapdivision",
+                                  track::SNAP_DIVISIONS_PER_QUARTER_NOTE);
 
     juce::XmlElement *knownPlugins = new juce::XmlElement("knownplugins");
     for (auto &p : knownPluginList.getTypes()) {
@@ -578,7 +579,7 @@ void AudioPluginAudioProcessor::setStateInformation(const void *data,
             (float)projectSettings->getDoubleAttribute("mastergain", 1.0);
 
         track::AUTO_GRID = projectSettings->getBoolAttribute("autogrid", true);
-        track::SNAP_DIVISION =
+        track::SNAP_DIVISIONS_PER_QUARTER_NOTE =
             projectSettings->getIntAttribute("snapdivision", 4);
 
         DBG("sample rate on deserialization: " << getSampleRate());

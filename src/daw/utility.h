@@ -66,7 +66,7 @@ void openRelayParamWindows(std::vector<int> nodeRoute,
 void clearSubwindows(void *e);
 
 bool clipsEqual(track::clip x, track::clip y);
-int snapSample(int sample, int division, int offset = 0);
+int snapSample(int sample, float division, int offset = 0);
 int getPxPerBeat(int tsDenominator);
 int getPxPerBar(int tsDenominator, int tsNumerator);
 

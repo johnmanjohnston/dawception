@@ -392,15 +392,17 @@ void track::TimelineComponent::mouseDown(const juce::MouseEvent &event) {
 
             // snap grid
             // skip half notes beacuse they are annoying to deal with
-            if (x ==
-                2) // skip half notes because they are annoying to deal with
+            if (x == 2)
                 continue;
             gridMenu.addItem("1/" + juce::String(x), true,
-                             SNAP_DIVISION == (x / 4) && !track::AUTO_GRID,
+                             juce::approximatelyEqual(
+                                 SNAP_DIVISIONS_PER_QUARTER_NOTE, x / 4.f) &&
+                                 !track::AUTO_GRID,
                              [this, x] {
                                  track::AUTO_GRID = false;
-                                 SNAP_DIVISION = x / 4;
-                                 DBG("set snap division to " << SNAP_DIVISION);
+                                 SNAP_DIVISIONS_PER_QUARTER_NOTE = x / 4.f;
+                                 DBG("set snap division to "
+                                     << SNAP_DIVISIONS_PER_QUARTER_NOTE);
                                  repaint();
                              });
         }
@@ -592,11 +594,12 @@ void track::TimelineComponent::paint(juce::Graphics &g) {
         g.setColour(juce::Colour(0xFF'3C3C3C));
         g.drawVerticalLine(barX, 2, getHeight());
 
-        for (int j = 1;
-             j < track::TIME_SIGNATURE_NUMERATOR * track::SNAP_DIVISION; ++j) {
+        for (int j = 1; j < track::TIME_SIGNATURE_NUMERATOR *
+                                track::SNAP_DIVISIONS_PER_QUARTER_NOTE;
+             ++j) {
             float offset = (j * (pxPerBar / track::TIME_SIGNATURE_NUMERATOR));
 
-            offset /= track::SNAP_DIVISION;
+            offset /= track::SNAP_DIVISIONS_PER_QUARTER_NOTE;
 
             float x = barX + offset;
 

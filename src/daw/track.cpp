@@ -410,11 +410,12 @@ void track::ClipComponent::mouseDrag(const juce::MouseEvent &event) {
                 // absolute snap position ON THE GRID
                 int absoluteLeftBoundary =
                     startDragStartPositionSample + newTrimLeft;
-                int snappedAbsolute =
-                    utility::snapSample(absoluteLeftBoundary, SNAP_DIVISION);
+                int snappedAbsolute = utility::snapSample(
+                    absoluteLeftBoundary, SNAP_DIVISIONS_PER_QUARTER_NOTE);
                 newTrimLeft = snappedAbsolute - startDragStartPositionSample;
 
-                newTrimLeft = utility::snapSample(newTrimLeft, SNAP_DIVISION);
+                newTrimLeft = utility::snapSample(
+                    newTrimLeft, SNAP_DIVISIONS_PER_QUARTER_NOTE);
             }
 
             int trimDelta = newTrimLeft - startTrimLeftPositionSample;
@@ -437,8 +438,8 @@ void track::ClipComponent::mouseDrag(const juce::MouseEvent &event) {
                     correspondingClip->buffer.getNumSamples() -
                     correspondingClip->trimLeft - newTrimRight;
 
-                int snappedAbsolute =
-                    utility::snapSample(absoluteRightBoundary, SNAP_DIVISION);
+                int snappedAbsolute = utility::snapSample(
+                    absoluteRightBoundary, SNAP_DIVISIONS_PER_QUARTER_NOTE);
 
                 newTrimRight = correspondingClip->startPositionSample +
                                correspondingClip->buffer.getNumSamples() -
@@ -460,7 +461,8 @@ void track::ClipComponent::mouseDrag(const juce::MouseEvent &event) {
 
     int newStartPos = event.mods.isAltDown()
                           ? rawSamplePos
-                          : utility::snapSample(rawSamplePos, SNAP_DIVISION);
+                          : utility::snapSample(
+                                rawSamplePos, SNAP_DIVISIONS_PER_QUARTER_NOTE);
 
     correspondingClip->startPositionSample = newStartPos;
 
