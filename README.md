@@ -107,8 +107,8 @@ Here's a short, to the point usage guide explaining all main features (there are
 <details>
     <summary>Your DAW (<i>cough</i> Ableton <i>cough</i>) doesn't show all 128 automatable parameters?</summary>
     Your DAW might refuse to show so many automatable parameters by default, the fix is dependent on the DAW you use. If you're using Ableton, to fix this: <br> <br>
-    <figure>
-        <p>In Ableton, click "Configure"</p>
+    <figure>\
+        <p>In Ableton, click "Configure"</p>\
         <img width="251" height="204" alt="image" src="https://github.com/user-attachments/assets/329084c1-165d-4f40-9943-8357d0a05453" />
     </figure> <br>
     <figure>
@@ -133,6 +133,20 @@ Linux: TODO
 Windows: TODO
 
 macOS: TODO
+<br> <br>
+Extract the ZIP file, and move `DAWception.vst3` to your DAW's VST3 plugin folder.
+
+Your DAW's VST3 folder is usually located on
+- Linux, at: `~/.vst3/` (user) or `/usr/lib/vst3/` (global)
+- Windows, at: `C:\Program Files\Common Files\VST3\`
+- macOS, at: `/Library/Audio/Plug-Ins/VST3/`
+
+> [!WARNING]
+> If you are on macOS, DAWception won't immediately run in your DAW (because DAWception is not signed because I am broke).
+> To fix this, open the Terminal app, and run the following command (adjust the path if needed):
+> ```bash
+> sudo xattr -dr com.apple.quarantine /Library/Audio/Plug-Ins/VST3/DAWception.vst3
+> ```
 
 ### Older Versions
 For older builds, from the Releases section, download the appropriate build for your platform.
