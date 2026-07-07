@@ -654,8 +654,6 @@ void track::PluginNodeComponent::toggleBypass() {
     pcc->processor->undoManager.beginNewTransaction(
         "action change trivial plugin data");
     pcc->processor->undoManager.perform(action);
-
-    repaint();
 }
 
 void track::PluginNodeComponent::openThisPluginsEditor() {
