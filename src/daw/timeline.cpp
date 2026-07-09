@@ -428,7 +428,9 @@ void track::TimelineComponent::mouseDown(const juce::MouseEvent &event) {
             ((y + (UI_TRACK_HEIGHT / 2)) / UI_TRACK_HEIGHT) - 1;
 
         bool clickedUnderValidNode =
-            nodeDisplayIndex < (int)viewport->tracklist->trackComponents.size();
+            nodeDisplayIndex <
+                (int)viewport->tracklist->trackComponents.size() &&
+            nodeDisplayIndex >= 0;
 
         bool clickedUnderValidTrack = false;
         if (clickedUnderValidNode) {
