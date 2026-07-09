@@ -846,14 +846,33 @@ void AudioPluginAudioProcessorEditor::scan() {
 void AudioPluginAudioProcessorEditor::lazyScan() {
     processorRef.knownPluginList.clear();
 
+    juce::String vst3path = "";
+
+#if JUCE_LINUX
+    vst3path = "~/.vst3/";
+    if (!juce::File(vst3path).exists())
+        vst3path = "/usr/lib/vst3/";
+#elif JUCE_WINDOWS
+    vst3path = "C:\\Program Files\\Common Files\\VST3\\";
+    if (!juce::File(vst3path).exists())
+        vst3path = "D:\\Program Files\\Common Files\\VST3\\";
+#elif JUCE_MAC
+    vst3path = "/Library/Audio/Plug-Ins/VST3/"
+#endif
+    DBG("tried vst3 path as " << vst3path);
+
+    if (vst3path == "" || !juce::File(vst3path).exists()) {
+        vst3path = juce::File::getSpecialLocation(juce::File::userHomeDirectory)
+                       .getFullPathName();
+        DBG("couldn't find default VST3 folder");
+    }
+
+    DBG("opening file chooser...");
     fileChooser = std::make_unique<juce::FileChooser>(
-        "Select folders to scan...",
-        juce::File::getSpecialLocation(juce::File::userHomeDirectory),
-        "*.vst3");
+        "Select folders to scan...", juce::File(vst3path), "*.vst3");
 
     int flags = juce::FileBrowserComponent::openMode |
-                juce::FileBrowserComponent::canSelectDirectories |
-                juce::FileBrowserComponent::canSelectMultipleItems;
+                juce::FileBrowserComponent::canSelectDirectories;
 
     fileChooser->launchAsync(flags, [this](const juce::FileChooser &chooser) {
         for (auto searchDir : chooser.getResults()) {
