@@ -559,7 +559,7 @@ double track::utility::getSecondsPerBar() {
 }
 
 int track::utility::getSamplesPerBar() {
-    return getSecondsPerBar() * track::SAMPLE_RATE;
+    return (double)getSecondsPerBar() * (double)track::SAMPLE_RATE;
 }
 
 int track::utility::getGridDivisionsPerBar() {
@@ -568,11 +568,11 @@ int track::utility::getGridDivisionsPerBar() {
                            1.f);
 }
 
-int track::utility::getPxPerBar() {
+double track::utility::getPxPerBar() {
     // return utility::getPxPerBeat(tsDenominator) * tsNumerator;
     // x = (sample * zoom) / sr
 
-    return getSamplesPerBar() / track::SAMPLE_RATE * track::UI_ZOOM_MULTIPLIER;
+    return getSecondsPerBar() * track::UI_ZOOM_MULTIPLIER;
 }
 
 std::vector<int> track::utility::rWithPopBack(std::vector<int> r) {

@@ -24,7 +24,7 @@ void track::BarNumbersComponent::paint(juce::Graphics &g) {
 
     int beats = this->getWidth() / pxPerBeat;*/
 
-    float pxPerBar = track::utility::getPxPerBar();
+    double pxPerBar = track::utility::getPxPerBar();
     int bars = std::ceil(getWidth() / pxPerBar);
 
     // space out markers
@@ -589,7 +589,8 @@ void track::TimelineComponent::paint(juce::Graphics &g) {
     // bar markers
     int scrollValue = viewport->getVerticalScrollBar().getCurrentRangeStart();
 
-    float pxPerBar = track::utility::getPxPerBar();
+    double pxPerBar = track::utility::getPxPerBar();
+    DBG("TimelineComponent::paint() called, pxPerBar = " << pxPerBar);
     int bars = std::ceil(getWidth() / pxPerBar);
 
     // space out markers

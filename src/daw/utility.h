@@ -72,7 +72,7 @@ int getSamplesPerBar();
 int getGridDivisionsPerBar();
 
 int snapSample(int sample, float division, int offset = 0);
-int getPxPerBar();
+double getPxPerBar();
 
 std::vector<int> rWithPopBack(std::vector<int> r);
 std::vector<int> rWithSize(std::vector<int> r, size_t s);
