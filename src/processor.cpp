@@ -17,7 +17,7 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
               ),
       juce::ChangeBroadcaster() {
     addParameter(masterGain = new juce::AudioParameterFloat("master", "Master",
-                                                            0.f, 6.f, 1.f));
+                                                            0.f, 4.f, 1.f));
 
     DBG("track v" << VERSION_STRING);
 

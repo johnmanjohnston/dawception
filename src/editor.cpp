@@ -78,6 +78,12 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 
     masterSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox,
                                  true, 0, 0);
+    masterSlider.setPopupDisplayEnabled(true, true, this, 2000);
+    masterSlider.textFromValueFunction = [](double x) {
+        double db = juce::Decibels::gainToDecibels(x);
+        return juce::String(db, 1) + "dB";
+    };
+
     this->updateTimelineComponentScrollbars();
 
     configBtn.setButtonText("CONFIG");
@@ -431,7 +437,7 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
 }
 
 void AudioPluginAudioProcessorEditor::resized() {
-    masterSlider.setBounds(((getWidth() / 3) * 2) - 30, -8, 200, 70);
+    masterSlider.setBounds(((getWidth() / 3) * 2) - 30, 12, 200, 30);
 
     int timeInfoBgWidth = 280;
     int timeInfoBgHeight = 40;
