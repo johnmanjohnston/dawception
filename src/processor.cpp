@@ -23,8 +23,10 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
 
     updateLatencyAfterDelay();
 
-    addParameter(johnInt =
-                     new juce::AudioParameterInt("john", "john", 0, 1, 0));
+    juce::AudioParameterIntAttributes johnAttr =
+        juce::AudioParameterIntAttributes().withAutomatable(false);
+    addParameter(johnInt = new juce::AudioParameterInt("john", "john", 0, 1, 0,
+                                                       johnAttr));
 
     for (int i = 0; i < 128; ++i) {
         juce::String paramID = "param_" + juce::String(i);
@@ -32,8 +34,6 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
             new juce::AudioParameterFloat(paramID, paramID, 0.f, 100.f, 0.f);
 
         addParameter(param);
-
-        // DBG("added " << paramID);
     }
 
     for (int i = 0; i < getParameters().size(); ++i) {
@@ -80,11 +80,7 @@ bool AudioPluginAudioProcessor::isMidiEffect() const {
 
 double AudioPluginAudioProcessor::getTailLengthSeconds() const { return 0.0; }
 
-int AudioPluginAudioProcessor::getNumPrograms() {
-    return 1; // NB: some hosts don't cope very well if you tell them there are
-              // 0 programs, so this should be at least 1, even if you're not
-              // really implementing programs.
-}
+int AudioPluginAudioProcessor::getNumPrograms() { return 1; }
 
 int AudioPluginAudioProcessor::getCurrentProgram() { return 0; }
 
@@ -195,12 +191,7 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
     prepared = true;
 }
 
-void AudioPluginAudioProcessor::releaseResources() {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
-    // if (plugin != nullptr)
-    // plugin->releaseResources();
-}
+void AudioPluginAudioProcessor::releaseResources() {}
 
 bool AudioPluginAudioProcessor::isBusesLayoutSupported(
     const BusesLayout &layouts) const {
@@ -208,15 +199,10 @@ bool AudioPluginAudioProcessor::isBusesLayoutSupported(
     juce::ignoreUnused(layouts);
     return true;
 #else
-    // This is the place where you check if the layout is supported.
-    // In this template code we only support mono or stereo.
-    // Some plugin hosts, such as certain GarageBand versions, will only
-    // load plugins that support stereo bus layouts.
     if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono() &&
         layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
         return false;
 
-    // This checks if the input layout matches the output layout
 #if !JucePlugin_IsSynth
     if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
         return false;
@@ -231,36 +217,16 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
     juce::ignoreUnused(midiMessages);
 
     juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // DBG(foundPlugins[0]->name);
-
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear(i, 0, buffer.getNumSamples());
-
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    //
-
-    auto playhead = getPlayHead();
+    juce::AudioPlayHead *playhead = getPlayHead();
     bool playheadExists = playhead != nullptr;
 
     bool temporaryThing = false;
     if (temporaryThing) {
         // process tracks; tracks populate their internal buffer
-        for (track::audioNode &t : tracks) {
-            t.process(buffer.getNumSamples(), 44100);
+        for (size_t i = 0; i < tracks.size(); ++i) {
+            tracks[i].process(buffer.getNumSamples(), 44100);
         }
     }
 
@@ -270,38 +236,28 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
             int currentSample = *playhead->getPosition()->getTimeInSamples();
 
             // process tracks; tracks populate their internal buffer
-            for (track::audioNode &t : tracks) {
-                t.process(buffer.getNumSamples(), currentSample);
+            for (size_t i = 0; i < tracks.size(); ++i) {
+                tracks[i].process(buffer.getNumSamples(), currentSample);
             }
 
             // sum track buffers
-            for (track::audioNode &t : tracks) {
+            for (size_t i = 0; i < tracks.size(); ++i) {
                 for (int channel = 0; channel < totalNumOutputChannels;
                      ++channel) {
 
-                    buffer.addFrom(channel, 0, t.buffer, channel, 0,
+                    buffer.addFrom(channel, 0, tracks[i].buffer, channel, 0,
                                    buffer.getNumSamples());
                 }
             }
         }
     }
 
-    for (int channel = 0; channel < totalNumInputChannels; ++channel) {
-        auto *channelData = buffer.getWritePointer(channel);
-        juce::ignoreUnused(channelData);
-    }
-
     buffer.applyGain(*masterGain);
 }
 
-bool AudioPluginAudioProcessor::hasEditor() const {
-    return true; // (change this to false if you choose to not supply an editor)
-}
+bool AudioPluginAudioProcessor::hasEditor() const { return true; }
 
 juce::AudioProcessorEditor *AudioPluginAudioProcessor::createEditor() {
-    // if (plugin != nullptr)
-    // return plugin->createEditorIfNeeded();
-
     return new AudioPluginAudioProcessorEditor(*this);
 }
 
@@ -654,9 +610,7 @@ void AudioPluginAudioProcessor::requireSaving() {
     johnInt->setValueNotifyingHost(*johnInt == 0 ? 1 : 0);
 }
 
-void AudioPluginAudioProcessor::reset() {
-    // if (plugin != nullptr) plugin.reset();
-}
+void AudioPluginAudioProcessor::reset() {}
 
 void AudioPluginAudioProcessor::updateImpliedSolos() {
     // if node is marked solo, all nodes leading up to it are marked solo
@@ -760,8 +714,6 @@ void AudioPluginAudioProcessor::findImpliedSolos(std::vector<int> route,
         route.pop_back();
     }
 }
-// This creates new instances of the plugin.
-// This function definition must be in the global namespace.
 juce::AudioProcessor *JUCE_CALLTYPE createPluginFilter() {
     return new AudioPluginAudioProcessor();
 }
