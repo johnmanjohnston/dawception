@@ -112,6 +112,11 @@ track::ActionCutClip::ActionCutClip(clip c, std::vector<int> nodeRoute,
 track::ActionCutClip::~ActionCutClip() {}
 
 bool track::ActionCutClip::perform() {
+    AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
+    processor->dispatchGUIInstruction(UI_INSTRUCTION_CLEAR_ALL_CLIP_COMPONENTS);
+    processor->dispatchGUIInstruction(UI_INSTRUCTION_CLOSE_CPWS_WITH_ROUTE,
+                                      nullptr, route);
+
     audioNode *node = utility::getNodeFromRoute(route, p);
 
     if (clipIndex == -1) {
@@ -127,12 +132,16 @@ bool track::ActionCutClip::perform() {
 
     updateGUI();
 
-    AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
     processor->requireSaving();
 
     return true;
 }
 bool track::ActionCutClip::undo() {
+    AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
+    processor->dispatchGUIInstruction(UI_INSTRUCTION_CLEAR_ALL_CLIP_COMPONENTS);
+    processor->dispatchGUIInstruction(UI_INSTRUCTION_CLOSE_CPWS_WITH_ROUTE,
+                                      nullptr, route);
+
     audioNode *node = utility::getNodeFromRoute(route, p);
 
     auto &newClip = *node->clips.emplace(node->clips.begin() + clipIndex);
@@ -140,7 +149,6 @@ bool track::ActionCutClip::undo() {
 
     updateGUI();
 
-    AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
     processor->requireSaving();
 
     return true;
