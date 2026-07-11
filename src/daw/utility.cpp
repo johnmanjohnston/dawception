@@ -60,6 +60,7 @@ void track::utility::writeTrivialClipDataToClip(clip *dest, clip *src) {
     dest->gain = src->gain;
     dest->trimLeft = src->trimLeft;
     dest->trimRight = src->trimRight;
+    dest->name = src->name;
 }
 
 int track::utility::getIndexOfClip(audioNode *node, clip *c) {
