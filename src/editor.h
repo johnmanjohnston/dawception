@@ -99,6 +99,7 @@ class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor,
 
     std::unique_ptr<track::TimelineComponent> timelineComponent =
         std::make_unique<track::TimelineComponent>();
+    void updateTimelineComponentScrollbars();
 
     track::PlayheadComponent playhead;
 

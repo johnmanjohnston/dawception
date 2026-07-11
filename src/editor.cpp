@@ -78,6 +78,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 
     masterSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox,
                                  true, 0, 0);
+    this->updateTimelineComponentScrollbars();
 
     configBtn.setButtonText("CONFIG");
     configBtn.onClick = [this] {
@@ -563,22 +564,7 @@ void AudioPluginAudioProcessorEditor::changeListenerCallback(
     }
 
     else if (x.command == UI_INSTRUCTION_UPDATE_CORE_SCROLLS) {
-        tracklist.setTrackComponentBounds();
-        trackViewport.repaint();
-
-        int tcHeight = (tracklist.trackComponents.size() + 2) *
-                       (size_t)track::UI_TRACK_HEIGHT;
-        timelineComponent->setSize(timelineComponent->getWidth(),
-                                   juce::jmax(tcHeight, this->getHeight()));
-        timelineComponent->resized();
-        timelineComponent->repaint();
-
-        if (timelineComponent->getHeight() <= this->getHeight()) {
-            timelineViewport.setScrollBarsShown(false, true);
-        } else {
-            timelineViewport.setScrollBarsShown(true, true);
-        }
-
+        this->updateTimelineComponentScrollbars();
     }
 
     else if (x.command == UI_INSTRUCTION_NODE_NAME_CHANGE) {
@@ -1031,4 +1017,22 @@ void AudioPluginAudioProcessorEditor::takeScreenshot() {
     f.revealToUser();
 
     DBG(f.getFullPathName());
+}
+
+void AudioPluginAudioProcessorEditor::updateTimelineComponentScrollbars() {
+    tracklist.setTrackComponentBounds();
+    trackViewport.repaint();
+
+    int tcHeight =
+        (tracklist.trackComponents.size() + 2) * (size_t)track::UI_TRACK_HEIGHT;
+    timelineComponent->setSize(timelineComponent->getWidth(),
+                               juce::jmax(tcHeight, this->getHeight()));
+    timelineComponent->resized();
+    timelineComponent->repaint();
+
+    if (timelineComponent->getHeight() <= this->getHeight()) {
+        timelineViewport.setScrollBarsShown(false, true);
+    } else {
+        timelineViewport.setScrollBarsShown(true, true);
+    }
 }
