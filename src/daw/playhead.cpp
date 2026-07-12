@@ -57,6 +57,6 @@ AudioPluginAudioProcessorEditor::timerCallback (this=0x555558840b70) at
 
     setBounds((curSample / SAMPLE_RATE * UI_ZOOM_MULTIPLIER) + UI_TRACK_WIDTH -
                   tv->getViewPositionX() - (w / 2.f),
-              UI_TOPBAR_HEIGHT + 7, w, 720 - UI_TOPBAR_HEIGHT - 5 - 8);
+              UI_TOPBAR_HEIGHT + 4, w, 720 - UI_TOPBAR_HEIGHT - 5 - 8);
     repaint();
 }
