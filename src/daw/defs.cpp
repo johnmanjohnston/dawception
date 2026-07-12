@@ -3,7 +3,7 @@
 namespace track {
 int UI_TRACK_HEIGHT = 50;
 int UI_ZOOM_MULTIPLIER = 32;
-int BPM = 120;
+double BPM = 120.0;
 float SNAP_DIVISIONS_PER_QUARTER_NOTE = 4.f;
 int PX_PER_GRID = -1;
 int TIME_SIGNATURE_NUMERATOR = -1;

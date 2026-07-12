@@ -556,7 +556,7 @@ int track::utility::snapSample(int sample, float division, int offset) {
 double track::utility::getSecondsPerBar() {
     return (240.0 * (double)track::TIME_SIGNATURE_NUMERATOR /
             (double)track::TIME_SIGNATURE_DENOMINATOR) /
-           (double)track::BPM;
+           track::BPM;
 }
 
 int track::utility::getSamplesPerBar() {

@@ -15,7 +15,7 @@ void track::TransportStatusComponent::paint(juce::Graphics &g) {
     // like 6/8; that's now a problem for future me
     // future john here. fuck you
     double ppq = -1.0;
-    int tempo = -1;
+    double tempo = -1.0;
 
     int bar = -1;
     int beat = -1;
@@ -96,7 +96,7 @@ void track::TransportStatusComponent::paint(juce::Graphics &g) {
     timeInfoToDisplay.append(juce::String(division), 3);
 
     juce::String tempoToDisplay;
-    tempoToDisplay.append(juce::String(tempo), 4);
+    tempoToDisplay.append(juce::String(tempo), 6);
 
     juce::String timeSignatureInfoToDisplay;
     timeSignatureInfoToDisplay.append(juce::String(timeSignature.numerator), 3);
