@@ -2432,6 +2432,9 @@ void track::subplugin::process(juce::AudioBuffer<float> &buffer) {
     juce::AudioBuffer<float> dryBuffer;
     dryBuffer.makeCopyOf(buffer);
 
+    AudioPluginAudioProcessor *p = (AudioPluginAudioProcessor *)processor;
+    this->plugin->setPlayHead(p->getPlayHead());
+
     if (this->plugin.get() != nullptr) {
         this->plugin->processBlock(buffer, mb);
 
