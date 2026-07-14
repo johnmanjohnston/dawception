@@ -11,6 +11,28 @@ DAWception was developed as a workaround to track count limits in "lower tier ve
     <p align="center">DAWception running within Ableton Live Lite</p>
 </figure>
 
+<details>
+    <summary>Table of Contents</summary>
+
+- [DAWception](#dawception)
+    * [Features](#features)
+        + [Limitations](#limitations)
+- [Usage](#usage)
+    * [Tracks and groups](#tracks-and-groups)
+    * [Timeline + audio clips](#timeline--audio-clips)
+    * [Hosting plugins](#hosting-plugins)
+    * [Automating plugins](#automating-plugins)
+- [Installation](#installation)
+        + [Latest Release (v0.0.1)](#latest-release-v001)
+- [Building](#building)
+    * [Downloading Source and Dependencies](#downloading-source-and-dependencies)
+    * [Compiling](#compiling)
+            - [Linux/macOS (Makefile)](#linuxmacos-makefile)
+            - [Windows (Visual Studio)](#windows-visual-studio)
+    * [Running](#running)
+- [License](#license)
+</details>
+
 ## Features
 - **unlimited stereo audio tracks**, which can be organized using groups
 - **drag and drop audio clips** (with basic clip manipulation features like splitting and trimming)
@@ -158,11 +180,8 @@ Your DAW's VST3 folder is usually located on
 > sudo xattr -dr com.apple.quarantine /Library/Audio/Plug-Ins/VST3/DAWception.vst3
 > ```
 
-### Older Versions
-For older builds, from the Releases section, download the appropriate build for your platform.
-
 # Building
-### Downloading Source and Dependencies
+## Downloading Source and Dependencies
 ```bash
 # clone this repo and cd into it
 git clone https://github.com/johnmanjohnston/dawception/
@@ -217,7 +236,7 @@ Inside `JUCE/modules/juce_audio_processors/format_types/juce_VST3PluginFormat.cp
 ```
 </details>
 
-### Compiling
+## Compiling
 #### Linux/macOS (Makefile)
 ```bash
 # run make
@@ -228,7 +247,7 @@ make
 - open `dawception.sln`
 - Build > Build Solution (or do <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>)
 
-### Running
+## Running
 - If you built a **debug** build, move `dawception_artefacts/Debug/VST3/DAWception.vst3`
 - If you built a **release** build, move `dawception_artefacts/Release/VST3/DAWception.vst3`
 
