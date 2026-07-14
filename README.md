@@ -7,7 +7,7 @@ DAWception was developed as a workaround to track count limits in "lower tier ve
 > DAWception is not released yet, but hopefully will be, very soon!
 
 <figure>
-    <img width="1920" height="1024" alt="image" src="https://github.com/user-attachments/assets/5f31f22c-6bf8-4a7d-a0dc-e1ca157066d7" />
+    <img width="1920" height="1023" alt="dawception-hero" src="https://github.com/user-attachments/assets/e880af82-ba71-4b9f-badb-000d18270ce2" />
     <p align="center">DAWception running within Ableton Live Lite</p>
 </figure>
 
@@ -33,7 +33,6 @@ If you can afford to upgrade your DAW, that is most certainly a better option th
 Here's a short, to the point usage guide explaining all main features (there aren't many, this isn't a full fledged DAW), nicely sorted into expandable sections:
 
 ## Tracks and groups
-
 <details>
     <summary>Creating tracks and groups</summary>
 
@@ -53,7 +52,18 @@ Here's a short, to the point usage guide explaining all main features (there are
 | To copy/paste tracks/groups, right click on it to copy, select "Copy", then right click on the group to paste inside, and paste | <img height="400" alt="copy-paste-nodes" src="https://github.com/user-attachments/assets/d05bdc7a-a4de-43a7-9381-5df5eed6bb80" /> |
 </details>
 
-## Audio clips
+
+## Timeline + audio clips
+<details>
+    <summary>The timeline</summary>
+
+| Description | Screenshot |
+| --- | --- |
+| Hold <kbd>Ctrl</kbd> while scrolling to zoom in/out, hold <kbd>Shift</kbd> while scrolling to scroll horizontally instead of vertically | <img height="400" alt="zooming" src="https://github.com/user-attachments/assets/cc5fbcc8-9ff9-448c-bb42-446be5c7540a" /> |
+| Hold <kbd>Alt</kbd> while scrolling to change height of audio waveforms | <img height="400" alt="heightadjust" src="https://github.com/user-attachments/assets/8f45fe21-0319-4bec-b63f-bef4e540e4ca" /> |
+| Right click anywhere in the timeline to show a context menu for some options | <img width="324" height="220" alt="image" src="https://github.com/user-attachments/assets/4f5e38b9-471d-4a2e-bfe8-ca62f1a52995" /> | 
+</details>
+
 <details>
     <summary>Adding audio clips</summary>
     
@@ -74,7 +84,7 @@ Here's a short, to the point usage guide explaining all main features (there are
 | Change clips' gain by opening its clip properties window (by double clicking said clip, or by context menu upon right clicking over clip) | <img width="490" height="270" alt="clip-properties-window" src="https://github.com/user-attachments/assets/b6689d81-6037-4d43-827c-b8f15b37823c" /> |
 </details>
     <b>By default, moving/trimming clips snaps them to grid. To stop snapping to grid, hold <kbd>Alt</kbd> while dragging/trimming clips.</b>
-
+    
 ## Hosting plugins
 <details>
     <summary>Scanning plugins</summary>
