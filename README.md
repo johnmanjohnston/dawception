@@ -124,8 +124,9 @@ Here's a short, to the point usage guide explaining all main features (there are
 
 ## Automating plugins
 <details>
-    <summary>Automating hosted plugins/groups</summary>
-    Okay, buckle tf up for this one. The way automation works in DAWception, is that <b>DAWception has 128 automatable parameters, each parameter stores a value from 0% to 100%. You relay the value from that parameter, to any plugin's parameter</b>. A value of 0 corresponds to the target plugin parameter's minimum value, and 100 corresponds to target plugin parameter's maximum value. <br> <br> You can also map the same input parameter across multiple output parameters, for different plugins.<br> <br>
+    <summary>Automating hosted plugins</summary>
+    Okay, buckle tf up for this one. <br />
+The way automation works in DAWception is that <b>DAWception has 128 automatable parameters, each parameter stores a value from 0% to 100%. You relay the value from that parameter, to any plugin's parameter</b>. A value of 0 corresponds to the target plugin parameter's minimum value, and 100 corresponds to target plugin parameter's maximum value. <br> <br> You can also map the same input parameter across multiple output parameters, for different plugins.<br> <br>
 
 | Description | Demo |
 | --- | --- |
