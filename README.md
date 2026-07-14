@@ -1,7 +1,5 @@
 # DAWception
-DAWception is a mini DAW in a plugin. You can add tracks, drag audio clips, and host other plugins.
-
-DAWception was developed as a workaround to track count limits in "lower tier versions" of DAWs (like Ableton Live Lite's 8 track limit).
+DAWception is a mini DAW in a plugin developed as a workaround to track count limits in "lower tier versions" of DAWs. You can add tracks, drag audio clips, and host VST3 plugins.
 
 > [!WARNING]
 > DAWception is not released yet, but hopefully will be, very soon!
@@ -12,7 +10,7 @@ DAWception was developed as a workaround to track count limits in "lower tier ve
 </figure>
 
 <details>
-    <summary>Table of Contents</summary>
+    <summary><b>Table of Contents</b></summary>
 
 - [DAWception](#dawception)
     * [Features](#features)
@@ -36,7 +34,7 @@ DAWception was developed as a workaround to track count limits in "lower tier ve
 ## Features
 - **unlimited stereo audio tracks**, which can be organized using groups
 - **drag and drop audio clips** (with basic clip manipulation features like splitting and trimming)
-- **hosting plugins** for individual tracks or groups, with **latency compensation**
+- **VST3 plugin hosting** for individual tracks or groups, with **latency compensation**
 - **automation passthrough** from host DAW to plugins hosted inside DAWception
 - **dry/wet control added to every hosted plugin** (even if the hosted plugin doesn't provide it by default)
 
@@ -48,8 +46,6 @@ DAWception does not have:
 - pitch shifting
 - quantization
 - any other fancy features that upgraded editions of your DAW might have
-
-If you can afford to upgrade your DAW, that is most certainly a better option than using DAWception. If you can't, DAWception exists as a workaround.
 
 # Usage
 Here's a short, to the point usage guide explaining all main features (there aren't many, this isn't a full fledged DAW), nicely sorted into expandable sections:
@@ -71,7 +67,7 @@ Here's a short, to the point usage guide explaining all main features (there are
 | Description | Demo |
 | --- | --- |
 | Drag a track/group and drop inside group  | <img height="400" alt="nesting-nodes-by-dragging" src="https://github.com/user-attachments/assets/28fcc60f-dbe4-42dd-b9e2-ffef3f3ab97e" /> |
-| To copy/paste tracks/groups, right click on it to copy, select "Copy", then right click on the group to paste inside, and paste | <img height="400" alt="copy-paste-nodes" src="https://github.com/user-attachments/assets/d05bdc7a-a4de-43a7-9381-5df5eed6bb80" /> |
+| You can copy/paste tracks/groups. Right click, select "Copy", then right click on the group to paste inside, and paste | <img height="400" alt="copy-paste-nodes" src="https://github.com/user-attachments/assets/d05bdc7a-a4de-43a7-9381-5df5eed6bb80" /> |
 </details>
 
 
@@ -81,7 +77,7 @@ Here's a short, to the point usage guide explaining all main features (there are
 
 | Description | Screenshot |
 | --- | --- |
-| Hold <kbd>Ctrl</kbd> while scrolling to zoom in/out, hold <kbd>Shift</kbd> while scrolling to scroll horizontally instead of vertically | <img height="400" alt="zooming" src="https://github.com/user-attachments/assets/cc5fbcc8-9ff9-448c-bb42-446be5c7540a" /> |
+| Hold <kbd>Ctrl</kbd> while scrolling to zoom in/out; hold <kbd>Shift</kbd> while scrolling to scroll horizontally instead of vertically | <img height="400" alt="zooming" src="https://github.com/user-attachments/assets/cc5fbcc8-9ff9-448c-bb42-446be5c7540a" /> |
 | Hold <kbd>Alt</kbd> while scrolling to change height of audio waveforms | <img height="400" alt="heightadjust" src="https://github.com/user-attachments/assets/8f45fe21-0319-4bec-b63f-bef4e540e4ca" /> |
 | Right click anywhere in the timeline to show a context menu for some options | <img width="324" height="220" alt="image" src="https://github.com/user-attachments/assets/4f5e38b9-471d-4a2e-bfe8-ca62f1a52995" /> | 
 </details>
@@ -92,7 +88,7 @@ Here's a short, to the point usage guide explaining all main features (there are
 | Description | Screenshot/demo |
 | --- | --- |
 | Drag audio file from your file explorer to timeline | <img width="286" height="76" alt="drag-file" src="https://github.com/user-attachments/assets/e8abbb83-5f15-45b4-8564-591ec4ab8ab8" /> |
-| Right click to show context menu, select "Insert audio file" and select file from your file explorer | <img width="197" height="176" alt="image" src="https://github.com/user-attachments/assets/d6c4ad8d-a3e2-4254-8bde-82f675b2e114" /> |
+| Right click timeline, select "Insert audio file" and select file from your file explorer | <img width="197" height="176" alt="image" src="https://github.com/user-attachments/assets/d6c4ad8d-a3e2-4254-8bde-82f675b2e114" /> |
 <p>
     Some DAWs (like Ableton Live) might be using the audio file you're trying to add, so it won't let you import it into DAWception. If this happens, <b>locate the audio file in your file explorer, consolidate/flatten the audio clip in your DAW, then import the audio file from the already open file explorer window</b>.</p>
 </details>
@@ -103,7 +99,7 @@ Here's a short, to the point usage guide explaining all main features (there are
 | Description | Screenshot/demo |
 | --- | --- |
 | **Move clips by dragging them**, trim clips by hovering on the side so that the "trim handles" are visible, then **hold <kbd>Ctrl</kbd> while dragging the trim handles** | <img width="304" height="98" alt="moving-and-trimming" src="https://github.com/user-attachments/assets/a6626d25-7dbf-4193-b1f5-efd091e8f79f" /> |
-| Change clips' gain by opening its clip properties window (by double clicking said clip, or by context menu upon right clicking over clip) | <img width="490" height="270" alt="clip-properties-window" src="https://github.com/user-attachments/assets/b6689d81-6037-4d43-827c-b8f15b37823c" /> |
+| Change clips' gain by opening its clip properties window (by double clicking said clip, or by menu upon right clicking clip) | <img width="490" height="270" alt="clip-properties-window" src="https://github.com/user-attachments/assets/b6689d81-6037-4d43-827c-b8f15b37823c" /> |
 </details>
     <b>By default, moving/trimming clips snaps them to grid. To stop snapping to grid, hold <kbd>Alt</kbd> while dragging/trimming clips.</b>
     
@@ -113,7 +109,7 @@ Here's a short, to the point usage guide explaining all main features (there are
 
 | Description | Screenshot |
 | --- | --- |
-| **Click "CONFIG" on the top right**, selecting "Scan plugins" prompts you for your VST3 directory and scans plugins, selecting "Lazy scan for plugins" does a similar scan, and is *much* faster but is less through | <img width="265" height="361" alt="image" src="https://github.com/user-attachments/assets/2b6f3757-9073-44d0-84e7-1163c0ad6454" /> |
+| **Click "CONFIG" on the top right**, selecting "Scan plugins" prompts you for your VST3 directory and scans plugins. Selecting "Lazy scan for plugins" does a similar scan, and is *much* faster but is less thorough | <img width="265" height="361" alt="image" src="https://github.com/user-attachments/assets/2b6f3757-9073-44d0-84e7-1163c0ad6454" /> |
 </details>
 
 <details>
@@ -121,7 +117,7 @@ Here's a short, to the point usage guide explaining all main features (there are
     
 | Description | Demo |
 | --- | --- |
-| To add plugins, **click "FX"** on the track/group you want to add plugins too, **right click in the empty space to open a context menu** and select the plugin you want to add | <img width="500"  alt="adding-plugins" src="https://github.com/user-attachments/assets/f394d852-7580-48ed-948d-a2ef56ec3c12" /> |
+| **Click "FX"** on the track/group you want to add plugins to, **right click in the empty space and select the plugin** | <img width="500"  alt="adding-plugins" src="https://github.com/user-attachments/assets/f394d852-7580-48ed-948d-a2ef56ec3c12" /> |
 | To reorder plugins, drag the plugin to where you want the plugin to be positioned; the plugin will finally be positioned on the **right** of the position indicator line thing | <img width="556" height="164" alt="reordering-plugins" src="https://github.com/user-attachments/assets/09c421d3-b250-4636-8217-0de31dc3f46a" /> |
 <p>The slider is the <b>dry/wet mix</b> of the plugin. The <b><i>X</i></b> on the top right of the plugin removes the plugin. </p>
 </details>
@@ -129,11 +125,11 @@ Here's a short, to the point usage guide explaining all main features (there are
 ## Automating plugins
 <details>
     <summary>Automating hosted plugins/groups</summary>
-    The way automation works in DAWception, is that <b>DAWception has 128 automatable parameters, each parameter stores a value from 0% to 100%. You relay the value from that parameter, to any plugin's parameter</b>. A value of 0 corresponds to the target plugin parameter's minimum value, and 100 corresponds to target plugin parameter's maximum value. <br> <br> You can also map the same input parameter across multiple output parameters, for different plugins.<br> <br>
+    Okay, buckle tf up for this one. The way automation works in DAWception, is that <b>DAWception has 128 automatable parameters, each parameter stores a value from 0% to 100%. You relay the value from that parameter, to any plugin's parameter</b>. A value of 0 corresponds to the target plugin parameter's minimum value, and 100 corresponds to target plugin parameter's maximum value. <br> <br> You can also map the same input parameter across multiple output parameters, for different plugins.<br> <br>
 
 | Description | Demo |
 | --- | --- |
-| To automate a plugin, find the plugin and **click "AUTOMATE"**, **right click for context menu to create a relayed parameter**. <br> <br> "IN" is the parameter DAWception should read from, "OUT" is the parameter of the hosted plugin that DAWception should write to. Use your DAW's automation feature to automate DAWception's appropriate "IN" parameter (your DAW should be playing&mdash;not paused&mdash;to reflect the changes in the subhosted plugin's editor) | <img width="500" alt="result" src="https://github.com/user-attachments/assets/8b1630a0-342d-43b8-a268-1b2ed74d251a" /> |
+| Find the plugin and **click "AUTOMATE"**, **right click for a menu and create a relayed parameter**. <br> <br> "IN" is the parameter DAWception should read from, "OUT" is the parameter of the hosted plugin that DAWception should write to. Use your DAW's automation feature to automate DAWception's appropriate "IN" parameter (your DAW should be playing&mdash;not paused&mdash;to reflect the changes in the subhosted plugin's editor) | <img width="500" alt="result" src="https://github.com/user-attachments/assets/8b1630a0-342d-43b8-a268-1b2ed74d251a" /> |
 </details>
 
 <details>
@@ -168,15 +164,15 @@ macOS: TODO
 <br> <br>
 Extract the ZIP file, and move `DAWception.vst3` to your DAW's VST3 plugin folder.
 
-Your DAW's VST3 folder is usually located on
-- Linux, at: `~/.vst3/` (user) or `/usr/lib/vst3/` (global)
-- Windows, at: `C:\Program Files\Common Files\VST3\`
-- macOS, at: `/Library/Audio/Plug-Ins/VST3/`
+Standard VST3 folder paths:
+- Linux: `~/.vst3/` (user) or `/usr/lib/vst3/` (global)
+- Windows: `C:\Program Files\Common Files\VST3\`
+- macOS: `/Library/Audio/Plug-Ins/VST3/`
 
 > [!WARNING]
 > If you are on macOS, DAWception won't immediately run in your DAW (because DAWception is not signed because I am broke).
 > To fix this, open the Terminal app, and run the following command (adjust the path if needed):
-> ```bash
+> ```zsh
 > sudo xattr -dr com.apple.quarantine /Library/Audio/Plug-Ins/VST3/DAWception.vst3
 > ```
 
