@@ -858,7 +858,7 @@ void AudioPluginAudioProcessorEditor::lazyScan() {
     if (!juce::File(vst3path).exists())
         vst3path = "D:\\Program Files\\Common Files\\VST3\\";
 #elif JUCE_MAC
-    vst3path = "/Library/Audio/Plug-Ins/VST3/"
+    vst3path = "/Library/Audio/Plug-Ins/VST3/";
 #endif
     DBG("tried vst3 path as " << vst3path);
 
