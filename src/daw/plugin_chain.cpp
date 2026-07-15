@@ -903,54 +903,56 @@ void track::PluginNodesWrapper::mouseDown(const juce::MouseEvent &event) {
                 }
             });
 
-        pluginMenu.addItem("Copy plugin chain", [this] {
-            DBG("copying plugin chain");
+        pluginMenu.addItem(
+            "Copy plugin chain",
+            pcc->getCorrespondingTrack()->plugins.size() > 0, false, [this] {
+                DBG("copying plugin chain");
 
-            pluginChainClipboardData *chainClipboardData =
-                new pluginChainClipboardData;
+                pluginChainClipboardData *chainClipboardData =
+                    new pluginChainClipboardData;
 
-            chainClipboardData->plugins.reserve(
-                pcc->getCorrespondingTrack()->plugins.size());
+                chainClipboardData->plugins.reserve(
+                    pcc->getCorrespondingTrack()->plugins.size());
 
-            for (auto &plugin : pcc->getCorrespondingTrack()->plugins) {
-                DBG("copying plugin into plugin chain...");
-                pluginClipboardData *data =
-                    &chainClipboardData->plugins.emplace_back();
+                for (auto &plugin : pcc->getCorrespondingTrack()->plugins) {
+                    DBG("copying plugin into plugin chain...");
+                    pluginClipboardData *data =
+                        &chainClipboardData->plugins.emplace_back();
 
-                std::unique_ptr<juce::AudioPluginInstance> *pluginInstance =
-                    &plugin->plugin;
+                    std::unique_ptr<juce::AudioPluginInstance> *pluginInstance =
+                        &plugin->plugin;
 
-                // set trivial data
-                data->identifier = pluginInstance->get()
-                                       ->getPluginDescription()
-                                       .fileOrIdentifier;
-                data->bypassed = plugin->bypassed;
-                data->dryWetMix = plugin->dryWetMix;
-                data->relayParams = plugin->relayParams;
+                    // set trivial data
+                    data->identifier = pluginInstance->get()
+                                           ->getPluginDescription()
+                                           .fileOrIdentifier;
+                    data->bypassed = plugin->bypassed;
+                    data->dryWetMix = plugin->dryWetMix;
+                    data->relayParams = plugin->relayParams;
 
-                // set plugin data
-                juce::MemoryBlock pluginData;
-                pluginInstance->get()->getStateInformation(pluginData);
-                data->data = pluginData.toBase64Encoding();
-            }
+                    // set plugin data
+                    juce::MemoryBlock pluginData;
+                    pluginInstance->get()->getStateInformation(pluginData);
+                    data->data = pluginData.toBase64Encoding();
+                }
 
-            clipboard::setData(chainClipboardData, TYPECODE_PLUGIN_CHAIN);
-            DBG("plugin chain copied");
+                clipboard::setData(chainClipboardData, TYPECODE_PLUGIN_CHAIN);
+                DBG("plugin chain copied");
 
-            // visual feedback
-            for (auto &pnc : pluginNodeComponents) {
-                pnc->coolColors = true;
-            }
-            repaint();
+                // visual feedback
+                for (auto &pnc : pluginNodeComponents) {
+                    pnc->coolColors = true;
+                }
+                repaint();
 
-            juce::Timer::callAfterDelay(
-                UI_VISUAL_FEEDBACK_FLASH_DURATION_MS, [this] {
-                    for (auto &pnc : pluginNodeComponents) {
-                        pnc->coolColors = false;
-                    }
-                    repaint();
-                });
-        });
+                juce::Timer::callAfterDelay(
+                    UI_VISUAL_FEEDBACK_FLASH_DURATION_MS, [this] {
+                        for (auto &pnc : pluginNodeComponents) {
+                            pnc->coolColors = false;
+                        }
+                        repaint();
+                    });
+            });
 
         pluginMenu.showMenuAsync(juce::PopupMenu::Options());
     }
