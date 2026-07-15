@@ -882,6 +882,8 @@ void track::PluginNodesWrapper::mouseDown(const juce::MouseEvent &event) {
                         "action paste plugin");
                     pcc->processor->undoManager.perform(action);
 
+                    pcc->resized();
+
                     return;
                 }
             });
@@ -900,6 +902,10 @@ void track::PluginNodesWrapper::mouseDown(const juce::MouseEvent &event) {
                     pcc->processor->undoManager.beginNewTransaction(
                         "action paste plugin chain");
                     pcc->processor->undoManager.perform(action);
+
+                    pcc->resized();
+                    pcc->nodesViewport.setViewPosition(
+                        pcc->nodesWrapper.getWidth(), 0);
                 }
             });
 
