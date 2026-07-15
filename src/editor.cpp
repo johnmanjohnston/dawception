@@ -105,6 +105,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 #define MENU_WRITE_STATE_FROM_CLIPBOARD 12
 #define MENU_WRITE_STATE_FROM_FILE 13
 #define MENU_TAKE_SCREENSHOT 14
+#define MENU_HELP 15
 
         contextMenu.addItem(MENU_PLUGIN_SCAN, "Scan plugins");
         contextMenu.addItem(MENU_PLUGIN_LAZY_SCAN, "Lazy scan for plugins");
@@ -126,8 +127,10 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
                 processorRef.undoManager.getRedoDescription().substring(7),
             processorRef.undoManager.canRedo());
         contextMenu.addSeparator();
-        contextMenu.addItem(MENU_ABOUT, "About");
+        contextMenu.addItem(MENU_ABOUT, "About (opens in browser)");
+        contextMenu.addItem(MENU_HELP, "Help (opens in browser)");
         contextMenu.addItem(MENU_BUILD_INFO, "Build info");
+        contextMenu.addSeparator();
         contextMenu.addItem(MENU_COPY_STATE, "Copy state to clipboard");
         contextMenu.addItem(MENU_WRITE_STATE_FROM_CLIPBOARD,
                             "Write state from clipboard");
@@ -156,6 +159,12 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 
             else if (result == MENU_ABOUT) {
                 juce::URL url("https://github.com/johnmanjohnston/dawception/");
+                url.launchInDefaultBrowser();
+            }
+
+            else if (result == MENU_HELP) {
+                juce::URL url("https://github.com/johnmanjohnston/dawception/"
+                              "tree/main#usage");
                 url.launchInDefaultBrowser();
             }
 

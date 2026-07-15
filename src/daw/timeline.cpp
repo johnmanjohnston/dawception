@@ -598,7 +598,6 @@ void track::TimelineComponent::paint(juce::Graphics &g) {
     int scrollValue = viewport->getVerticalScrollBar().getCurrentRangeStart();
 
     double pxPerBar = track::utility::getPxPerBar();
-    DBG("TimelineComponent::paint() called, pxPerBar = " << pxPerBar);
     int bars = std::ceil(getWidth() / pxPerBar);
 
     // space out markers

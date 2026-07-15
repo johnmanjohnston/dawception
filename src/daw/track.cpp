@@ -909,7 +909,6 @@ track::TrackComponent::TrackComponent(int trackIndex) : juce::Component() {
     gainSlider.setPopupDisplayEnabled(true, true, this, 2000);
     gainSlider.textFromValueFunction = [](double x) {
         double db = juce::Decibels::gainToDecibels(x);
-        DBG("x=" << x << "; db=" << db);
         return juce::String(db, 1) + "dB";
     };
 
