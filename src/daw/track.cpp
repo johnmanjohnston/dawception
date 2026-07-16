@@ -1771,6 +1771,7 @@ bool track::ActionPasteNode::undo() {
 void track::ActionPasteNode::updateGUI() {
     AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
     processor->dispatchGUIInstruction(UI_INSTRUCTION_UPDATE_CORE);
+    processor->dispatchGUIInstruction(UI_INSTRUCTION_UPDATE_CORE_SCROLLS);
 }
 
 track::ActionModifyTrivialNodeData::ActionModifyTrivialNodeData(
