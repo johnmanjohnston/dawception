@@ -1324,6 +1324,16 @@ bool track::TrackComponent::keyStateChanged(bool isKeyDown) {
     return false;
 }
 
+void track::TrackComponent::focusLost(
+    juce::Component::FocusChangeType /*cause*/) {
+    ((Tracklist *)this->getParentComponent())->updateGroupSelectionHighlights();
+}
+
+void track::TrackComponent::focusGained(
+    juce::Component::FocusChangeType /*cause*/) {
+    ((Tracklist *)this->getParentComponent())->updateGroupSelectionHighlights();
+}
+
 void track::TrackComponent::copyNodeToClipboard() {
     // copy node
     audioNode *node = new audioNode;
@@ -1369,6 +1379,7 @@ void track::TrackComponent::paint(juce::Graphics &g) {
     juce::Colour bg = juce::Colour(0xFF'5F5F5F);
     juce::Colour trackBg = juce::Colour(0xFF'414141).darker(0.1f);
     juce::Colour groupBg = trackBg.brighter(0.3f);
+    juce::Colour selectedColor = groupBg.brighter(0.3f);
     juce::Colour glossColor = juce::Colours::white.withAlpha(0.1f);
 
     juce::Colour outline = juce::Colour(0xFF'252525).brighter(0.1f);
@@ -1376,7 +1387,7 @@ void track::TrackComponent::paint(juce::Graphics &g) {
 
     int lineThickness = 1;
     float cornerSize = 5.f;
-    g.fillAll(groupBg);
+    g.fillAll(this->groupSelectionHighlight ? selectedColor : groupBg);
 
     juce::Rectangle<float> indentedBounds =
         getLocalBounds()
@@ -1397,7 +1408,7 @@ void track::TrackComponent::paint(juce::Graphics &g) {
         fillColor = juce::Colours::white;
 
     if (this->hasKeyboardFocus(true))
-        fillColor = groupBg.brighter(0.3f);
+        fillColor = selectedColor;
 
     // fill main chunks (and outline if applicable)
     if (isFirstNodeInGroup) {
@@ -2340,6 +2351,52 @@ void track::Tracklist::clearStains() {
     for (auto &x : trackComponents) {
         x->getCorrespondingTrack()->stain = -1;
     }
+}
+
+void track::Tracklist::updateGroupSelectionHighlights() {
+    DBG("track::Tracklist::updateGroupSelectionHighlights() called");
+
+    bool foundExistingSelection = false;
+    std::vector<int> r1 = std::vector<int>();
+
+    size_t groupIndex = 0;
+    size_t endOfGroupIndex = 0;
+
+    for (size_t i = 0; i < this->trackComponents.size(); ++i) {
+        if (!foundExistingSelection) {
+            // has focus and is a group
+            if (this->trackComponents[i]->hasKeyboardFocus(true) &&
+                !this->trackComponents[i]->getCorrespondingTrack()->isTrack) {
+                r1 = this->trackComponents[i]->route;
+                groupIndex = i;
+                foundExistingSelection = true;
+            }
+        }
+
+        std::vector<int> r2 = this->trackComponents[i]->route;
+        r2.resize(r1.size());
+
+        if (r1 != r2) {
+            DBG("FOUDN AN UNRELATED NODE; track name of "
+                << this->trackComponents[i]
+                       ->getCorrespondingTrack()
+                       ->trackName);
+            endOfGroupIndex = i;
+            break;
+        }
+    }
+
+    if (foundExistingSelection) {
+        for (size_t i = groupIndex; i < endOfGroupIndex; ++i) {
+            this->trackComponents[i]->groupSelectionHighlight = true;
+        }
+    } else {
+        for (size_t i = 0; i < this->trackComponents.size(); ++i) {
+            this->trackComponents[i]->groupSelectionHighlight = false;
+        }
+    }
+
+    this->repaint();
 }
 
 void track::Tracklist::setTrackComponentBounds() {
