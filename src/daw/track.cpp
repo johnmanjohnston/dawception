@@ -1426,6 +1426,12 @@ void track::TrackComponent::paint(juce::Graphics &g) {
                 .withX(indentedBounds.getX() + 0.5f)
                 .withY(0.25f);
 
+        // fix annoying thing
+        if (this->aboveThisIsSelected) {
+            g.setColour(selectedColor.brighter(0.05f));
+            g.fillRect(curvedBounds.expanded(1, 1));
+        }
+
         // fill it
         g.setColour(fillColor);
         g.fillRoundedRectangle(curvedBounds, cornerSize);
@@ -1446,10 +1452,9 @@ void track::TrackComponent::paint(juce::Graphics &g) {
     // descendant of said group), and don't draw this on the actual node being
     // selected cuz it looks ugly
     if (this->groupSelectionHighlight != -1 && !this->hasKeyboardFocus(true)) {
-        int highlightIndentLevel = this->groupSelectionHighlight;
         g.setColour(selectedColor.brighter(0.05f));
-        g.fillRect(UI_TRACK_INDEX_WIDTH +
-                       (highlightIndentLevel * UI_TRACK_DEPTH_INCREMENTS),
+        g.fillRect(UI_TRACK_INDEX_WIDTH + (this->groupSelectionHighlight *
+                                           UI_TRACK_DEPTH_INCREMENTS),
                    0, UI_TRACK_DEPTH_INCREMENTS, getHeight());
     }
 
@@ -2375,6 +2380,7 @@ void track::Tracklist::clearStains() {
 void track::Tracklist::clearExistingGroupSelectionHighlights() {
     for (size_t i = 0; i < this->trackComponents.size(); ++i) {
         this->trackComponents[i]->groupSelectionHighlight = -1;
+        this->trackComponents[i]->aboveThisIsSelected = false;
     }
 }
 
@@ -2423,6 +2429,10 @@ void track::Tracklist::updateGroupSelectionHighlights() {
     if (foundExistingSelection) {
         for (size_t i = groupIndex; i < endOfGroupIndex; ++i) {
             this->trackComponents[i]->groupSelectionHighlight = r1.size() - 1;
+
+            if (i == groupIndex + 1) {
+                this->trackComponents[i]->aboveThisIsSelected = true;
+            }
         }
     } else {
         this->clearExistingGroupSelectionHighlights();

@@ -245,6 +245,7 @@ class TrackComponent : public juce::Component {
     std::vector<int> route;
     int displayIndex = -1;
     int groupSelectionHighlight = -1;
+    bool aboveThisIsSelected = false; // only to fix annoying thing
 
     juce::TextButton muteBtn;
     juce::TextButton soloBtn;
