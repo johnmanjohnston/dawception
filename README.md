@@ -2,7 +2,7 @@
 DAWception is a mini DAW in a plugin developed as a workaround to track count limits in "lower tier versions" of DAWs. You can add tracks, drag audio clips, and host VST3 plugins.
 
 > [!WARNING]
-> DAWception is not released yet, but hopefully will be, very soon!
+> DAWception is not released yet, but will be very soon
 
 <figure>
     <img width="1920" height="1023" alt="dawception-hero" src="https://github.com/user-attachments/assets/e880af82-ba71-4b9f-badb-000d18270ce2" />
@@ -48,7 +48,7 @@ DAWception does not have:
 - any other fancy features that upgraded editions of your DAW might have
 
 # Usage
-Here's a short, to the point usage guide explaining all main features (there aren't many, this isn't a full fledged DAW), nicely sorted into expandable sections:
+Here's a quick usage guide nicely sorted into expandable sections:
 
 ## Tracks and groups
 <details>
@@ -58,7 +58,7 @@ Here's a short, to the point usage guide explaining all main features (there are
 | --- | --- |
 | Use "ADD GROUP" and "ADD TRACK" buttons at top of tracklist | <img width="552" height="35" alt="image" src="https://github.com/user-attachments/assets/717ab2a3-cc66-46a5-9369-35e360a3ca23" /> |
 | Right click in the tracklist area to show context menu | <img width="232" height="90" alt="image" src="https://github.com/user-attachments/assets/dde110f0-4e93-4e1f-b0f6-cbd19a535ad3" /> |
-| Right click on a group for context menu to add tracks/groups | <img height="300" alt="image" src="https://github.com/user-attachments/assets/27d2f28b-4993-4665-a3d5-ad2563c5362e" /> |
+| Right click a group for menu | <img height="300" alt="image" src="https://github.com/user-attachments/assets/27d2f28b-4993-4665-a3d5-ad2563c5362e" /> |
 </details>
 
 <details>
@@ -67,7 +67,7 @@ Here's a short, to the point usage guide explaining all main features (there are
 | Description | Demo |
 | --- | --- |
 | Drag a track/group and drop inside group  | <img height="400" alt="nesting-nodes-by-dragging" src="https://github.com/user-attachments/assets/28fcc60f-dbe4-42dd-b9e2-ffef3f3ab97e" /> |
-| You can copy/paste tracks/groups. Right click, select "Copy", then right click on the group to paste inside, and paste | <img height="400" alt="copy-paste-nodes" src="https://github.com/user-attachments/assets/d05bdc7a-a4de-43a7-9381-5df5eed6bb80" /> |
+| You can copy/paste tracks/groups. Right click, select "Copy", then right click and paste as needed | <img height="400" alt="copy-paste-nodes" src="https://github.com/user-attachments/assets/d05bdc7a-a4de-43a7-9381-5df5eed6bb80" /> |
 </details>
 
 
@@ -87,7 +87,7 @@ Here's a short, to the point usage guide explaining all main features (there are
     
 | Description | Screenshot/demo |
 | --- | --- |
-| Drag audio file from your file explorer to timeline | <img width="286" height="76" alt="drag-file" src="https://github.com/user-attachments/assets/e8abbb83-5f15-45b4-8564-591ec4ab8ab8" /> |
+| Drag audio file to timeline | <img width="286" height="76" alt="drag-file" src="https://github.com/user-attachments/assets/e8abbb83-5f15-45b4-8564-591ec4ab8ab8" /> |
 | Right click timeline, select "Insert audio file" and select file from your file explorer | <img width="197" height="176" alt="image" src="https://github.com/user-attachments/assets/d6c4ad8d-a3e2-4254-8bde-82f675b2e114" /> |
 <p>
     Some DAWs (like Ableton Live) might be using the audio file you're trying to add, so it won't let you import it into DAWception. If this happens, <b>locate the audio file in your file explorer, consolidate/flatten the audio clip in your DAW, then import the audio file from the already open file explorer window</b>.</p>
@@ -109,7 +109,7 @@ Here's a short, to the point usage guide explaining all main features (there are
 
 | Description | Screenshot |
 | --- | --- |
-| **Click "CONFIG" on the top right**, selecting "Scan plugins" prompts you for your VST3 directory and scans plugins. Selecting "Lazy scan for plugins" does a similar scan, and is *much* faster but is less thorough | <img width="265" height="361" alt="image" src="https://github.com/user-attachments/assets/2b6f3757-9073-44d0-84e7-1163c0ad6454" /> |
+| **Click "CONFIG" on the top right**. <br /> <br /> "Scan plugins" prompts you for your VST3 directory and scans plugins. "Lazy scan for plugins" does a less thorough but *much* faster scan | <img width="265" height="361" alt="image" src="https://github.com/user-attachments/assets/2b6f3757-9073-44d0-84e7-1163c0ad6454" /> |
 </details>
 
 <details>
@@ -118,7 +118,7 @@ Here's a short, to the point usage guide explaining all main features (there are
 | Description | Demo |
 | --- | --- |
 | **Click "FX"** on the track/group you want to add plugins to, **right click in the empty space and select the plugin** | <img width="500"  alt="adding-plugins" src="https://github.com/user-attachments/assets/f394d852-7580-48ed-948d-a2ef56ec3c12" /> |
-| To reorder plugins, drag the plugin to where you want the plugin to be positioned; the plugin will finally be positioned on the **right** of the position indicator line thing | <img width="556" height="164" alt="reordering-plugins" src="https://github.com/user-attachments/assets/09c421d3-b250-4636-8217-0de31dc3f46a" /> |
+| Drag the plugin to where you want the plugin to be positioned; the plugin will finally be positioned on the **right** of the position indicator line thing | <img width="556" height="164" alt="reordering-plugins" src="https://github.com/user-attachments/assets/09c421d3-b250-4636-8217-0de31dc3f46a" /> |
 <p>The slider is the <b>dry/wet mix</b> of the plugin. The <b><i>X</i></b> on the top right of the plugin removes the plugin. </p>
 </details>
 
@@ -130,7 +130,7 @@ The way automation works in DAWception is that <b>DAWception has 128 automatable
 
 | Description | Demo |
 | --- | --- |
-| Find the plugin and **click "AUTOMATE"**, **right click for a menu and create a relayed parameter**. <br> <br> "IN" is the parameter DAWception should read from, "OUT" is the parameter of the hosted plugin that DAWception should write to. Use your DAW's automation feature to automate DAWception's appropriate "IN" parameter (your DAW should be playing&mdash;not paused&mdash;to reflect the changes in the subhosted plugin's editor) | <img width="500" alt="result" src="https://github.com/user-attachments/assets/8b1630a0-342d-43b8-a268-1b2ed74d251a" /> |
+| Find the plugin and **click "AUTOMATE"**, **right click for a menu and create a relayed parameter**. <br> <br> "IN" is the parameter DAWception reads from, "OUT" is the parameter of the hosted plugin that DAWception should write to. Use your DAW's automation feature to automate DAWception's appropriate "IN" parameter (your DAW should be playing&mdash;not paused&mdash;to reflect the changes in the subhosted plugin's editor) | <img width="500" alt="result" src="https://github.com/user-attachments/assets/8b1630a0-342d-43b8-a268-1b2ed74d251a" /> |
 </details>
 
 <details>
@@ -157,11 +157,11 @@ The way automation works in DAWception is that <b>DAWception has 128 automatable
 # Installation
 All releases are provided as VST3 plugins.
 ### Latest Release (v0.0.1)
-Linux: TODO
+Linux (x86_64): TODO
 
-Windows: TODO
+Windows (64-bit): TODO
 
-macOS: TODO
+macOS (Universal): TODO
 <br> <br>
 Extract the ZIP file, and move `DAWception.vst3` to your DAW's VST3 plugin folder.
 
@@ -172,7 +172,7 @@ Standard VST3 folder paths:
 
 > [!WARNING]
 > If you are on macOS, DAWception won't immediately run in your DAW (because DAWception is not signed because I am broke).
-> To fix this, open the Terminal app, and run the following command (adjust the path if needed):
+> To fix this, open the Terminal app, and run the following command (adjust path if needed):
 > ```zsh
 > sudo xattr -dr com.apple.quarantine /Library/Audio/Plug-Ins/VST3/DAWception.vst3
 > ```
