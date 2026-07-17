@@ -172,9 +172,10 @@ Standard VST3 folder paths:
 
 > [!WARNING]
 > If you are on macOS, DAWception won't immediately run in your DAW (because DAWception is not signed because I am broke).
-> To fix this, open the Terminal app, and run the following command (adjust path if needed):
+> To fix this, open the Terminal app, and run the following commands (adjust path if needed):
 > ```zsh
 > sudo xattr -dr com.apple.quarantine /Library/Audio/Plug-Ins/VST3/DAWception.vst3
+> codesign --deep --force --sign - ~/Library/Audio/Plug-Ins/VST3/DAWception.vst3
 > ```
 
 # Building
