@@ -234,6 +234,8 @@ class TrackComponent : public juce::Component {
     bool keyStateChanged(bool isKeyDown) override;
     void focusLost(juce::Component::FocusChangeType cause) override;
     void focusGained(juce::Component::FocusChangeType cause) override;
+    void focusOfChildComponentChanged(
+        juce::Component::FocusChangeType cause) override;
 
     void copyNodeToClipboard();
 
@@ -242,7 +244,7 @@ class TrackComponent : public juce::Component {
     int siblingIndex = -1;
     std::vector<int> route;
     int displayIndex = -1;
-    bool groupSelectionHighlight = false;
+    int groupSelectionHighlight = -1;
 
     juce::TextButton muteBtn;
     juce::TextButton soloBtn;
@@ -438,6 +440,7 @@ class Tracklist : public juce::Component {
 
     void clearStains();
 
+    void clearExistingGroupSelectionHighlights();
     void updateGroupSelectionHighlights();
 
     InsertIndicator insertIndicator;

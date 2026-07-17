@@ -953,6 +953,8 @@ track::TrackComponent::TrackComponent(int trackIndex) : juce::Component() {
         p->undoManager.beginNewTransaction("action modify trivial node data");
         p->undoManager.perform(action);
 
+        ((Tracklist *)(this->getParentComponent()))
+            ->clearExistingGroupSelectionHighlights();
         getParentComponent()->repaint();
 
         sendFocusToTimeline();
@@ -1334,6 +1336,11 @@ void track::TrackComponent::focusGained(
     ((Tracklist *)this->getParentComponent())->updateGroupSelectionHighlights();
 }
 
+void track::TrackComponent::focusOfChildComponentChanged(
+    juce::Component::FocusChangeType /*cause*/) {
+    ((Tracklist *)this->getParentComponent())->updateGroupSelectionHighlights();
+}
+
 void track::TrackComponent::copyNodeToClipboard() {
     // copy node
     audioNode *node = new audioNode;
@@ -1379,7 +1386,7 @@ void track::TrackComponent::paint(juce::Graphics &g) {
     juce::Colour bg = juce::Colour(0xFF'5F5F5F);
     juce::Colour trackBg = juce::Colour(0xFF'414141).darker(0.1f);
     juce::Colour groupBg = trackBg.brighter(0.3f);
-    juce::Colour selectedColor = groupBg.brighter(0.3f);
+    juce::Colour selectedColor = groupBg.brighter(0.4f);
     juce::Colour glossColor = juce::Colours::white.withAlpha(0.1f);
 
     juce::Colour outline = juce::Colour(0xFF'252525).brighter(0.1f);
@@ -1387,7 +1394,7 @@ void track::TrackComponent::paint(juce::Graphics &g) {
 
     int lineThickness = 1;
     float cornerSize = 5.f;
-    g.fillAll(this->groupSelectionHighlight ? selectedColor : groupBg);
+    g.fillAll(groupBg);
 
     juce::Rectangle<float> indentedBounds =
         getLocalBounds()
@@ -1433,6 +1440,17 @@ void track::TrackComponent::paint(juce::Graphics &g) {
         g.setColour(fillColor);
         g.fillRect(indentedBounds);
         track::utility::gloss(g, indentedBounds, glossColor, 0.f);
+    }
+
+    // if this node is in a group that's currently selected (and if it's a first
+    // descendant of said group), and don't draw this on the actual node being
+    // selected cuz it looks ugly
+    if (this->groupSelectionHighlight != -1 && !this->hasKeyboardFocus(true)) {
+        int highlightIndentLevel = this->groupSelectionHighlight;
+        g.setColour(selectedColor.brighter(0.05f));
+        g.fillRect(UI_TRACK_INDEX_WIDTH +
+                       (highlightIndentLevel * UI_TRACK_DEPTH_INCREMENTS),
+                   0, UI_TRACK_DEPTH_INCREMENTS, getHeight());
     }
 
     // divide line between index number and actual track info
@@ -2331,6 +2349,7 @@ void track::Tracklist::createTrackComponents() {
 
     setDisplayIndexes();
     setTrackComponentBounds();
+    updateGroupSelectionHighlights();
     repaint();
 
     // ee
@@ -2353,10 +2372,19 @@ void track::Tracklist::clearStains() {
     }
 }
 
+void track::Tracklist::clearExistingGroupSelectionHighlights() {
+    for (size_t i = 0; i < this->trackComponents.size(); ++i) {
+        this->trackComponents[i]->groupSelectionHighlight = -1;
+    }
+}
+
 void track::Tracklist::updateGroupSelectionHighlights() {
     DBG("track::Tracklist::updateGroupSelectionHighlights() called");
 
+    this->clearExistingGroupSelectionHighlights();
+
     bool foundExistingSelection = false;
+    bool reachedEnd = false;
     std::vector<int> r1 = std::vector<int>();
 
     size_t groupIndex = 0;
@@ -2384,16 +2412,20 @@ void track::Tracklist::updateGroupSelectionHighlights() {
             endOfGroupIndex = i;
             break;
         }
+
+        if (i == this->trackComponents.size() - 1)
+            reachedEnd = true;
     }
+
+    if (reachedEnd)
+        endOfGroupIndex = this->trackComponents.size();
 
     if (foundExistingSelection) {
         for (size_t i = groupIndex; i < endOfGroupIndex; ++i) {
-            this->trackComponents[i]->groupSelectionHighlight = true;
+            this->trackComponents[i]->groupSelectionHighlight = r1.size() - 1;
         }
     } else {
-        for (size_t i = 0; i < this->trackComponents.size(); ++i) {
-            this->trackComponents[i]->groupSelectionHighlight = false;
-        }
+        this->clearExistingGroupSelectionHighlights();
     }
 
     this->repaint();
