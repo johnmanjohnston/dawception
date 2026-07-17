@@ -1104,7 +1104,7 @@ void track::TrackComponent::mouseDown(const juce::MouseEvent &event) {
         contextMenu.addItem("Copy", [this] { copyNodeToClipboard(); });
 
         contextMenu.addItem(
-            "Paste node as child",
+            "Paste",
             !getCorrespondingTrack()->isTrack &&
                 clipboard::typecode == TYPECODE_NODE,
             false, [this] {
@@ -1411,11 +1411,11 @@ void track::TrackComponent::paint(juce::Graphics &g) {
     juce::Colour fillColor =
         getCorrespondingTrack()->isTrack ? trackBg : groupBg;
 
-    if (coolColors)
-        fillColor = juce::Colours::white;
-
     if (this->hasKeyboardFocus(true))
         fillColor = selectedColor;
+
+    if (coolColors)
+        fillColor = juce::Colours::white;
 
     // fill main chunks (and outline if applicable)
     if (isFirstNodeInGroup) {
