@@ -175,7 +175,7 @@ Standard VST3 folder paths:
 > To fix this, open the Terminal app, and run the following commands (adjust path if needed):
 > ```zsh
 > sudo xattr -dr com.apple.quarantine /Library/Audio/Plug-Ins/VST3/DAWception.vst3
-> codesign --deep --force --sign - ~/Library/Audio/Plug-Ins/VST3/DAWception.vst3
+> codesign --deep --force --sign - /Library/Audio/Plug-Ins/VST3/DAWception.vst3
 > ```
 
 # Building
