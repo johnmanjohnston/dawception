@@ -170,7 +170,9 @@ class subplugin {
     ~subplugin();
 
     bool initializePlugin(juce::String path);
+    void initdwm();
 
+    juce::dsp::DryWetMixer<float> dwm;
     std::unique_ptr<juce::AudioPluginInstance> plugin;
     std::vector<relayParam> relayParams;
 

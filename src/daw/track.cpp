@@ -2519,29 +2519,20 @@ void track::subplugin::relayParamsToPlugin() {
 }
 
 void track::subplugin::process(juce::AudioBuffer<float> &buffer) {
-    juce::MidiBuffer mb;
-
-    juce::AudioBuffer<float> dryBuffer;
-    dryBuffer.makeCopyOf(buffer);
-
-    AudioPluginAudioProcessor *p = (AudioPluginAudioProcessor *)processor;
-    this->plugin->setPlayHead(p->getPlayHead());
-
     if (this->plugin.get() != nullptr) {
+        juce::MidiBuffer mb;
+        AudioPluginAudioProcessor *p = (AudioPluginAudioProcessor *)processor;
+
+        this->plugin->setPlayHead(p->getPlayHead());
+
+        this->dwm.setWetMixProportion(this->dryWetMix);
+        juce::dsp::AudioBlock<float> block(buffer);
+        juce::dsp::ProcessContextReplacing<float> context(block);
+
+        juce::dsp::AudioBlock<float> originalBlock(block);
+        this->dwm.pushDrySamples(originalBlock);
         this->plugin->processBlock(buffer, mb);
-
-        float dryMix = 1.f - dryWetMix;
-        float wetMix = dryWetMix;
-
-        for (int ch = 0; ch < buffer.getNumChannels(); ++ch) {
-            auto *dry = dryBuffer.getReadPointer(ch);
-            auto *wet = buffer.getReadPointer(ch);
-            auto *out = buffer.getWritePointer(ch);
-
-            for (int i = 0; i < buffer.getNumSamples(); ++i) {
-                out[i] = dry[i] * dryMix + wet[i] * wetMix;
-            }
-        }
+        this->dwm.mixWetSamples(block);
     }
 }
 
@@ -2582,9 +2573,26 @@ bool track::subplugin::initializePlugin(juce::String path) {
     }
 
     plugin->prepareToPlay(track::SAMPLE_RATE, track::SAMPLES_PER_BLOCK);
+    initdwm();
 
     return true;
 }
+
+void track::subplugin::initdwm() {
+    jassert(processor != nullptr);
+
+    // /could/ return 0 samples (if you're just starting up the plugin)
+    // so add extra latent samples
+    int maxLatency = juce::jmax(plugin->getLatencySamples(), 16);
+
+    this->dwm = juce::dsp::DryWetMixer<float>(maxLatency);
+    juce::dsp::ProcessSpec spec{track::SAMPLE_RATE,
+                                (uint32)track::SAMPLES_PER_BLOCK, (uint32)2};
+    this->dwm.prepare(spec);
+    this->dwm.reset();
+    this->dwm.setMixingRule(juce::dsp::DryWetMixingRule::linear);
+}
+
 track::subplugin::subplugin() : plugin() {}
 track::subplugin::~subplugin() {}
 
@@ -2613,10 +2621,10 @@ bool track::audioNode::addPlugin(juce::String path) {
     AudioPluginAudioProcessor *p = (AudioPluginAudioProcessor *)processor;
 
     plugins.push_back(std::make_unique<subplugin>());
+    plugins.back()->processor = processor;
     bool success = plugins.back()->initializePlugin(path);
 
     if (success) {
-        plugins.back()->processor = processor;
         p->updateLatencyAfterDelay();
     } else {
         plugins.pop_back();
@@ -2636,6 +2644,8 @@ int track::audioNode::getLatencySamples() {
     int retval = 0;
 
     for (auto &pluginInstance : plugins) {
+        pluginInstance->initdwm();
+        pluginInstance->dwm.setWetLatency(pluginInstance->plugin->getLatencySamples());
         retval += pluginInstance->plugin->getLatencySamples();
     }
 
