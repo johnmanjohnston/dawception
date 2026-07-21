@@ -5,7 +5,7 @@ DAWception is a mini DAW in a plugin developed as a workaround to track count li
 > DAWception is not released yet, but will be very soon
 
 <figure>
-    <img width="1920" height="1023" alt="dawception-hero" src="https://github.com/user-attachments/assets/e880af82-ba71-4b9f-badb-000d18270ce2" />
+    <img width="1920" height="998" alt="DAWception running within Ableton Live Lite" src="https://github.com/user-attachments/assets/737a29e1-4648-46eb-b856-9f2b2c4871ef" />
     <p align="center">DAWception running within Ableton Live Lite</p>
 </figure>
 
