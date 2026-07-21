@@ -2644,7 +2644,8 @@ int track::audioNode::getLatencySamples() {
 
     for (auto &pluginInstance : plugins) {
         pluginInstance->initdwm();
-        pluginInstance->dwm.setWetLatency(pluginInstance->plugin->getLatencySamples());
+        pluginInstance->dwm.setWetLatency(
+            pluginInstance->plugin->getLatencySamples());
         retval += pluginInstance->plugin->getLatencySamples();
     }
 

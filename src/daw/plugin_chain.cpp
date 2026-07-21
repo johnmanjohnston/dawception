@@ -203,7 +203,7 @@ bool track::ActionReorderPlugin::undo() {
         UI_INSTRUCTION_CLOSE_OPENED_RELAY_PARAM_WINDOWS, nullptr, route);
 
     audioNode *node = utility::getNodeFromRoute(route, p);
-    utility::reorderPlugin(srcIndex, destIndex, node);
+    utility::reorderPlugin(destIndex, srcIndex, node);
 
     updateGUI();
 
@@ -500,6 +500,12 @@ track::PluginNodeComponent::PluginNodeComponent()
     removePluginBtn.onClick = [this] { removeThisPlugin(); };
     bypassBtn.onClick = [this] { toggleBypass(); };
     automationButton.onClick = [this] { openThisPluginsRelayMenu(); };
+
+    // all state changes warrant repaint
+    openEditorBtn.onStateChange = [this] { this->repaint(); };
+    bypassBtn.onStateChange = [this] { this->repaint(); };
+    automationButton.onStateChange = [this] { this->repaint(); };
+    removePluginBtn.onStateChange = [this] { this->repaint(); };
 }
 track::PluginNodeComponent::~PluginNodeComponent() {}
 track::PluginNodesWrapper::PluginNodesWrapper() : SubwindowChildFocusGrabber() {
@@ -550,10 +556,9 @@ void track::PluginNodeComponent::mouseUp(const juce::MouseEvent &event) {
         PluginChainComponent *pcc = (PluginChainComponent *)
             findParentComponentOfClass<PluginChainComponent>();
 
-        float mouseX = event.getEventRelativeTo(pcc).position.getX() +
-                       (UI_PLUGIN_NODE_WIDTH + UI_PLUGIN_NODE_MARGIN) +
-                       (UI_PLUGIN_NODE_MARGIN / 2.f);
-        int destIndex = (int)(mouseX / (float)(getWidth() + 4)) - 1;
+        juce::Component *parent = this->getParentComponent();
+        float x = event.getEventRelativeTo(parent).position.getX();
+        int destIndex = this->getPluginIndexFromMouseX(x);
 
         if (this->pluginIndex != destIndex) {
             pcc->reorderPlugin(this->pluginIndex, destIndex);
@@ -569,12 +574,9 @@ void track::PluginNodeComponent::mouseDrag(const juce::MouseEvent &event) {
         PluginChainComponent *pcc = (PluginChainComponent *)
             findParentComponentOfClass<PluginChainComponent>();
 
-        float mouseX = event.getEventRelativeTo(pcc).position.getX() +
-                       (UI_PLUGIN_NODE_WIDTH + UI_PLUGIN_NODE_MARGIN) +
-                       (UI_PLUGIN_NODE_MARGIN / 2.f);
-        int displayNodes =
-            (int)(mouseX / (float)(UI_PLUGIN_NODE_WIDTH + 4)) - 1;
-        // DBG("displayNodes = " << displayNodes);
+        juce::Component *parent = this->getParentComponent();
+        float x = event.getEventRelativeTo(parent).position.getX();
+        int displayNodes = this->getPluginIndexFromMouseX(x);
 
         pcc->updateInsertIndicator(displayNodes);
     }
@@ -625,12 +627,8 @@ void track::PluginNodeComponent::removeThisPlugin() {
     editor->closePluginEditorWindow(pcc->route, pluginIndex);
     editor->closeAllRelayMenusWithRouteAndPluginIndex(pcc->route, pluginIndex);
 
-    float scroll = pcc->nodesViewport.getViewPositionX();
-
     pcc->removePlugin(this->pluginIndex);
     pcc->resized();
-
-    pcc->nodesViewport.setViewPosition(scroll, 0);
 }
 
 void track::PluginNodeComponent::toggleBypass() {
@@ -1021,6 +1019,10 @@ bool track::PluginNodeComponent::keyStateChanged(bool isKeyDown) {
     return false;
 }
 
+int track::PluginNodeComponent::getPluginIndexFromMouseX(float x) {
+    return (int)x / (UI_PLUGIN_NODE_WIDTH + UI_PLUGIN_NODE_MARGIN);
+}
+
 bool track::PluginNodeComponent::getPluginBypassedStatus() {
     PluginChainComponent *pcc =
         findParentComponentOfClass<PluginChainComponent>();
@@ -1056,6 +1058,8 @@ track::PluginChainComponent::PluginChainComponent() : Subwindow() {
 }
 
 void track::PluginChainComponent::resized() {
+    float scroll = nodesViewport.getViewPositionX();
+
     Subwindow::resized();
 
     nodesViewport.setScrollBarsShown(false, true, false, true);
@@ -1078,6 +1082,8 @@ void track::PluginChainComponent::resized() {
             UI_SUBWINDOW_SHADOW_SPREAD - 10);
 
     nodesWrapper.setBounds(nodesWrapperBounds);
+
+    nodesViewport.setViewPosition(scroll, 0);
 }
 
 void track::PluginChainComponent::updateTrackInformation() {

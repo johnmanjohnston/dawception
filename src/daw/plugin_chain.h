@@ -155,6 +155,8 @@ class PluginNodeComponent : public SubwindowChildFocusGrabber {
 
     bool keyStateChanged(bool isKeyDown) override;
 
+    int getPluginIndexFromMouseX(float x);
+
     int pluginIndex = -1;
     std::unique_ptr<track::subplugin> *getPlugin();
     bool getPluginBypassedStatus();

@@ -510,6 +510,8 @@ void AudioPluginAudioProcessorEditor::changeListenerCallback(
                     ->nodesWrapper.pluginNodeComponents.clear();
                 pluginChainComponents[i]
                     ->nodesWrapper.createPluginNodeComponents();
+
+                pluginChainComponents[i]->resized();
             }
         }
     }
