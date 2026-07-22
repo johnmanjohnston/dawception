@@ -3,6 +3,8 @@
 
 namespace track {
 extern int UI_ZOOM_MULTIPLIER;
+extern int UI_TIMELINE_SCROLL_X;
+extern int UI_TIMELINE_SCROLL_Y;
 constexpr int UI_MINIMUM_ZOOM_MULTIPLIER = 10;
 constexpr int UI_MAXIMUM_ZOOM_MULTIPLIER = 160;
 

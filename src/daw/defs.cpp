@@ -12,4 +12,6 @@ double SAMPLE_RATE = -1;
 int SAMPLES_PER_BLOCK = -1;
 int MAX_LATENT_SAMPLES = -1;
 bool AUTO_GRID = true;
+int UI_TIMELINE_SCROLL_X = 0;
+int UI_TIMELINE_SCROLL_Y = 0;
 } // namespace track

@@ -102,6 +102,7 @@ track::TimelineComponent::TimelineComponent() : juce::Component() {
     setWantsKeyboardFocus(true);
     addAndMakeVisible(barNumbers, 10);
 };
+track::TimelineComponent::~TimelineComponent() {}
 
 track::ActionCutClip::ActionCutClip(clip c, std::vector<int> nodeRoute,
                                     void *processor) {
@@ -276,10 +277,11 @@ void track::ActionShiftClips::updateGUI() {
     processor->dispatchGUIInstruction(UI_INSTRUCTION_RESIZE_CLIP_COMPONENTS);
 }
 
-track::TimelineComponent::~TimelineComponent() {};
-
 track::TimelineViewport::TimelineViewport() : juce::Viewport() {}
-track::TimelineViewport::~TimelineViewport() {}
+track::TimelineViewport::~TimelineViewport() {
+    track::UI_TIMELINE_SCROLL_X = this->getViewPositionX();
+    track::UI_TIMELINE_SCROLL_Y = this->getViewPositionY();
+}
 
 void track::TimelineViewport::scrollBarMoved(juce::ScrollBar *bar,
                                              double newRangeStart) {

@@ -373,6 +373,10 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     if (processorRef.deserializationSampleRateMismatch) {
         this->handleSampleRateMismatch(processorRef.faultySampleRate);
     }
+
+    // set timeline viewport scroll values
+    timelineViewport.setViewPosition(track::UI_TIMELINE_SCROLL_X,
+                                     track::UI_TIMELINE_SCROLL_Y);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {
