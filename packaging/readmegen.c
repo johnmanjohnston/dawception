@@ -22,32 +22,35 @@ int main(int argc, char *argv[]) {
     fprintf(fptr, "DAWception v%s", argv[1]);
     fprintf(fptr, "\n\n[Installation]\nTo complete installation, move "
                   "DAWception.vst3 to your DAW's VST3 "
-                  "plugin folder.");
+                  "plugin folder.\n");
 
     if (strcmp(argv[2], "linux") == 0) {
         printf("DAWception v%s on Linux\n", argv[1]);
 
         fprintf(fptr,
-                "\nOn Linux, this would usually be located at:\n\t~/.vst3/");
+                "\nStandard VST3 path for Linux:\n\t~/.vst3/ (user)\n\t\tOR "
+                "\n\t/usr/lib/vst3/ (global)");
     } else if (strcmp(argv[2], "windows") == 0) {
         printf("DAWception v%s on Windows\n", argv[1]);
 
-        fprintf(fptr, "\nOn Windows, this would usually be located "
-                      "at:\n\tC:\\Program Files\\Common Files\\VST3\\");
+        fprintf(fptr, "\nStandard VST3 path for Windows: "
+                      "\n\tC:\\Program Files\\Common Files\\VST3\\");
     } else if (strcmp(argv[2], "macos") == 0) {
         printf("DAWception v%s on macOS\n", argv[1]);
 
-        fprintf(fptr, "\nOn macOS, this would usually be located "
-                      "at:\n\t/Library/Audio/Plug-Ins/VST3/");
-        fprintf(
-            fptr,
-            "\n\nAdditionally, by default, macOS stops DAWception from running,"
-            " because it is not signed because I am broke."
-            "\nTo fix this, open the Terminal app and run "
-            "the following command (adjust VST3 path if needed):\n\t"
+        fprintf(fptr, "\nStandard VST3 path for macOS: "
+                      "\n\t/Library/Audio/Plug-Ins/VST3/");
+        fprintf(fptr, "\n\nOn macOS, DAWception won't immediately run in your "
+                      "DAW (because "
+                      "DAWception is not code signed because I am broke)."
+                      "\nTo fix this, open the Terminal app and run "
+                      "the following commands (adjust VST3 path if needed):\n\t"
 
-            "xattr -dr com.apple.quarantine "
-            "/Library/Audio/Plug-Ins/VST3/DAWception.vst3");
+                      "xattr -dr com.apple.quarantine "
+                      "/Library/Audio/Plug-Ins/VST3/DAWception.vst3"
+                      "\n\t"
+                      "codesign --deep --force --sign - "
+                      "/Library/Audio/Plug-Ins/VST3/DAWception.vst3");
     } else {
         printf("unknown platform\n");
         fclose(fptr);
