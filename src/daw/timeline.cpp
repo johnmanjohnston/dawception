@@ -649,10 +649,11 @@ void track::TimelineComponent::resizeClipComponent(track::ClipComponent *clip) {
 
                     UI_TRACK_VERTICAL_OFFSET + (effectiveY * UI_TRACK_HEIGHT),
 
-                    (clip->correspondingClip->buffer.getNumSamples() -
-                     clip->correspondingClip->trimLeft -
-                     clip->correspondingClip->trimRight) /
-                        SAMPLE_RATE * UI_ZOOM_MULTIPLIER,
+                    ((double)(clip->correspondingClip->buffer.getNumSamples() -
+                              clip->correspondingClip->trimLeft -
+                              clip->correspondingClip->trimRight) /
+                     (double)SAMPLE_RATE * (double)UI_ZOOM_MULTIPLIER) +
+                        2,
                     UI_TRACK_HEIGHT);
 
     // handle offline clips

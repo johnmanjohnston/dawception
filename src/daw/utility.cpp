@@ -545,9 +545,10 @@ int track::utility::snapSample(int sample, float division, int offset) {
 
     int samplesPerBar = getSamplesPerBar();
     int snapDivisions = getGridDivisionsPerBar();
-    int samplesPerSnap = samplesPerBar / snapDivisions;
+    int samplesPerSnap = (double)samplesPerBar / (double)snapDivisions;
 
-    snapped = samplesPerSnap * std::round(sample / samplesPerSnap);
+    snapped =
+        samplesPerSnap * std::round((double)sample / (double)samplesPerSnap);
     snapped += offset;
 
     return snapped;

@@ -413,7 +413,11 @@ void track::ClipComponent::mouseDrag(const juce::MouseEvent &event) {
         ((y + (UI_TRACK_HEIGHT / 2)) / UI_TRACK_HEIGHT) - 1;
 
     int distanceMoved = event.getDistanceFromDragStartX();
-    int deltaSamples = (distanceMoved * SAMPLE_RATE) / UI_ZOOM_MULTIPLIER;
+
+    double samplesPerPixel =
+        (double)utility::getSamplesPerBar() / utility::getPxPerBar();
+
+    int deltaSamples = std::lround(distanceMoved * samplesPerPixel);
     int rawSamplePos = startDragStartPositionSample + deltaSamples;
 
     // if ctrl held, trim
@@ -432,8 +436,20 @@ void track::ClipComponent::mouseDrag(const juce::MouseEvent &event) {
                     absoluteLeftBoundary, SNAP_DIVISIONS_PER_QUARTER_NOTE);
                 newTrimLeft = snappedAbsolute - startDragStartPositionSample;
 
+                // if audio clip does not start on the grid, snapSample() does
+                // not snap the amount it is off the grid by, so calculate
+                // offset here
+                int offset =
+                    (correspondingClip->startPositionSample -
+                     correspondingClip->trimLeft) -
+                    utility::snapSample(correspondingClip->startPositionSample -
+                                            correspondingClip->trimLeft,
+                                        SNAP_DIVISIONS_PER_QUARTER_NOTE);
+
                 newTrimLeft = utility::snapSample(
-                    newTrimLeft, SNAP_DIVISIONS_PER_QUARTER_NOTE);
+                    newTrimLeft, SNAP_DIVISIONS_PER_QUARTER_NOTE, -offset);
+
+                newTrimLeft = std::max(newTrimLeft, 0);
             }
 
             int trimDelta = newTrimLeft - startTrimLeftPositionSample;
@@ -464,9 +480,6 @@ void track::ClipComponent::mouseDrag(const juce::MouseEvent &event) {
                                correspondingClip->trimLeft - snappedAbsolute;
 
                 newTrimRight = std::max(0, newTrimRight);
-
-                // newTrimRight = utility::snapSample(newTrimRight,
-                // SNAP_DIVISION);
             }
 
             correspondingClip->trimRight = newTrimRight;
