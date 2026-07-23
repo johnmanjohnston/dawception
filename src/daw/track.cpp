@@ -214,6 +214,26 @@ void track::ClipComponent::copyClip() {
     });
 }
 
+void track::ClipComponent::toggleClipActivation() {
+    TimelineComponent *tc =
+        this->findParentComponentOfClass<TimelineComponent>();
+    Tracklist *tracklist = tc->viewport->tracklist;
+    audioNode *node = tracklist->trackComponents[(size_t)nodeDisplayIndex]
+                          ->getCorrespondingTrack();
+    int index = track::utility::getIndexOfClip(node, correspondingClip);
+
+    ActionClipModified *action = new ActionClipModified(
+        tc->processorRef,
+        tracklist->trackComponents[(size_t)nodeDisplayIndex]->route, index,
+        *correspondingClip);
+
+    action->oldClip.active = this->correspondingClip->active;
+    action->newClip.active = !this->correspondingClip->active;
+
+    tc->processorRef->undoManager.beginNewTransaction("action clip modified");
+    tc->processorRef->undoManager.perform(action);
+}
+
 void track::ClipComponent::mouseDown(const juce::MouseEvent &event) {
     if (event.mods.isRightButtonDown()) {
         juce::PopupMenu contextMenu;
@@ -291,9 +311,7 @@ void track::ClipComponent::mouseDown(const juce::MouseEvent &event) {
             }
 
             else if (result == MENU_TOGGLE_CLIP_ACTIVATION) {
-                this->correspondingClip->active =
-                    !this->correspondingClip->active;
-                repaint();
+                this->toggleClipActivation();
             }
 
             else if (result == MENU_COPY_CLIP) {
@@ -603,8 +621,7 @@ bool track::ClipComponent::keyStateChanged(bool isKeyDown) {
 
         // 0
         else if (juce::KeyPress::isKeyCurrentlyDown(48)) {
-            this->correspondingClip->active = !this->correspondingClip->active;
-            repaint();
+            this->toggleClipActivation();
 
             TimelineComponent *tc = (TimelineComponent *)getParentComponent();
             tc->grabKeyboardFocus();

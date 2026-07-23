@@ -44,6 +44,7 @@ class ClipComponent : public juce::Component, public juce::ChangeListener {
     int curDragNodeDisplayIndex = -1;
 
     void copyClip();
+    void toggleClipActivation();
 
     // moving clips
     void mouseDown(const juce::MouseEvent &event) override;
