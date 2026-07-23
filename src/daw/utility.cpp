@@ -533,21 +533,11 @@ bool track::utility::clipsEqual(track::clip x, track::clip y) {
 int track::utility::snapSample(int sample, float division, int offset) {
     jassert(division != 0.f);
 
-    /*
-    double secondsPerBeat = 60.f / BPM;
-    int samplesPerBar = (secondsPerBeat * SAMPLE_RATE) * 4; // for 4/4
-    int samplesPerSnap = samplesPerBar / division;
-
-    int snapped = (((sample + samplesPerSnap / 2) / samplesPerSnap) + offset) *
-                  samplesPerSnap;*/
-
-    int snapped = -1;
-
     int samplesPerBar = getSamplesPerBar();
     int snapDivisions = getGridDivisionsPerBar();
-    int samplesPerSnap = (double)samplesPerBar / (double)snapDivisions;
+    double samplesPerSnap = (double)samplesPerBar / (double)snapDivisions;
 
-    snapped =
+    int snapped =
         samplesPerSnap * std::round((double)sample / (double)samplesPerSnap);
     snapped += offset;
 

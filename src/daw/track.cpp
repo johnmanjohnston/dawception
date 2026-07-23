@@ -485,6 +485,8 @@ void track::ClipComponent::mouseDrag(const juce::MouseEvent &event) {
             correspondingClip->trimRight = newTrimRight;
         }
 
+        // this->logClipData();
+
         TimelineComponent *tc = findParentComponentOfClass<TimelineComponent>();
         tc->resizeClipComponent(this);
         return;
@@ -499,6 +501,8 @@ void track::ClipComponent::mouseDrag(const juce::MouseEvent &event) {
 
     TimelineComponent *tc = findParentComponentOfClass<TimelineComponent>();
     tc->resizeClipComponent(this);
+
+    // this->logClipData();
 
     repaint();
 }
@@ -664,6 +668,16 @@ bool track::ClipComponent::keyStateChanged(bool isKeyDown) {
     }
 
     return false;
+}
+
+void track::ClipComponent::logClipData() {
+    DBG("start = " << correspondingClip->startPositionSample << "; end = "
+                   << correspondingClip->startPositionSample +
+                          (correspondingClip->buffer.getNumSamples() -
+                           correspondingClip->trimLeft) -
+                          correspondingClip->trimRight
+                   << "; trimLeft = " << correspondingClip->trimLeft
+                   << "; trimRight = " << correspondingClip->trimRight);
 }
 
 track::ActionClipModified::ActionClipModified(void *processor,
