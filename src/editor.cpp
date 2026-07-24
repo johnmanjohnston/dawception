@@ -147,8 +147,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 #if JUCE_DEBUG
         contextMenu.addSeparator();
         contextMenu.addItem(MENU_RAISE_SEGFAULT, "Segfault");
-#endif
         contextMenu.addItem(MENU_TAKE_SCREENSHOT, "Take screenshot");
+#endif
 
         juce::PopupMenu::Options popupmenuOptions;
         contextMenu.showMenuAsync(popupmenuOptions, [this](int result) {
@@ -1058,7 +1058,7 @@ void AudioPluginAudioProcessorEditor::handleSampleRateMismatch(
 }
 
 void AudioPluginAudioProcessorEditor::takeScreenshot() {
-
+#if JUCE_DEBUG
     juce::Image img =
         createComponentSnapshot(juce::Rectangle<int>(0, 0, 1280, 720), true,
                                 4.f, juce::SoftwareImageType());
@@ -1082,6 +1082,7 @@ void AudioPluginAudioProcessorEditor::takeScreenshot() {
     f.revealToUser();
 
     DBG(f.getFullPathName());
+#endif
 }
 
 void AudioPluginAudioProcessorEditor::updateTimelineComponentScrollbars() {
