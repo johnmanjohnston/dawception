@@ -114,15 +114,15 @@ void track::ClipComponent::paint(juce::Graphics &g) {
                                       thumbnailTopMargin);
             thumbnailBounds.setY(thumbnailBounds.getY() + thumbnailTopMargin);
 
-            thumbnail.drawChannels(
-                g, thumbnailBounds,
-                correspondingClip->trimLeft / track::SAMPLE_RATE,
-                (correspondingClip->buffer.getNumSamples() -
-                 correspondingClip->trimRight) /
-                    track::SAMPLE_RATE,
-                correspondingClip->gain); // TODO: is just changing the vertical
-                                          // zoom factor actually accurate?
+            thumbnail.drawChannels(g, thumbnailBounds,
+                                   correspondingClip->trimLeft /
+                                       track::SAMPLE_RATE,
+                                   (correspondingClip->buffer.getNumSamples() -
+                                    correspondingClip->trimRight) /
+                                       track::SAMPLE_RATE,
+                                   correspondingClip->gain);
 
+#if JUCE_WINDOWS
             if (thumbnail.getNumChannels() == 1) {
                 // mono
                 g.drawHorizontalLine(thumbnailTopMargin +
@@ -139,6 +139,7 @@ void track::ClipComponent::paint(juce::Graphics &g) {
                         ((thumbnailBounds.getHeight() / 4) * 3) + 3,
                     0, getWidth());
             }
+#endif
         }
     }
 
