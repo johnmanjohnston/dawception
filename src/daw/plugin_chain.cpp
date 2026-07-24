@@ -388,6 +388,7 @@ bool track::ActionChangeTrivialPluginData::perform() {
     updateGUI();
 
     AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
+    processor->updateLatency();
     processor->requireSaving();
 
     return true;
@@ -403,6 +404,7 @@ bool track::ActionChangeTrivialPluginData::undo() {
     updateGUI();
 
     AudioPluginAudioProcessor *processor = (AudioPluginAudioProcessor *)p;
+    processor->updateLatency();
     processor->requireSaving();
 
     return true;
