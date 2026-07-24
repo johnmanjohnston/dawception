@@ -204,7 +204,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 
                 juce::String os = juce::SystemStats::getOperatingSystemName();
 #if JUCE_MAC
-				os = "macOS";
+                os = "macOS";
 #endif
                 juce::String arch = "unknown";
 
@@ -708,6 +708,10 @@ void AudioPluginAudioProcessorEditor::changeListenerCallback(
     else if (x.command == UI_INSTRUCTION_SEND_FOCUS_TO_TIMELINE) {
         timelineComponent->grabKeyboardFocus();
     }
+
+    else if (x.command == UI_INSTRUCTION_UPDATE_DISPLAYED_LATENCY) {
+        latencyPoller.updateLastKnownLatency();
+    }
 }
 
 void AudioPluginAudioProcessorEditor::openRelayMenu(std::vector<int> route,
@@ -945,7 +949,7 @@ void AudioPluginAudioProcessorEditor::rescale(float scale) {
     tracklist.resized();
     this->updateTimelineComponentScrollbars();
 
-	this->resized();
+    this->resized();
 }
 
 bool AudioPluginAudioProcessorEditor::keyStateChanged(bool isKeyDown) {

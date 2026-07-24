@@ -592,6 +592,8 @@ void AudioPluginAudioProcessor::updateLatency() {
     }
 
     setLatencySamples(totalLatency);
+
+    dispatchGUIInstruction(UI_INSTRUCTION_UPDATE_DISPLAYED_LATENCY);
 }
 
 void AudioPluginAudioProcessor::updateLatencyAfterDelay() {
