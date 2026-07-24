@@ -203,6 +203,9 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
                     juce::String(JUCE_BUILDNUMBER);
 
                 juce::String os = juce::SystemStats::getOperatingSystemName();
+#if JUCE_MAC
+				os = "macOS";
+#endif
                 juce::String arch = "unknown";
 
 #if defined(__x86_64__) || defined(_M_X64)
