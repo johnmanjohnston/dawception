@@ -6,6 +6,7 @@
 #include "daw/timeline.h"
 #include "daw/track.h"
 #include "daw/utility.h"
+#include "juce_gui_basics/juce_gui_basics.h"
 #include "lookandfeel.h"
 #include "processor.h"
 #include <cmath>
@@ -88,6 +89,21 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 
     configBtn.setButtonText("CONFIG");
     configBtn.onClick = [this] {
+        // scale submenu
+        juce::PopupMenu scaleMenu;
+        scaleMenu.addItem(50, "50%", true,
+                          this->getApproximateScaleFactorForComponent(this) ==
+                              0.50f);
+        scaleMenu.addItem(75, "75%", true,
+                          this->getApproximateScaleFactorForComponent(this) ==
+                              0.75f);
+        scaleMenu.addItem(100, "100%", true,
+                          this->getApproximateScaleFactorForComponent(this) ==
+                              1.f);
+        scaleMenu.addItem(125, "125%", true,
+                          this->getApproximateScaleFactorForComponent(this) ==
+                              1.25f);
+
         juce::PopupMenu contextMenu;
         contextMenu.setLookAndFeel(&getLookAndFeel());
 
@@ -113,6 +129,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
                             "Clear scanned plugins");
         contextMenu.addItem(MENU_OPEN_RELAY_PARAMS_INSPECTOR,
                             "Open relay params inspector");
+        contextMenu.addSeparator();
+        contextMenu.addSubMenu("Scale", scaleMenu, true);
         contextMenu.addSeparator();
         contextMenu.addItem(MENU_UPDATE_LATENCY, "Update latency");
         contextMenu.addSeparator();
@@ -155,6 +173,12 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 
             else if (result == MENU_CLEAR_SCANNED_PLUGINS) {
                 this->processorRef.knownPluginList.clear();
+            }
+
+            else if (result == 50 || result == 75 || result == 100 ||
+                     result == 125) {
+                track::SCALE = result / 100.f;
+                this->setScaleFactor(track::SCALE);
             }
 
             else if (result == MENU_ABOUT) {
@@ -377,6 +401,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     // set timeline viewport scroll values
     timelineViewport.setViewPosition(track::UI_TIMELINE_SCROLL_X,
                                      track::UI_TIMELINE_SCROLL_Y);
+
+    this->setScaleFactor(track::SCALE);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {

@@ -14,4 +14,5 @@ int MAX_LATENT_SAMPLES = -1;
 bool AUTO_GRID = true;
 int UI_TIMELINE_SCROLL_X = 0;
 int UI_TIMELINE_SCROLL_Y = 0;
+float SCALE = 1.f;
 } // namespace track

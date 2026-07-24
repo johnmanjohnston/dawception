@@ -644,10 +644,13 @@ void track::TimelineComponent::resizeClipComponent(track::ClipComponent *clip) {
                          ? clip->nodeDisplayIndex
                          : clip->curDragNodeDisplayIndex;
 
-    // very long clips won't render properly, workaround is disabling setBufferedToImage() 
-	if (((clip->correspondingClip->buffer.getNumSamples() -
-        clip->correspondingClip->trimLeft -
-		clip->correspondingClip->trimRight) / SAMPLE_RATE * UI_ZOOM_MULTIPLIER) < 16384) {
+    // very long clips won't render properly, workaround is disabling
+    // setBufferedToImage()
+    int widthLimit = std::pow(2, 14);
+    if (((clip->correspondingClip->buffer.getNumSamples() -
+          clip->correspondingClip->trimLeft -
+          clip->correspondingClip->trimRight) /
+         SAMPLE_RATE * UI_ZOOM_MULTIPLIER) < widthLimit) {
         if (clip->getCachedComponentImage() == nullptr) {
             clip->setBufferedToImage(true);
         }

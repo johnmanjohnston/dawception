@@ -39,6 +39,8 @@ extern int TIME_SIGNATURE_DENOMINATOR;
 
 constexpr int TRIM_REGION_WIDTH = 16;
 
+extern float SCALE;
+
 // set in prepareToPlay()
 extern double SAMPLE_RATE;
 extern int SAMPLES_PER_BLOCK;
