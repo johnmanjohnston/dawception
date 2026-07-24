@@ -696,7 +696,8 @@ void track::utility::customDrawGlassPointer(juce::Graphics &g, const float x,
 void track::utility::restrictSubwindowBounds(juce::Rectangle<int> *b) {
     // restriction for subwindow to not go off screen
     float hr = 0.8f;
-    b->setY(std::clamp(b->getY(), 0, 720 - 40));
+    b->setY(std::clamp(b->getY(), 0, (int)(720.f * track::SCALE) - 40));
     b->setX(std::clamp(b->getX(), 0 - (int)(b->getWidth() * hr),
-                       1280 - (int)(b->getWidth() * (1.f - hr))));
+                       (int)(1280.f * track::SCALE) -
+                           (int)(b->getWidth() * (1.f - hr))));
 }

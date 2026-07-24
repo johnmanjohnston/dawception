@@ -49,6 +49,9 @@ class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor,
 
     void changeListenerCallback(ChangeBroadcaster *source) override;
 
+    int baseWidth = 1280;
+    int baseHeight = 720;
+
     // scanning
     juce::AudioPluginFormatManager apfm;
 
@@ -123,6 +126,9 @@ class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor,
             }
         }
     }
+
+    void setViewportsBounds();
+    void rescale(float scale);
 
     bool keyStateChanged(bool isKeyDown) override;
 

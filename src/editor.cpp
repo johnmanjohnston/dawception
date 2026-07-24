@@ -8,7 +8,6 @@
 #include "daw/utility.h"
 #include "lookandfeel.h"
 #include "processor.h"
-#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <ctime>
@@ -33,8 +32,6 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     timelineComponent->viewport = &timelineViewport;
     timelineComponent->processorRef = &processorRef;
     timelineViewport.setViewedComponent(timelineComponent.get(), true);
-    timelineViewport.setBounds(track::UI_TRACK_WIDTH, 55,
-                               getWidth() - track::UI_TRACK_WIDTH, 665);
     addAndMakeVisible(timelineViewport);
 
     // tracks
@@ -44,13 +41,14 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     tracklist.createTrackComponents();
 
     trackViewport.setViewedComponent(&tracklist, false);
-    trackViewport.setBounds(0, 55, track::UI_TRACK_WIDTH, 655);
     trackViewport.setScrollBarsShown(true, false);
     addAndMakeVisible(trackViewport);
 
     trackViewport.timelineViewport = &timelineViewport;
     timelineViewport.trackViewport = &trackViewport;
     timelineViewport.tracklist = &tracklist;
+
+    setViewportsBounds();
 
     setLookAndFeel(&lnf);
 
@@ -90,18 +88,10 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     configBtn.onClick = [this] {
         // scale submenu
         juce::PopupMenu scaleMenu;
-        scaleMenu.addItem(50, "50%", true,
-                          this->getApproximateScaleFactorForComponent(this) ==
-                              0.50f);
-        scaleMenu.addItem(75, "75%", true,
-                          this->getApproximateScaleFactorForComponent(this) ==
-                              0.75f);
-        scaleMenu.addItem(100, "100%", true,
-                          this->getApproximateScaleFactorForComponent(this) ==
-                              1.f);
-        scaleMenu.addItem(125, "125%", true,
-                          this->getApproximateScaleFactorForComponent(this) ==
-                              1.25f);
+        scaleMenu.addItem(50, "50%", true, track::SCALE == 0.50f);
+        scaleMenu.addItem(75, "75%", true, track::SCALE == 0.75f);
+        scaleMenu.addItem(100, "100%", true, track::SCALE == 1.f);
+        scaleMenu.addItem(125, "125%", true, track::SCALE == 1.25f);
 
         juce::PopupMenu contextMenu;
         contextMenu.setLookAndFeel(&getLookAndFeel());
@@ -177,7 +167,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
             else if (result == 50 || result == 75 || result == 100 ||
                      result == 125) {
                 track::SCALE = result / 100.f;
-                this->setScaleFactor(track::SCALE);
+                this->rescale(track::SCALE);
             }
 
             else if (result == MENU_ABOUT) {
@@ -401,7 +391,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     timelineViewport.setViewPosition(track::UI_TIMELINE_SCROLL_X,
                                      track::UI_TIMELINE_SCROLL_Y);
 
-    this->setScaleFactor(track::SCALE);
+    this->rescale(track::SCALE);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {
@@ -475,7 +465,9 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g) {
 }
 
 void AudioPluginAudioProcessorEditor::resized() {
-    masterSlider.setBounds(((getWidth() / 3) * 2) - 30, 12, 200, 30);
+    masterSlider.setBounds(((getWidth() / 3.f) * 2) +
+                               5 * (track::SCALE * track::SCALE),
+                           12, 200 * track::SCALE, 30);
 
     int timeInfoBgWidth = 280;
     int timeInfoBgHeight = 40;
@@ -931,6 +923,24 @@ void AudioPluginAudioProcessorEditor::lazyScan() {
             }
         }
     });
+}
+
+void AudioPluginAudioProcessorEditor::setViewportsBounds() {
+    timelineViewport.setBounds(track::UI_TRACK_WIDTH, 55,
+                               getWidth() - track::UI_TRACK_WIDTH,
+                               665 * track::SCALE);
+    trackViewport.setBounds(0, 55, track::UI_TRACK_WIDTH, 655 * track::SCALE);
+}
+
+void AudioPluginAudioProcessorEditor::rescale(float scale) {
+    juce::Desktop::getInstance().setGlobalScaleFactor(scale);
+    this->setSize(baseWidth * scale, baseHeight * scale);
+
+    this->setViewportsBounds();
+
+    timelineComponent->resized();
+    tracklist.resized();
+    this->updateTimelineComponentScrollbars();
 }
 
 bool AudioPluginAudioProcessorEditor::keyStateChanged(bool isKeyDown) {
