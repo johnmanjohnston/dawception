@@ -46,10 +46,10 @@ int main(int argc, char *argv[]) {
                       "\nTo fix this, open the Terminal app and run "
                       "the following commands (adjust VST3 path if needed):\n\t"
 
-                      "xattr -dr com.apple.quarantine "
+                      "sudo xattr -dr com.apple.quarantine "
                       "/Library/Audio/Plug-Ins/VST3/DAWception.vst3"
                       "\n\t"
-                      "codesign --deep --force --sign - "
+                      "sudo codesign --deep --force --sign - "
                       "/Library/Audio/Plug-Ins/VST3/DAWception.vst3");
     } else {
         printf("unknown platform\n");
