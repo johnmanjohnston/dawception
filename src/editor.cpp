@@ -88,8 +88,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     configBtn.onClick = [this] {
         // scale submenu
         juce::PopupMenu scaleMenu;
-        scaleMenu.addItem(50, "50%", true, track::SCALE == 0.50f);
         scaleMenu.addItem(75, "75%", true, track::SCALE == 0.75f);
+        scaleMenu.addItem(90, "90%", true, track::SCALE == 0.90f);
         scaleMenu.addItem(100, "100%", true, track::SCALE == 1.f);
         scaleMenu.addItem(125, "125%", true, track::SCALE == 1.25f);
 
@@ -164,7 +164,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
                 this->processorRef.knownPluginList.clear();
             }
 
-            else if (result == 50 || result == 75 || result == 100 ||
+            else if (result == 90 || result == 75 || result == 100 ||
                      result == 125) {
                 track::SCALE = result / 100.f;
                 this->rescale(track::SCALE);
@@ -941,6 +941,8 @@ void AudioPluginAudioProcessorEditor::rescale(float scale) {
     timelineComponent->resized();
     tracklist.resized();
     this->updateTimelineComponentScrollbars();
+
+	this->resized();
 }
 
 bool AudioPluginAudioProcessorEditor::keyStateChanged(bool isKeyDown) {
