@@ -234,6 +234,7 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
         if (playhead->getPosition()->getIsPlaying() == true) {
 
             int currentSample = *playhead->getPosition()->getTimeInSamples();
+            --currentSample;
 
             // process tracks; tracks populate their internal buffer
             for (size_t i = 0; i < tracks.size(); ++i) {
