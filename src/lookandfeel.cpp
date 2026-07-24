@@ -38,7 +38,7 @@ const juce::Font track::ui::CustomLookAndFeel::getInterSemiBold() {
         BinaryData::Inter_18ptSemiBold_ttf,
         BinaryData::Inter_18ptSemiBold_ttfSize);
 
-        return Font(typeface);
+    return Font(typeface);
 }
 
 void track::ui::CustomLookAndFeel::drawRotarySlider(

@@ -51,7 +51,7 @@ class RelayManagerNodesWrapper : public SubwindowChildFocusGrabber {
     RelayManagerNodesWrapper() : SubwindowChildFocusGrabber() {
         setWantsKeyboardFocus(true);
     }
-    ~RelayManagerNodesWrapper(){};
+    ~RelayManagerNodesWrapper() {};
 
     void mouseDown(const juce::MouseEvent &event) override;
 
