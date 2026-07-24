@@ -538,7 +538,7 @@ void AudioPluginAudioProcessor::setStateInformation(const void *data,
 
         track::AUTO_GRID = projectSettings->getBoolAttribute("autogrid", true);
         track::SNAP_DIVISIONS_PER_QUARTER_NOTE =
-            projectSettings->getIntAttribute("snapdivision", 4);
+            projectSettings->getDoubleAttribute("snapdivision", 1);
 
         track::SCALE = projectSettings->getDoubleAttribute("scale", 1.0);
 

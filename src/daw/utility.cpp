@@ -604,6 +604,14 @@ void track::utility::setAutoGrid() {
             SNAP_DIVISIONS_PER_QUARTER_NOTE < 1.f)
             SNAP_DIVISIONS_PER_QUARTER_NOTE = 1.f;
 
+        // if it /is/ 4/4 and it's somehow 0 then just set it to whole note snap
+        // man i hate this
+        if ((track::TIME_SIGNATURE_NUMERATOR == 4 &&
+             track::TIME_SIGNATURE_DENOMINATOR == 4) &&
+            SNAP_DIVISIONS_PER_QUARTER_NOTE == 0.0) {
+            SNAP_DIVISIONS_PER_QUARTER_NOTE = 0.25;
+        }
+
         DBG("SNAP_DIVISION = " << SNAP_DIVISIONS_PER_QUARTER_NOTE
                                << "; original snap = " << snap * 4);
     }
