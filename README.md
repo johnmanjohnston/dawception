@@ -175,6 +175,8 @@ Standard VST3 folder paths:
 > To fix this, open the Terminal app, and run the following commands (adjust path if needed):
 > ```zsh
 > sudo xattr -dr com.apple.quarantine /Library/Audio/Plug-Ins/VST3/DAWception.vst3
+> ```
+> ```zsh
 > sudo codesign --deep --force --sign - /Library/Audio/Plug-Ins/VST3/DAWception.vst3
 > ```
 
@@ -185,8 +187,11 @@ Standard VST3 folder paths:
 git clone https://github.com/johnmanjohnston/dawception/
 cd dawception
 
-# clone JUCE
+# clone JUCE and switch to v8.0.15
 git clone https://github.com/juce-framework/JUCE/
+cd JUCE
+git checkout 8.0.15
+cd ..
 ```
 
 <details>
