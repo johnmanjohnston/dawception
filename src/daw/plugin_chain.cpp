@@ -519,7 +519,6 @@ track::PluginNodesViewport::PluginNodesViewport() : juce::Viewport() {}
 track::PluginNodesViewport::~PluginNodesViewport() {}
 
 void track::PluginNodeComponent::mouseDown(const juce::MouseEvent &event) {
-
     if (event.mods.isRightButtonDown()) {
         if (event.mods.isRightButtonDown()) {
             PluginChainComponent *pcc =
@@ -830,7 +829,28 @@ void track::PluginNodesWrapper::mouseDown(const juce::MouseEvent &event) {
 
         audioNode *node = pcc->getCorrespondingTrack();
 
-        for (auto pluginDescription : knownPluginList->getTypes()) {
+        std::vector<juce::juce_wchar> startingLetters =
+            std::vector<juce::juce_wchar>();
+
+        for (juce::PluginDescription pluginDescription :
+             knownPluginList->getTypes()) {
+            juce::juce_wchar startingLetter =
+                pluginDescription.name.toUpperCase()[0];
+
+            bool found = false;
+            for (size_t j = 0; j < startingLetters.size(); ++j) {
+                if (startingLetters[j] == startingLetter) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                startingLetters.emplace_back(startingLetter);
+                pluginSelector.addSectionHeader(
+                    juce::String::charToString(startingLetter));
+            }
+
             pluginSelector.addItem(
                 pluginDescription.name, [this, pluginDescription, node] {
                     // add plugin

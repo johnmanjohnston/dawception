@@ -565,6 +565,8 @@ void AudioPluginAudioProcessor::setStateInformation(const void *data,
         curPluginElement =
             curPluginElement->getNextElementWithTagName("PLUGIN");
     }
+    knownPluginList.sort(juce::KnownPluginList::SortMethod::sortAlphabetically,
+                         true);
 
     juce::XmlElement *nodeElement = xmlState->getChildByName("node");
 

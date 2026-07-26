@@ -872,6 +872,9 @@ void AudioPluginAudioProcessorEditor::scan() {
 
     juce::AudioPluginFormat *format = apfm.getFormat(0);
     pluginListComponent->scanFor(*format);
+
+    processorRef.knownPluginList.sort(
+        juce::KnownPluginList::SortMethod::sortAlphabetically, true);
 }
 
 void AudioPluginAudioProcessorEditor::lazyScan() {
@@ -911,11 +914,11 @@ void AudioPluginAudioProcessorEditor::lazyScan() {
 
             juce::FileSearchPath fsp(currentDir);
 
-            auto pluginFileEntries = fsp.findChildFiles(
+            juce::Array<juce::File> pluginFileEntries = fsp.findChildFiles(
                 juce::File::TypesOfFileToFind::findFilesAndDirectories, true,
                 "*.vst3");
 
-            for (auto f : pluginFileEntries) {
+            for (juce::File f : pluginFileEntries) {
                 DBG("f: " << f.getFileName() << " at " << f.getFullPathName());
 
                 // find file entries for .vst3 files and create dummy plugin
@@ -928,6 +931,9 @@ void AudioPluginAudioProcessorEditor::lazyScan() {
 
                 processorRef.knownPluginList.addType(pd);
             }
+
+            processorRef.knownPluginList.sort(
+                juce::KnownPluginList::SortMethod::sortAlphabetically, true);
         }
     });
 }
