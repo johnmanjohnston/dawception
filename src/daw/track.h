@@ -147,6 +147,9 @@ class ClipPropertiesWindow : public track::Subwindow {
 
     juce::Label nameLabel;
     juce::Slider gainSlider;
+    juce::Label startPosLabel;
+    juce::Label trimLeftLabel;
+    juce::Label trimRightLabel;
 
     std::vector<int> route;
     int clipIndex = -1;
@@ -164,6 +167,9 @@ class ClipPropertiesWindow : public track::Subwindow {
 
     juce::String oldName = "";
     float gainAtDragStart = -1.f;
+    int oldStartSample = -1;
+    int oldTrimLeft = -1;
+    int oldTrimRight = -1;
 };
 
 struct relayParam;

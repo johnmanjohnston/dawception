@@ -794,6 +794,9 @@ void track::ActionMoveClipToNode::updateGUI() {
 track::ClipPropertiesWindow::ClipPropertiesWindow() : track::Subwindow() {
     addAndMakeVisible(nameLabel);
     addAndMakeVisible(gainSlider);
+    addAndMakeVisible(startPosLabel);
+    addAndMakeVisible(trimLeftLabel);
+    addAndMakeVisible(trimRightLabel);
 
     gainSlider.textFromValueFunction = [](double x) {
         double db = juce::Decibels::gainToDecibels(x);
@@ -810,11 +813,35 @@ track::ClipPropertiesWindow::ClipPropertiesWindow() : track::Subwindow() {
     gainSlider.setRange(0.f, sliderEndBoundary);
     gainSlider.setSkewFactor(0.5f);
 
-    nameLabel.setEditable(true, true, false);
+    // label edits
 
+    nameLabel.setEditable(true, true, false);
     nameLabel.onEditorShow = [this] { this->oldName = nameLabel.getText(); };
     nameLabel.onEditorHide = [this] {
         getClip()->name = nameLabel.getText();
+
+        AudioPluginAudioProcessorEditor *editor =
+            findParentComponentOfClass<AudioPluginAudioProcessorEditor>();
+
+        TimelineComponent *tc = editor->timelineComponent.get();
+        ActionClipModified *action =
+            new ActionClipModified(p, route, clipIndex, *getClip());
+
+        action->oldClip.name = this->oldName;
+
+        tc->processorRef->undoManager.beginNewTransaction(
+            "action clip modified");
+        tc->processorRef->undoManager.perform(action);
+    };
+
+    // start sample
+    startPosLabel.setEditable(true, true, false);
+    startPosLabel.onEditorShow = [this] {
+        this->oldStartSample = getClip()->startPositionSample;
+    };
+    startPosLabel.onEditorHide = [this] {
+        getClip()->startPositionSample =
+            juce::String(startPosLabel.getText()).getIntValue();
 
         AudioPluginAudioProcessorEditor *editor =
             findParentComponentOfClass<AudioPluginAudioProcessorEditor>();
@@ -823,7 +850,53 @@ track::ClipPropertiesWindow::ClipPropertiesWindow() : track::Subwindow() {
         ActionClipModified *action =
             new ActionClipModified(p, route, clipIndex, *getClip());
 
-        action->oldClip.name = this->oldName;
+        action->oldClip.startPositionSample = this->oldStartSample;
+
+        tc->processorRef->undoManager.beginNewTransaction(
+            "action clip modified");
+        tc->processorRef->undoManager.perform(action);
+    };
+
+    // trim left
+    trimLeftLabel.setEditable(true, true, false);
+    trimLeftLabel.onEditorShow = [this] {
+        this->oldTrimLeft = getClip()->trimLeft;
+    };
+    trimLeftLabel.onEditorHide = [this] {
+        getClip()->trimLeft =
+            juce::String(trimLeftLabel.getText()).getIntValue();
+
+        AudioPluginAudioProcessorEditor *editor =
+            findParentComponentOfClass<AudioPluginAudioProcessorEditor>();
+        TimelineComponent *tc = editor->timelineComponent.get();
+
+        ActionClipModified *action =
+            new ActionClipModified(p, route, clipIndex, *getClip());
+
+        action->oldClip.trimLeft = this->oldTrimLeft;
+
+        tc->processorRef->undoManager.beginNewTransaction(
+            "action clip modified");
+        tc->processorRef->undoManager.perform(action);
+    };
+
+    // trim right
+    trimRightLabel.setEditable(true, true, false);
+    trimRightLabel.onEditorShow = [this] {
+        this->oldTrimRight = getClip()->trimRight;
+    };
+    trimRightLabel.onEditorHide = [this] {
+        getClip()->trimRight =
+            juce::String(trimRightLabel.getText()).getIntValue();
+
+        AudioPluginAudioProcessorEditor *editor =
+            findParentComponentOfClass<AudioPluginAudioProcessorEditor>();
+        TimelineComponent *tc = editor->timelineComponent.get();
+
+        ActionClipModified *action =
+            new ActionClipModified(p, route, clipIndex, *getClip());
+
+        action->oldClip.trimRight = this->oldTrimRight;
 
         tc->processorRef->undoManager.beginNewTransaction(
             "action clip modified");
@@ -854,7 +927,11 @@ track::ClipPropertiesWindow::ClipPropertiesWindow() : track::Subwindow() {
         tc->processorRef->undoManager.perform(action);
     };
 
-    nameLabel.setFont(getInterSemiBold().withHeight(17.f));
+    juce::Font labelFont = this->getInterSemiBold().withHeight(17.f);
+    nameLabel.setFont(labelFont);
+    startPosLabel.setFont(labelFont);
+    trimLeftLabel.setFont(labelFont);
+    trimRightLabel.setFont(labelFont);
 
     gainSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxLeft,
                                false, 52 - 12, 16);
@@ -873,28 +950,46 @@ void track::ClipPropertiesWindow::paint(juce::Graphics &g) {
     // main
     g.setFont(nameLabel.getFont().italicised());
     juce::Rectangle<int> attributeNameLabelBounds =
-        nameLabel.getBounds().withWidth(48).withX(nameLabel.getX() - 40);
+        nameLabel.getBounds().withWidth(48).withX(nameLabel.getX() - 46);
 
     g.drawText("NAME ", attributeNameLabelBounds, juce::Justification::left,
                false);
 
     attributeNameLabelBounds.setY(attributeNameLabelBounds.getY() +
                                   attributeNameLabelBounds.getHeight() + 2);
+
     g.drawText("GAIN ", attributeNameLabelBounds, juce::Justification::left,
                false);
 
+    attributeNameLabelBounds.setWidth(attributeNameLabelBounds.getWidth() + 80);
     attributeNameLabelBounds.setY(attributeNameLabelBounds.getY() +
                                   attributeNameLabelBounds.getHeight() + 2);
-    g.drawText("PATH  " + getClip()->path,
-               attributeNameLabelBounds.withWidth(getWidth() - 28),
-               juce::Justification::left, true);
+
+    g.drawText("START SAMPLE ", attributeNameLabelBounds,
+               juce::Justification::left, false);
+
+    attributeNameLabelBounds.setY(attributeNameLabelBounds.getY() +
+                                  attributeNameLabelBounds.getHeight() + 2);
+
+    g.drawText("TRIM LEFT ", attributeNameLabelBounds,
+               juce::Justification::left, false);
+
+    attributeNameLabelBounds.setY(attributeNameLabelBounds.getY() +
+                                  attributeNameLabelBounds.getHeight() + 2);
+
+    g.drawText("TRIM RIGHT ", attributeNameLabelBounds,
+               juce::Justification::left, false);
 }
 
 void track::ClipPropertiesWindow::resized() {
     Subwindow::resized();
-    nameLabel.setBounds(54, 32, getWidth() - 54 - 8, 24);
+    nameLabel.setBounds(60, 32, getWidth() - 54 - 8, 24);
     gainSlider.setBounds(34 + 19, 55, getWidth() - 28 - 32 - 4, 30);
     gainSlider.setTextBoxStyle(juce::Slider::TextBoxLeft, false, 80 - 4, 24);
+
+    startPosLabel.setBounds(90 + 32, 55 + 30, getWidth() - 54 - 8, 24);
+    trimLeftLabel.setBounds(90, 55 + 29 + 26, getWidth() - 54 - 8, 24);
+    trimRightLabel.setBounds(90 + 8, 55 + 29 + 52, getWidth() - 54 - 8, 24);
 }
 
 void track::ClipPropertiesWindow::init() {
@@ -902,6 +997,13 @@ void track::ClipPropertiesWindow::init() {
                       juce::NotificationType::dontSendNotification);
 
     gainSlider.setValue(getClip()->gain);
+
+    startPosLabel.setText(juce::String(getClip()->startPositionSample),
+                          juce::NotificationType::dontSendNotification);
+    trimLeftLabel.setText(juce::String(getClip()->trimLeft),
+                          juce::NotificationType::dontSendNotification);
+    trimRightLabel.setText(juce::String(getClip()->trimRight),
+                           juce::NotificationType::dontSendNotification);
 
     DBG("CLIP PROPERTIES:");
     DBG("start: " << getClip()->startPositionSample);
