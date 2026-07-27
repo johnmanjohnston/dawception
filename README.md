@@ -66,8 +66,8 @@ Here's a quick usage guide sorted into expandable sections:
     
 | Description | Demo |
 | --- | --- |
-| Drag a track/group and drop inside group  | <img height="400" alt="nesting-nodes-by-dragging" src="https://github.com/user-attachments/assets/28fcc60f-dbe4-42dd-b9e2-ffef3f3ab97e" /> |
-| You can copy/paste tracks/groups. Right click, select "Copy", then right click and paste as needed | <img height="400" alt="copy-paste-nodes" src="https://github.com/user-attachments/assets/d05bdc7a-a4de-43a7-9381-5df5eed6bb80" /> |
+| Drag a track/group and drop inside group  | <img width="296" height="418" alt="moving-into-group" src="https://github.com/user-attachments/assets/11719020-312f-46de-9c2c-621ee4b399d0" /> |
+| You can copy/paste tracks/groups. Right click, select "Copy", then right click and paste as needed | <img width="296" height="418" alt="copy-paste-nodes" src="https://github.com/user-attachments/assets/d8b7c59d-d8be-4415-80c9-1247c4d7a499" /> |
 </details>
 
 
@@ -99,7 +99,7 @@ Here's a quick usage guide sorted into expandable sections:
 | Description | Screenshot/demo |
 | --- | --- |
 | Move clips by dragging them, and trim clips by hovering on the side so that the "trim handles" are visible, then **hold <kbd>Ctrl</kbd> while dragging the trim handles** | <img width="304" height="98" alt="moving-and-trimming" src="https://github.com/user-attachments/assets/a6626d25-7dbf-4193-b1f5-efd091e8f79f" /> |
-| Change clips' gain by opening its clip properties window (by double clicking said clip, or by menu upon right clicking clip) | <img width="490" height="270" alt="clip-properties-window" src="https://github.com/user-attachments/assets/b6689d81-6037-4d43-827c-b8f15b37823c" /> |
+| Change clips' gain by opening its clip properties window (by double clicking said clip, or by menu upon right clicking clip) | <img width="482" height="318" alt="clip-manipulation" src="https://github.com/user-attachments/assets/f06fabd0-0e66-4b00-92e1-9f694b85c953" /> |
 </details>
     <b>By default, moving/trimming clips snaps them to grid. To stop snapping to grid, hold <kbd>Alt</kbd> while dragging/trimming clips.</b>
     
