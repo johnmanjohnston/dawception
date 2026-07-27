@@ -66,8 +66,8 @@ Here's a quick usage guide sorted into expandable sections:
     
 | Description | Demo |
 | --- | --- |
-| Drag a track/group and drop inside group  | <img width="296" height="418" alt="moving-into-group" src="https://github.com/user-attachments/assets/11719020-312f-46de-9c2c-621ee4b399d0" /> |
-| You can copy/paste tracks/groups. Right click, select "Copy", then right click and paste as needed | <img width="296" height="418" alt="copy-paste-nodes" src="https://github.com/user-attachments/assets/d8b7c59d-d8be-4415-80c9-1247c4d7a499" /> |
+| Drag a track/group and drop inside group  | <img width="300" height="222" alt="moving-into-group" src="https://github.com/user-attachments/assets/edf37d30-2cc8-48b7-a82c-52e0a4ea819d" /> |
+| You can copy/paste tracks/groups. Right click, select "Copy", then right click and paste as needed | <img width="300" height="374" alt="copy-pasting-nodes" src="https://github.com/user-attachments/assets/b184af15-7056-4c6a-bcc6-9d18b37aa0cb" /> |
 </details>
 
 
@@ -109,7 +109,7 @@ Here's a quick usage guide sorted into expandable sections:
 
 | Description | Screenshot |
 | --- | --- |
-| Click "CONFIG" on the top right. <br /> <br /> "Scan plugins" prompts you for your VST3 directory and scans plugins. "Lazy scan for plugins" does a less thorough but *much* faster scan | <img width="265" height="361" alt="image" src="https://github.com/user-attachments/assets/2b6f3757-9073-44d0-84e7-1163c0ad6454" /> |
+| Click "CONFIG" on the top right. <br /> <br /> "Scan plugins" prompts you for your VST3 directory and scans plugins. "Lazy scan for plugins" does a less thorough but *much* faster scan | <img width="269" height="410" alt="image" src="https://github.com/user-attachments/assets/a386a45b-d1b3-49a9-ade6-e85f539432f2" /> |
 </details>
 
 <details>
@@ -117,8 +117,8 @@ Here's a quick usage guide sorted into expandable sections:
     
 | Description | Demo |
 | --- | --- |
-| Click "FX" on the track/group you want to add plugins to, right click in the empty space and select the plugin | <img width="500"  alt="adding-plugins" src="https://github.com/user-attachments/assets/f394d852-7580-48ed-948d-a2ef56ec3c12" /> |
-| Drag the plugin to where you want the plugin to be positioned; the plugin will finally be positioned on the **right** of the position indicator line thing | <img width="556" height="164" alt="reordering-plugins" src="https://github.com/user-attachments/assets/09c421d3-b250-4636-8217-0de31dc3f46a" /> |
+| Click "FX" on the track/group you want to add plugins to, right click in the empty space and select the plugin | <img width="500" alt="hosting" src="https://github.com/user-attachments/assets/e514760f-228c-405a-a553-bbfc5e544954" /> |
+| Drag the plugin to where you want the plugin to be positioned; the plugin will finally be positioned on the **right** of the position indicator line thing | <img width="500" alt="reordering-plugins" src="https://github.com/user-attachments/assets/09c421d3-b250-4636-8217-0de31dc3f46a" /> |
 <p>The slider is the <b>dry/wet mix</b> of the plugin. The <b><i>X</i></b> on the top right of the plugin removes the plugin. </p>
 </details>
 
