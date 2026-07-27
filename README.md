@@ -138,20 +138,17 @@ The way automation works in DAWception is that <b>DAWception has 128 automatable
     Your DAW might refuse to show so many automatable parameters by default, the fix is dependent on the DAW you use. If you're using Ableton, to fix this: <br> <br>
     <figure>
         <p>In Ableton, click "Configure"</p>
-        <img width="251" height="204" alt="image" src="https://github.com/user-attachments/assets/329084c1-165d-4f40-9943-8357d0a05453" />
+        <img width="259" height="198" alt="image" src="https://github.com/user-attachments/assets/6fd2e0ce-77ba-48e0-8dbf-2b955483a53d" />
     </figure> <br>
     <figure>
         <p>In DAWception, on the top right, click "CONFIG" then "Open relay params inspector"</p>
-        <img width="292" height="409" alt="image" src="https://github.com/user-attachments/assets/f22dea52-917f-4e75-8f3a-fc68462d49b3" />
+        <img width="339" height="134" alt="image" src="https://github.com/user-attachments/assets/e6a2596a-f4c2-45f0-be43-5553a1601b60" />
     </figure> <br>
     <figure>
-        <p>Move the slider for whatever input parameter you want to automate</p>
-        <img width="317" height="66" alt="image" src="https://github.com/user-attachments/assets/49de3706-a8f1-457b-a8a8-1887da4d5c97" />
-    </figure> <br>
-    <figure>
-        <p>It will then show up inside Ableton</p>
-        <img width="252" height="199" alt="image" src="https://github.com/user-attachments/assets/3d4a1f48-20ff-4ba6-b5d1-28ce83af3c8f" />
+        <p>Move the slider for whatever input parameter you want to automate, and it'll show in Ableton</p>
+        <img width="571" height="205" alt="image" src="https://github.com/user-attachments/assets/9afd771c-35b1-4e44-97af-1feeb384e491" />
     </figure>
+    <p>Then, click "Configure" in Ableton again, and use Ableton's automation feature to automate the parameter</p>
 </details>
 
 # Installation
