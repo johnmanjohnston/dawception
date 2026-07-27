@@ -1238,8 +1238,10 @@ void track::PluginChainComponent::reorderPlugin(int srcIndex, int destIndex) {
 
 // plugin editor window
 track::PluginEditorWindow::PluginEditorWindow() : juce::Component() {
+#if !JUCE_WINDOWS
     glow.setGlowProperties(4.f, juce::Colours::white.withAlpha(0.7f));
     pluginNameLabel.setComponentEffect(&glow);
+#endif
 
     float pluginNameLabelFontSize = 18.f;
 
