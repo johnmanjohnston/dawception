@@ -873,9 +873,11 @@ void track::PluginNodesWrapper::mouseDown(const juce::MouseEvent &event) {
                     pcc->processor->undoManager.perform(action);
 
                     if (action->validPlugin) {
-                        int pluginIndex = node->plugins.size() - 1;
+                        size_t pluginIndex = node->plugins.size() - 1;
 
-                        editor->openPluginEditorWindow(pcc->route, pluginIndex);
+                        if (node->plugins[pluginIndex]->plugin->hasEditor())
+                            editor->openPluginEditorWindow(pcc->route,
+                                                           pluginIndex);
 
                         pcc->resized();
                         pcc->nodesViewport.setViewPosition(
