@@ -64,6 +64,7 @@ int main(int argc, char *argv[]) {
             " for details.");
     fprintf(fptr, "\nDAWception is free and open-source, available at "
                   "https://github.com/johnmanjohnston/dawception/");
+    fprintf(fptr, "\n");
 
     fclose(fptr);
     printf("written to README.txt\n");
