@@ -1,9 +1,6 @@
 # DAWception
 DAWception is **a plugin developed to work around track count limits** in "lower tier versions" of DAWs like Ableton Live Lite. You can create tracks, drag audio clips, and even host VST3 plugins with automation support.
 
-> [!WARNING]
-> DAWception is not released yet, but will be very soon
-
 <figure>
     <img width="1920" height="998" alt="DAWception running within Ableton Live Lite" src="https://github.com/user-attachments/assets/737a29e1-4648-46eb-b856-9f2b2c4871ef" />
     <p align="center">DAWception running inside Ableton Live Lite</p>
@@ -154,7 +151,11 @@ The way automation works in DAWception is that <b>DAWception has 128 automatable
 # Installation
 All releases are provided as VST3 plugins.
 ### Latest Release (v0.1.0)
-See [Latest Release](https://github.com/johnmanjohnston/dawception/releases/latest/)
+Linux (x86_64): [DAWception-0.1.0-Linux.zip](https://github.com/johnmanjohnston/dawception/releases/download/0.1.0/DAWception-0.1.0-Linux.zip)
+
+Windows (64-bit): [DAWception-0.1.0-Windows.zip](https://github.com/johnmanjohnston/dawception/releases/download/0.1.0/DAWception-0.1.0-Windows.zip)
+
+macOS (Universal): [DAWception-0.1.0-macOS.zip](https://github.com/johnmanjohnston/dawception/releases/download/0.1.0/DAWception-0.1.0-macOS.zip)
 <br> <br>
 Extract the ZIP file, and move `DAWception.vst3` to your DAW's VST3 plugin folder.
 
