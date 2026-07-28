@@ -21,7 +21,7 @@ DAWception is **a plugin developed to work around track count limits** in "lower
     * [Hosting plugins](#hosting-plugins)
     * [Automating plugins](#automating-plugins)
 - [Installation](#installation)
-        + [Latest Release (v0.0.1)](#latest-release-v001)
+        + [Latest Release (v0.1.0)](#latest-release-v010)
 - [Building](#building)
     * [Downloading Source and Dependencies](#downloading-source-and-dependencies)
     * [Compiling](#compiling)
@@ -153,12 +153,8 @@ The way automation works in DAWception is that <b>DAWception has 128 automatable
 
 # Installation
 All releases are provided as VST3 plugins.
-### Latest Release (v0.0.1)
-Linux (x86_64): TODO
-
-Windows (64-bit): TODO
-
-macOS (Universal): TODO
+### Latest Release (v0.1.0)
+See [Latest Release](https://github.com/johnmanjohnston/dawception/releases/latest/)
 <br> <br>
 Extract the ZIP file, and move `DAWception.vst3` to your DAW's VST3 plugin folder.
 
