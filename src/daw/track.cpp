@@ -927,11 +927,12 @@ track::ClipPropertiesWindow::ClipPropertiesWindow() : track::Subwindow() {
         tc->processorRef->undoManager.perform(action);
     };
 
-	float fontScale = 1.f;
+    float fontScale = 1.f;
 #if JUCE_MAC
-		fontScale = 0.81f;
+    fontScale = 0.81f;
 #endif
-    juce::Font labelFont = this->getInterSemiBold().withHeight(17.f * fontScale);
+    juce::Font labelFont =
+        this->getInterSemiBold().withHeight(17.f * fontScale);
     nameLabel.setFont(labelFont);
     startPosLabel.setFont(labelFont);
     trimLeftLabel.setFont(labelFont);
@@ -957,7 +958,8 @@ void track::ClipPropertiesWindow::paint(juce::Graphics &g) {
         nameLabel.getBounds().withWidth(48).withX(nameLabel.getX() - 46);
 
 #if JUCE_MAC
-	attributeNameLabelBounds = attributeNameLabelBounds.withY(attributeNameLabelBounds.getY() + 2);
+    attributeNameLabelBounds =
+        attributeNameLabelBounds.withY(attributeNameLabelBounds.getY() + 2);
 #endif
 
     g.drawText("NAME ", attributeNameLabelBounds, juce::Justification::left,
@@ -980,7 +982,8 @@ void track::ClipPropertiesWindow::paint(juce::Graphics &g) {
                                   attributeNameLabelBounds.getHeight() + 2);
 
 #if JUCE_MAC
-	attributeNameLabelBounds = attributeNameLabelBounds.withY(attributeNameLabelBounds.getY() - 2);
+    attributeNameLabelBounds =
+        attributeNameLabelBounds.withY(attributeNameLabelBounds.getY() - 2);
 #endif
 
     g.drawText("TRIM LEFT ", attributeNameLabelBounds,
