@@ -26,6 +26,7 @@ DAWception is **a plugin developed to work around track count limits** in "lower
             - [Windows (Visual Studio)](#windows-visual-studio)
     * [Running](#running)
 - [License](#license)
+- [Contact](#contact)
 </details>
 
 ## Features
@@ -253,3 +254,6 @@ Then, scan and add DAWception to any track in your DAW.
 
 # License
 DAWception is licensed under the AGPLv3, see [LICENSE](https://github.com/johnmanjohnston/dawception/blob/main/LICENSE) for details.
+
+# Contact
+If you have any feedback/criticism, feature requests, or even a small comment about DAWception, please feel free to email me at ethan.john.13579@gmail.com
