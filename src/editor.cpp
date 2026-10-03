@@ -884,20 +884,25 @@ void AudioPluginAudioProcessorEditor::scan() {
     if (deadMansPedalFile.getSize() > 0 || faultyPluginsFile.getSize() > 0) {
         // add just failed to known list
         if (deadMansPedalFile.loadFileAsString().length() > 0)
-            faultyPluginsFile.appendText(deadMansPedalFile.loadFileAsString() + "\n");
+            faultyPluginsFile.appendText(deadMansPedalFile.loadFileAsString() +
+                                         "\n");
 
         // actually blacklist it
         juce::StringArray faultyPluginsList;
         faultyPluginsFile.readLines(faultyPluginsList);
         for (auto &identifier : faultyPluginsList) {
-            processorRef.knownPluginList.addToBlacklist(identifier); 
+            processorRef.knownPluginList.addToBlacklist(identifier);
         }
 
         juce::NativeMessageBox::showAsync(
             juce::MessageBoxOptions()
                 .withIconType(juce::MessageBoxIconType::WarningIcon)
                 .withTitle("Faulty plugin detected")
-                .withMessage("When you previously scanned for plugins inside DAWception, a faulty plugin was scanned and caused DAWception (and probably your host DAW too) to crash.\nKnown faulty plugins list:\n" + faultyPluginsFile.loadFileAsString())
+                .withMessage("When you previously scanned for plugins inside "
+                             "DAWception, a faulty plugin was scanned and "
+                             "caused DAWception (and probably your host DAW "
+                             "too) to crash.\nKnown faulty plugins list:\n" +
+                             faultyPluginsFile.loadFileAsString())
 
                 .withButton("Scan and skip over known faulty plugin(s)")
                 .withButton("Clear faulty plugins list, scan all plugins"),
@@ -915,7 +920,6 @@ void AudioPluginAudioProcessorEditor::scan() {
     } else {
         performFullScan(deadMansPedalFile);
     }
-
 }
 
 void AudioPluginAudioProcessorEditor::performFullScan(
@@ -933,7 +937,6 @@ void AudioPluginAudioProcessorEditor::performFullScan(
 
     processorRef.knownPluginList.sort(
         juce::KnownPluginList::SortMethod::sortAlphabetically, true);
-
 }
 
 void AudioPluginAudioProcessorEditor::lazyScan() {
