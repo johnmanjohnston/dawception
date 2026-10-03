@@ -61,6 +61,7 @@ class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor,
     std::unique_ptr<juce::PropertiesFile> propertiesFile =
         std::make_unique<juce::PropertiesFile>(options);
     void scan();
+    void performFullScan(juce::File deadMansPedalFile);
     void lazyScan();
 
     std::unique_ptr<juce::FileChooser> fileChooser;

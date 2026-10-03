@@ -909,8 +909,17 @@ void AudioPluginAudioProcessorEditor::scan() {
                     faultyPluginsFile.deleteFile();
                     processorRef.knownPluginList.clearBlacklistedFiles();
                 }
+
+                performFullScan(deadMansPedalFile);
             });
+    } else {
+        performFullScan(deadMansPedalFile);
     }
+
+}
+
+void AudioPluginAudioProcessorEditor::performFullScan(
+    juce::File deadMansPedalFile) {
 
     if (pluginListComponent.get() == nullptr) {
         pluginListComponent = std::make_unique<juce::PluginListComponent>(
@@ -924,6 +933,7 @@ void AudioPluginAudioProcessorEditor::scan() {
 
     processorRef.knownPluginList.sort(
         juce::KnownPluginList::SortMethod::sortAlphabetically, true);
+
 }
 
 void AudioPluginAudioProcessorEditor::lazyScan() {
