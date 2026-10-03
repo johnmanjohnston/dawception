@@ -28,5 +28,10 @@ dawception_artefacts/
 juce_binarydata_dawceptionBinaryData
 libdawceptionBinaryData.a
 *.DS_Store
+
 packaging/readmegen
 packaging/README.txt
+packaging/*.zip
+packaging/*.exe
+packaging/*.obj
+packaging/DAW*

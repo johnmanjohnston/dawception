@@ -864,13 +864,62 @@ void AudioPluginAudioProcessorEditor::scan() {
     if (apfm.getNumFormats() < 1)
         juce::addDefaultFormatsToManager(apfm);
 
+    // gaurd rails files
+    juce::File deadMansPedalFile =
+        juce::File::getSpecialLocation(
+            juce::File::SpecialLocationType::userApplicationDataDirectory)
+            .getChildFile("johnmanjohnston")
+            .getChildFile("dawception")
+            .getChildFile("deadMansPedalFile.txt");
+    deadMansPedalFile.create();
+
+    juce::File faultyPluginsFile =
+        juce::File::getSpecialLocation(
+            juce::File::SpecialLocationType::userApplicationDataDirectory)
+            .getChildFile("johnmanjohnston")
+            .getChildFile("dawception")
+            .getChildFile("faultyPlugins.txt");
+    faultyPluginsFile.create();
+
+    if (deadMansPedalFile.getSize() > 0 || faultyPluginsFile.getSize() > 0) {
+        // add just failed to known list
+        if (deadMansPedalFile.loadFileAsString().length() > 0)
+            faultyPluginsFile.appendText(deadMansPedalFile.loadFileAsString() + "\n");
+
+        // actually blacklist it
+        juce::StringArray faultyPluginsList;
+        faultyPluginsFile.readLines(faultyPluginsList);
+        for (auto &identifier : faultyPluginsList) {
+            processorRef.knownPluginList.addToBlacklist(identifier); 
+        }
+
+        juce::NativeMessageBox::showAsync(
+            juce::MessageBoxOptions()
+                .withIconType(juce::MessageBoxIconType::WarningIcon)
+                .withTitle("Faulty plugin detected")
+                .withMessage("When you previously scanned for plugins inside DAWception, a faulty plugin was scanned and caused DAWception (and probably your host DAW too) to crash.\nKnown faulty plugins list:\n" + faultyPluginsFile.loadFileAsString())
+
+                .withButton("Scan and skip over known faulty plugin(s)")
+                .withButton("Clear faulty plugins list, scan all plugins"),
+
+            [this, deadMansPedalFile, faultyPluginsFile](int result) {
+                if (result == 0) {
+                } else if (result == 1) {
+                    deadMansPedalFile.deleteFile();
+                    faultyPluginsFile.deleteFile();
+                    processorRef.knownPluginList.clearBlacklistedFiles();
+                }
+            });
+    }
+
     if (pluginListComponent.get() == nullptr) {
         pluginListComponent = std::make_unique<juce::PluginListComponent>(
-            apfm, this->processorRef.knownPluginList, juce::File(),
+            apfm, this->processorRef.knownPluginList, deadMansPedalFile,
             propertiesFile.get(), true);
     }
 
     juce::AudioPluginFormat *format = apfm.getFormat(0);
+    pluginListComponent->setNumberOfThreadsForScanning(1);
     pluginListComponent->scanFor(*format);
 
     processorRef.knownPluginList.sort(
