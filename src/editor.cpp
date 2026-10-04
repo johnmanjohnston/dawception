@@ -883,9 +883,11 @@ void AudioPluginAudioProcessorEditor::scan() {
 
     if (deadMansPedalFile.getSize() > 0 || faultyPluginsFile.getSize() > 0) {
         // add just failed to known list
-        if (deadMansPedalFile.loadFileAsString().length() > 0)
+        if (deadMansPedalFile.loadFileAsString().length() > 0) {
             faultyPluginsFile.appendText(deadMansPedalFile.loadFileAsString() +
                                          "\n");
+            deadMansPedalFile.deleteFile();
+        }
 
         // actually blacklist it
         juce::StringArray faultyPluginsList;
