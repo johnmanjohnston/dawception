@@ -881,7 +881,8 @@ void AudioPluginAudioProcessorEditor::scan() {
             .getChildFile("faultyPlugins.txt");
     faultyPluginsFile.create();
 
-    if (deadMansPedalFile.getSize() > 0 || faultyPluginsFile.getSize() > 0) {
+    if (deadMansPedalFile.loadFileAsString().length() > 0 ||
+        faultyPluginsFile.loadFileAsString().length() > 0) {
         // add just failed to known list
         if (deadMansPedalFile.loadFileAsString().length() > 0) {
             faultyPluginsFile.appendText(deadMansPedalFile.loadFileAsString() +
