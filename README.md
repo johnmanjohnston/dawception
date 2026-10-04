@@ -18,7 +18,7 @@ DAWception is **a plugin developed to work around track count limits** in "lower
     * [Hosting plugins](#hosting-plugins)
     * [Automating plugins](#automating-plugins)
 - [Installation](#installation)
-        + [Latest Release (v0.1.0)](#latest-release-v010)
+        + [Latest Release (v0.1.1)](#latest-release-v011)
 - [Building](#building)
     * [Downloading Source and Dependencies](#downloading-source-and-dependencies)
     * [Compiling](#compiling)
@@ -45,6 +45,7 @@ DAWception does not have:
 - quantization
 - any other fancy features that upgraded editions of your DAW might have
 
+If you're able to upgrade your DAW, or even use a free/cheaper DAW, honestly you're better off doing that instead. If you can't purchase an upgrade, and have already tried learning other free DAWs, then DAWception exists as a workaround.
 # Usage
 Here's a quick usage guide sorted into expandable sections:
 
@@ -151,12 +152,12 @@ The way automation works in DAWception is that <b>DAWception has 128 automatable
 
 # Installation
 All releases are provided as VST3 plugins.
-### Latest Release (v0.1.0)
-Linux (x86_64): [DAWception-0.1.0-Linux.zip](https://github.com/johnmanjohnston/dawception/releases/download/0.1.0/DAWception-0.1.0-Linux.zip)
+### Latest Release (v0.1.1)
+Linux (x86_64): [DAWception-0.1.1-Linux.zip](https://github.com/johnmanjohnston/dawception/releases/download/0.1.1/DAWception-0.1.1-Linux.zip)
 
-Windows (64-bit): [DAWception-0.1.0-Windows.zip](https://github.com/johnmanjohnston/dawception/releases/download/0.1.0/DAWception-0.1.0-Windows.zip)
+Windows (64-bit): [DAWception-0.1.1-Windows.zip](https://github.com/johnmanjohnston/dawception/releases/download/0.1.1/DAWception-0.1.1-Windows.zip)
 
-macOS (Universal): [DAWception-0.1.0-macOS.zip](https://github.com/johnmanjohnston/dawception/releases/download/0.1.0/DAWception-0.1.0-macOS.zip)
+macOS (Universal): [DAWception-0.1.1-macOS.zip](https://github.com/johnmanjohnston/dawception/releases/download/0.1.1/DAWception-0.1.1-macOS.zip)
 <br> <br>
 Extract the ZIP file, and move `DAWception.vst3` to your DAW's VST3 plugin folder.
 
